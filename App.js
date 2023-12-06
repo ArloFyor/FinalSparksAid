@@ -1,15 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-export default function App() {
+const App = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Universal React with Expo</Text>
+    <View>
+      <Text>Hello World</Text>
     </View>
-  );
+  )
 }
+
+export default App

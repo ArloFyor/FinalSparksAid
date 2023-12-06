@@ -103,28 +103,24 @@ const CommentSection = ({ post }) => {
     </View>
   );
 };
-  
-  
 
-  const Comments = ({ post }) => {
+const Comments = ({ post }) => {
     const lastFourComments = post.comments?.slice(-4);
-  
-    return (
-      <>
-        {lastFourComments?.map((comment, index) => (
-          <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
-            <Text>
-              <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
-              {comment.comment}
-            </Text>
-          </View>
-        ))}
-      </>
-    );
-  };
-  
-  
 
+    return (
+        <>
+        {lastFourComments?.map((comment, index) => (
+            <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
+            <Text>
+                <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
+                {comment.comment}
+            </Text>
+            </View>
+        ))}
+        </>
+    );
+};
+  
 const styles = StyleSheet.create({
   profilePicture: {
     width: 40,

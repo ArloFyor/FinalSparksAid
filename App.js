@@ -5,7 +5,7 @@ import NewPostScreen from './screens/NewPostScreen'
 
 const App = () => {
   return (
-    <HomeScreen/>
+    <NewPostScreen/>
   )
 }
 

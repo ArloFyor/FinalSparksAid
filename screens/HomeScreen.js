@@ -2,12 +2,14 @@ import { View, SafeAreaView, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import Header_A from '../components/home/Header_A'
 import Suggested_Activities from '../components/home/Suggested_Activities'
+import Post from '../components/home/Post'
 
 const HomeScreen = () => {
   return (
     <SafeAreaView style = {styles.container}>
         <Header_A/>
         <Suggested_Activities/>
+        <Post/>
     </SafeAreaView>
   )
 }

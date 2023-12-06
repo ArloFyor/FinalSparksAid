@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const NewPostScreen = () => {
@@ -33,9 +33,9 @@ const NewPostScreen = () => {
   return (
     <View style={styles.container}>
       {/* Button positioned at the top left */}
-      <TouchableOpacity style={styles.homeButtonContainer} onPress={() => console.log('Home Button Pressed')}>
-        <Image style={styles.homeButton} source={require('../assets/Buttons/Home_Button.png')} />
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.homeButtonContainer} onPress={() => console.log('Home Button Pressed')}>
+          <Image style={styles.homeButton} source={require('../assets/Buttons/Home_Button.png')} />
+        </TouchableOpacity>
 
       <Text style={styles.title}>New Post</Text>
 
@@ -103,7 +103,9 @@ const styles = StyleSheet.create({
   },
   homeButtonContainer: {
     alignSelf: 'flex-start',
-    bottom: 100
+    position: 'absolute',
+    top: 60,
+    left: 7
   },
   
   homeButton: {

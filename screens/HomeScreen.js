@@ -9,12 +9,11 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style = {styles.container}>
         <Header_A/>
-        <Suggested_Activities/>
         <ScrollView>
-            {POSTS.map((post, index) => (
-                <Post post={post} key={index} />                
-            ))}
-
+            <Suggested_Activities/>
+            {POSTS.slice().reverse().map((post, index) => (
+                <Post post={post} key={index} />
+                ))}             
         </ScrollView>
     </SafeAreaView>
   )

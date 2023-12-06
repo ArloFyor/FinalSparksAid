@@ -1,6 +1,17 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Divider } from 'react-native-elements';
+
+const postFooterIcons = [
+  {
+    name: 'Save',
+    imageURL: require('../../assets/Buttons/save_Button.png'),
+  },
+  {
+    name: 'Comment',
+    imageURL: require('../../assets/Buttons/comment_Button.png'),
+  },
+];
 
 const Post = ({ post }) => {
   return (
@@ -8,6 +19,7 @@ const Post = ({ post }) => {
       <Divider width={1} orientation='vertical' />
       <PostHeader post={post} />
       <PostImage post={post} />
+      <View style={{marginHorizontal: 5, marginTop: 5}}><PostFooter /></View>
     </View>
   );
 };
@@ -35,6 +47,23 @@ const PostImage = ({ post }) => {
   );
 };
 
+const PostFooter = () => {
+  return (
+    <View style={{ flexDirection: 'row', margin: 5 }}>
+      <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[0].imageURL} />
+      <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[1].imageURL} />
+    </View>
+  );
+};
+
+const Icon = ({ imgStyle, imgURL }) => {
+  return (
+    <TouchableOpacity>
+      <Image style={imgStyle} source={imgURL} />
+    </TouchableOpacity>
+  );
+};
+
 export default Post;
 
 const styles = StyleSheet.create({
@@ -43,8 +72,13 @@ const styles = StyleSheet.create({
     height: 40,
     marginLeft: 10,
     marginTop: 10,
-    borderRadius: 20, // to make it a circular image (half of width and height)
+    borderRadius: 20,
     borderWidth: 1.6,
     borderColor: '#FCC153',
+  },
+
+  footerIcon: {
+    width: 35,
+    height: 35,
   },
 });

@@ -5393,6 +5393,11 @@ react-native-elements@^3.4.3:
     react-native-ratings "8.0.4"
     react-native-size-matters "^0.3.1"
 
+react-native-nested-scroll-view@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-nested-scroll-view/-/react-native-nested-scroll-view-9.0.0.tgz#c9afd2678be84f1707186abb510543b56f94f9ef"
+  integrity sha512-I7c/so7RaLbeZaJKAcZPYqyN8LTA9K5PtyUE7p17lXIs4/KLEkzej8YOa5KzDxSiX7RWKPmqlfxgcqkx50hX/Q==
+
 react-native-ratings@8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-8.0.4.tgz#efd5ebad8acc08bf98d34d39b18fb7a6813ef991"

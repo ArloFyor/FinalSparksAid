@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import React, { useState } from 'react';
 import { Divider } from 'react-native-elements';
+import NestedScrollView from 'react-native-nested-scroll-view';
 
 const postFooterIcons = [
   {

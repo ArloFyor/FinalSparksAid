@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
 import { Divider } from 'react-native-elements';
-import NestedScrollView from 'react-native-nested-scroll-view';
 
 const postFooterIcons = [
   {
@@ -89,33 +88,44 @@ const Caption = ({ post }) => {
   );
 };
 
-const CommentSection = ({ post }) => (
-    <View style={{ marginTop: 5 }}>
-      {!!post.comments && post.comments.length > 0 ? (
-        <Text style={{ color: 'gray' }}>
-          {post.comments.length > 1
-            ? `View all ${post.comments.length} comments`
-            : 'View comment'}
-        </Text>
-      ) : (
-        <Text style={{ color: 'gray' }}>There are no comments</Text>
-      )}
-    </View>
-  );
+const CommentSection = ({ post }) => {
+    const numberOfComments = post.comments?.length || 0;
   
-  
-const Comments = ({ post }) => (
-  <>
-    {post.comments?.slice(0, 2).map((comment, index) => (
-      <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
-        <Text>
-          <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
-          {comment.comment}
-        </Text>
+    return (
+      <View style={{ marginTop: 5 }}>
+        {!!post.comments && numberOfComments > 0 ? (
+          <Text style={{ color: 'gray' }}>
+            {numberOfComments > 4
+              ? 'View most recent comments'
+              : `View ${numberOfComments} comment${numberOfComments > 1 ? 's' : ''}`}
+          </Text>
+        ) : (
+          <Text style={{ color: 'gray' }}>There are no comments</Text>
+        )}
       </View>
-    ))}
-  </>
-);
+    );
+  };
+  
+  
+
+  const Comments = ({ post }) => {
+    const lastFourComments = post.comments?.slice(-4);
+  
+    return (
+      <>
+        {lastFourComments?.map((comment, index) => (
+          <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
+            <Text>
+              <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
+              {comment.comment}
+            </Text>
+          </View>
+        ))}
+      </>
+    );
+  };
+  
+  
 
 const styles = StyleSheet.create({
   profilePicture: {

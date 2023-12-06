@@ -89,22 +89,20 @@ const Caption = ({ post }) => {
 };
 
 const CommentSection = ({ post }) => {
-    const numberOfComments = post.comments?.length || 0;
-  
-    return (
-      <View style={{ marginTop: 5 }}>
-        {!!post.comments && numberOfComments > 0 ? (
-          <Text style={{ color: 'gray' }}>
-            {numberOfComments > 4
-              ? 'View most recent comments'
-              : `View ${numberOfComments} comment${numberOfComments > 1 ? 's' : ''}`}
-          </Text>
-        ) : (
-          <Text style={{ color: 'gray' }}>There are no comments</Text>
-        )}
-      </View>
-    );
-  };
+  const numberOfComments = post.comments?.length || 0;
+
+  return (
+    <View style={{ marginTop: 5 }}>
+      {!!post.comments && numberOfComments > 0 && (
+        <Text style={{ color: 'gray' }}>
+          {numberOfComments > 4
+            ? 'View most recent comments'
+            : `View ${numberOfComments} comment${numberOfComments !== 1 ? 's' : ''}`}
+        </Text>
+      )}
+    </View>
+  );
+};
   
   
 

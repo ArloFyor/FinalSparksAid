@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState } from 'react';
 import { Divider } from 'react-native-elements';
 
 const postFooterIcons = [
@@ -14,15 +14,28 @@ const postFooterIcons = [
 ];
 
 const Post = ({ post }) => {
-  return (
-    <View style={{ marginBottom: 20, marginTop: 8 }}>
-      <Divider width={1} orientation='vertical' />
-      <PostHeader post={post} />
-      <PostImage post={post} />
-      <View style={{marginHorizontal: 5, marginTop: 5}}><PostFooter /></View>
-    </View>
-  );
-};
+    const [showComments, setShowComments] = useState(false);
+  
+    const handleToggleComments = () => {
+      setShowComments(!showComments);
+    };
+  
+    return (
+      <View style={{ marginBottom: 20, marginTop: 8 }}>
+        <Divider width={1} orientation='vertical' />
+        <PostHeader post={post} />
+        <PostImage post={post} />
+        <View style={{ marginHorizontal: 15, marginTop: 10, top: 5 }}>
+          <PostFooter />
+          <Caption post={post} />
+          <TouchableOpacity onPress={handleToggleComments}>
+            <CommentSection post={post} />
+          </TouchableOpacity>
+          {showComments && <Comments post={post} />}
+        </View>
+      </View>
+    );
+  };
 
 const PostHeader = ({ post }) => {
   return (
@@ -49,7 +62,7 @@ const PostImage = ({ post }) => {
 
 const PostFooter = () => {
   return (
-    <View style={{ flexDirection: 'row', margin: 5 }}>
+    <View style={{ flexDirection: 'row', right: 5}}>
       <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[0].imageURL} />
       <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[1].imageURL} />
     </View>
@@ -64,7 +77,44 @@ const Icon = ({ imgStyle, imgURL }) => {
   );
 };
 
-export default Post;
+const Caption = ({ post }) => {
+  return (
+    <View style={{ marginTop: 5 }}>
+      <Text>
+        <Text style={{ fontWeight: 600 }}>{post.user}</Text>
+        <Text> {post.caption}</Text>
+      </Text>
+    </View>
+  );
+};
+
+const CommentSection = ({ post }) => (
+    <View style={{ marginTop: 5 }}>
+      {!!post.comments && post.comments.length > 0 ? (
+        <Text style={{ color: 'gray' }}>
+          {post.comments.length > 1
+            ? `View all ${post.comments.length} comments`
+            : 'View comment'}
+        </Text>
+      ) : (
+        <Text style={{ color: 'gray' }}>There are no comments</Text>
+      )}
+    </View>
+  );
+  
+  
+const Comments = ({ post }) => (
+  <>
+    {post.comments?.slice(0, 2).map((comment, index) => (
+      <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
+        <Text>
+          <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
+          {comment.comment}
+        </Text>
+      </View>
+    ))}
+  </>
+);
 
 const styles = StyleSheet.create({
   profilePicture: {
@@ -82,3 +132,5 @@ const styles = StyleSheet.create({
     height: 35,
   },
 });
+
+export default Post;

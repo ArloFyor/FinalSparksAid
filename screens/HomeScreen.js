@@ -6,17 +6,17 @@ import Post from '../components/home/Post'
 import BottomTabs_A from '../components/home/BottomTabs_A'
 import { POSTS } from '../data/posts'
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header_A />
-        <Suggested_Activities />
+        <Suggested_Activities navigation={navigation} />
         {POSTS.slice().reverse().map((post, index) => (
           <Post post={post} key={index} />
         ))}
       </ScrollView>
-      <BottomTabs_A />
+      <BottomTabs_A navigation={navigation} />
     </SafeAreaView>
   );
 }

@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 const placeholderImage = require('../assets/SamplePicsAndPosts/ProfilePictures/placeholderProfile.png');
 
-const NewPostScreen = () => {
+const NewPostScreen = ({navigation}) => {
   const [postButtonOpacity, setPostButtonOpacity] = useState(0.5);
 
   const postValidationSchema = Yup.object().shape({
@@ -36,7 +36,7 @@ const NewPostScreen = () => {
     }
   };
 
-  function handlePost() {
+  function handlePost({navigation}) {
     if (formik.values.selectedImage === null) {
       // Display an alert message if no image is selected
       return;
@@ -60,7 +60,7 @@ const NewPostScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => console.log('Home Button has been pressed!')}>
+      <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => navigation.push('HomeScreen')}>
         <Image style={styles.homeButton} source={require('../assets/Buttons/Home_Button.png')} />
       </TouchableOpacity>
       <Text style={styles.title}>New Post</Text>
@@ -88,11 +88,21 @@ const NewPostScreen = () => {
         <Text style={{ color: 'red' }}>{formik.errors.caption}</Text>
       )}
 
-      <TouchableOpacity onPress={formik.handleSubmit} disabled={!formik.values.selectedImage}>
+      <TouchableOpacity
+        onPress={() => {
+          formik.handleSubmit();
+          if (formik.values.selectedImage) {
+            // Post logic succeeded, navigate to HomeScreen
+            navigation.push('HomeScreen');
+          }
+        }}
+        disabled={!formik.values.selectedImage}
+      >
         <Text style={[styles.postButton, { opacity: postButtonOpacity }]}>
           Post
         </Text>
       </TouchableOpacity>
+
     </View>
   );
 };
@@ -109,6 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    bottom: 50,
   },
   captionInput: {
     borderWidth: 1,
@@ -117,17 +128,20 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 16,
     width: '100%',
+    bottom: 50,
   },
   selectedImage: {
     width: 200,
     height: 200,
     borderRadius: 8,
     marginBottom: 16,
+    bottom: 50,
   },
   selectImageText: {
     color: 'blue',
     fontSize: 16,
     marginBottom: 16,
+    bottom: 50,
   },
   homeButtonOpacity: {
     alignSelf: 'flex-start',
@@ -144,6 +158,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textAlign: 'center',
     fontSize: 18,
+    bottom: 40,
+    width: 100,
   },
 });
 

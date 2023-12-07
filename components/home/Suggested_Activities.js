@@ -1,13 +1,13 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
 import React from 'react'
 
-const Suggested_Activities = () => {
+const Suggested_Activities = ({navigation}) => {
   return (
     <View style={styles.container}>
         <Text style={styles.containerText}>Suggested Activities</Text>
         <View style={styles.containerDirectory}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
                     <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_1.png')}/>
                 </TouchableOpacity>
 

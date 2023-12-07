@@ -9,7 +9,7 @@ const BottomTab = ({ navigation }) => {
           <Image source={require('../../assets/Buttons/Chat_Button.png')} style={styles.icon} />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
           <Image source={require('../../assets/Buttons/Photo_Button.png')} style={styles.icon} />
         </TouchableOpacity>
 

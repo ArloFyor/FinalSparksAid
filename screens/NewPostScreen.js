@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -61,18 +61,18 @@ const NewPostScreen = () => {
 
   return (
     <View style={styles.container}>
-      
       <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => console.log('Home Button has been pressed!')}>
         <Image style={styles.homeButton} source={require('../assets/Buttons/Home_Button.png')} />
       </TouchableOpacity>
-      
       <Text style={styles.title}>New Post</Text>
       
-      {(formik.values.selectedImage && formik.values.selectedImage !== null) ? (
-        <Image source={{ uri: formik.values.selectedImage }} style={styles.selectedImage} />
-      ) : (
-        <Image source={placeholderImage} style={styles.selectedImage} />
-      )}
+      <TouchableOpacity onPress={() => formik.handleBlur('selectedImage')}>
+        {(formik.values.selectedImage && formik.values.selectedImage !== null) ? (
+          <Image source={{ uri: formik.values.selectedImage }} style={styles.selectedImage} />
+        ) : (
+          <Image source={placeholderImage} style={styles.selectedImage} />
+        )}
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={pickImage}>
         <Text style={styles.selectImageText}>Select Image</Text>
@@ -83,7 +83,7 @@ const NewPostScreen = () => {
         placeholder="Write a caption..."
         value={formik.values.caption}
         onChangeText={formik.handleChange('caption')}
-        onBlur={formik.handleBlur('caption')}
+        onBlur={() => formik.handleBlur('caption')}
       />
       {formik.touched.caption && formik.errors.caption && (
         <Text style={{ color: 'red' }}>{formik.errors.caption}</Text>
@@ -134,11 +134,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     bottom: 80,
   },
-  homeButton:{
+  homeButton: {
     width: 80,
     height: 80,
   },
-
   postButton: {
     color: 'white',
     backgroundColor: 'blue',

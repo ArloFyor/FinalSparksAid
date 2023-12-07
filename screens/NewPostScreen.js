@@ -42,8 +42,7 @@ const NewPostScreen = () => {
       return;
     }
 
-    console.log('Caption:', formik.values.caption);
-    console.log('Selected Image:', formik.values.selectedImage);
+    console.log(formik.values)
 
     // Add logic to send data to your server or perform other actions.
 

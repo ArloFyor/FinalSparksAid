@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import React from 'react';
+import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
+  password: Yup.string().required('Password is required'),
+});
 
 const App = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
+  const handleLogin = (values) => {
     // Implement login logic here
-    console.log(`Username: ${username}, Password: ${password}`);
+    console.log('Form values:', values);
   };
 
   return (
@@ -15,23 +19,41 @@ const App = () => {
       <View style={styles.container}>
         <Image style={styles.logo} source={require('../assets/LoginAndRegistrationAssets/Logo.png')} />
         <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={text => setUsername(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={text => setPassword(text)}
-        />
-        <TouchableOpacity style={styles.registerLinkContainer} onPress={() => console.log('Navigate to Registration Screen')}>
-          <Text style={styles.registerLink}>Click here to register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Image style={styles.loginButton} source={require('../assets/LoginAndRegistrationAssets/loginButtonYellow.png')} />
-        </TouchableOpacity>
+
+        <Formik
+          initialValues={{ username: '', password: '' }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => handleLogin(values)}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+            <>
+              <TextInput
+                style={[styles.input, touched.username && errors.username && styles.inputError]}
+                placeholder="Username"
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+                value={values.username}
+              />
+
+              <TextInput
+                style={[styles.input, touched.password && errors.password && styles.inputError]}
+                placeholder="Password"
+                secureTextEntry={true}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+              />
+
+              <TouchableOpacity style={styles.registerLinkContainer} onPress={() => console.log('Navigate to Registration Screen')}>
+                <Text style={styles.registerLink}>Click here to register</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                <Image style={styles.loginButton} source={require('../assets/LoginAndRegistrationAssets/loginButtonYellow.png')} />
+              </TouchableOpacity>
+            </>
+          )}
+        </Formik>
       </View>
     </ImageBackground>
   );
@@ -69,6 +91,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 10,
     backgroundColor: 'white', // Input background color
+  },
+  inputError: {
+    borderColor: 'red', // Change outline color to red on error
   },
   registerLinkContainer: {
     marginTop: 5,

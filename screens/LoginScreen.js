@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 
 const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Implement your login logic here
-    // For simplicity, let's just log the entered username and password
+    // Implement login logic here
     console.log(`Username: ${username}, Password: ${password}`);
   };
 
   return (
     <ImageBackground source={require('../assets/Backgrounds/LoginAndRegistrationBackground.png')} style={styles.background}>
       <View style={styles.container}>
-        <Text style={styles.logo}>SparksAid</Text>
+        <Image style={styles.logo} source={require('../assets/LoginAndRegistrationAssets/Logo.png')} />
+        <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -26,8 +26,11 @@ const App = () => {
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
         />
+        <TouchableOpacity style={styles.registerLinkContainer} onPress={() => console.log('Navigate to Registration Screen')}>
+          <Text style={styles.registerLink}>Click here to register</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Image style={styles.loginButton} source={require('../assets/LoginAndRegistrationAssets/loginButtonYellow.png')} />
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -44,13 +47,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Semi-transparent background for better readability
+    bottom: 50,
   },
   logo: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'white',
+    resizeMode: 'contain',
+    height: 230,
+    width: 230,
+  },
+  logoName: {
+    resizeMode: 'contain',
+    width: '100%',
+    height: 150,
   },
   input: {
     width: '80%',
@@ -58,15 +65,25 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
+    marginTop: 3,
     marginBottom: 10,
     paddingLeft: 10,
     backgroundColor: 'white', // Input background color
   },
+  registerLinkContainer: {
+    marginTop: 5,
+    marginBottom: 20,
+    marginRight: 40,
+    alignSelf: 'flex-end',
+  },
+  registerLink:{
+    textDecorationLine: 'underline',
+    color: 'blue',
+  },
   loginButton: {
-    backgroundColor: '#3498db',
-    padding: 10,
-    borderRadius: 5,
-    width: '80%',
+    top: 5,
+    width: '55%',
+    resizeMode: 'contain',
     alignItems: 'center',
   },
   buttonText: {

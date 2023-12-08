@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground} from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,9 +9,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const App = () => {
-  const handleLogin = (values) => {
-    // Implement login logic here
-    console.log('Form values:', values);
+  const handleLogin = (values, { errors }) => {
+      // Implement login logic here
+      console.log('Form values:', values);
   };
 
   return (
@@ -23,10 +23,11 @@ const App = () => {
         <Formik
           initialValues={{ username: '', password: '' }}
           validationSchema={validationSchema}
-          onSubmit={(values) => handleLogin(values)}
+          onSubmit={(values, formikBag) => handleLogin(values, formikBag)}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <>
+              {touched.username && errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
               <TextInput
                 style={[styles.input, touched.username && errors.username && styles.inputError]}
                 placeholder="Username"
@@ -34,7 +35,8 @@ const App = () => {
                 onBlur={handleBlur('username')}
                 value={values.username}
               />
-
+              
+              {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
               <TextInput
                 style={[styles.input, touched.password && errors.password && styles.inputError]}
                 placeholder="Password"
@@ -42,7 +44,7 @@ const App = () => {
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
-              />
+              />             
 
               <TouchableOpacity style={styles.registerLinkContainer} onPress={() => console.log('Navigate to Registration Screen')}>
                 <Text style={styles.registerLink}>Click here to register</Text>
@@ -87,13 +89,17 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
-    marginTop: 3,
-    marginBottom: 10,
+    marginBottom: 13,
     paddingLeft: 10,
     backgroundColor: 'white', // Input background color
   },
   inputError: {
     borderColor: 'red', // Change outline color to red on error
+  },
+  errorText: {
+    color: 'red',
+    alignSelf: 'flex-start',
+    marginLeft: 40,
   },
   registerLinkContainer: {
     marginTop: 5,

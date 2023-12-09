@@ -8,7 +8,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-const App = () => {
+const App = ({navigation}) => {
   const handleLogin = (values, { errors }) => {
       // Implement login logic here
       console.log('Form values:', values);
@@ -17,7 +17,9 @@ const App = () => {
   return (
     <ImageBackground source={require('../assets/Backgrounds/LoginAndRegistrationBackground.png')} style={styles.background}>
       <View style={styles.container}>
-        <Image style={styles.backButton} source={require('../assets/Buttons/backButton_Black.png')}   />
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.push('OpeningScreen')}>
+          <Image style={styles.backButton} source={require('../assets/Buttons/backButton_Black.png')} />
+        </TouchableOpacity>
         <Image style={styles.logo} source={require('../assets/LoginAndRegistrationAssets/Logo.png')} />
         <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
 
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   backButton:{
     alignSelf: 'flex-start',
     resizeMode: 'contain',
-    top: 30,
+    top: 10,
     marginLeft: 10,
     width: 80,
     height: 40,

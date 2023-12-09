@@ -17,6 +17,7 @@ const App = () => {
   return (
     <ImageBackground source={require('../assets/Backgrounds/LoginAndRegistrationBackground.png')} style={styles.background}>
       <View style={styles.container}>
+        <Image style={styles.backButton} source={require('../assets/Buttons/backButton_Black.png')}   />
         <Image style={styles.logo} source={require('../assets/LoginAndRegistrationAssets/Logo.png')} />
         <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
 
@@ -44,15 +45,16 @@ const App = () => {
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
-              />             
+              />
 
-              <TouchableOpacity style={styles.registerLinkContainer} onPress={() => console.log('Navigate to Registration Screen')}>
-                <Text style={styles.registerLink}>Click here to register</Text>
-              </TouchableOpacity>
+              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => console.log('Navigate to Registration Screen')}>
+                <Text style={styles.blueLink}>Forgot Password?</Text>
+              </TouchableOpacity>    
 
               <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                 <Image style={styles.loginButton} source={require('../assets/LoginAndRegistrationAssets/loginButtonYellow.png')} />
               </TouchableOpacity>
+
             </>
           )}
         </Formik>
@@ -72,6 +74,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     bottom: 50,
+  },
+  backButton:{
+    alignSelf: 'flex-start',
+    resizeMode: 'contain',
+    top: 30,
+    marginLeft: 10,
+    width: 80,
+    height: 40,
   },
   logo: {
     resizeMode: 'contain',
@@ -101,18 +111,20 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 40,
   },
-  registerLinkContainer: {
-    marginTop: 5,
-    marginBottom: 20,
+  forgotPasswordContainer:{
     marginRight: 40,
     alignSelf: 'flex-end',
   },
-  registerLink:{
+  signUpContainer:{
+    flexDirection: 'row', 
+    marginTop: 5,
+  },
+  blueLink:{
     textDecorationLine: 'underline',
     color: 'blue',
   },
   loginButton: {
-    top: 5,
+    marginTop: 15,
     width: '55%',
     resizeMode: 'contain',
     alignItems: 'center',

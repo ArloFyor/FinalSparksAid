@@ -9,7 +9,7 @@ const OpeningScreen = ({navigation}) => {
         <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
 
         {/* Purple 'Register' button */}
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#E1C340' }]} onPress={() => console.log('Proceed to Registration')}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: '#E1C340' }]} onPress={() => navigation.push('RegistrationScreenOne')}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
 

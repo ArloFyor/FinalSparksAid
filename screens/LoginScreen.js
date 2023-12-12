@@ -49,7 +49,7 @@ const App = ({navigation}) => {
                 value={values.password}
               />
 
-              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => console.log('Navigate to Registration Screen')}>
+              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => console.log('Prompt Forgot Password.')}>
                 <Text style={styles.blueLink}>Forgot Password?</Text>
               </TouchableOpacity>    
 
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     resizeMode: 'contain',
     top: 10,
-    marginLeft: 10,
+    marginLeft: 5,
     width: 80,
     height: 40,
   },

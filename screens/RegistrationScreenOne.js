@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
 import React from 'react'
-import RegistrationTextOne from '../components/registration/RegistrationTextOne'
+import RegistrationTextOne from '../components/registration/registrationOne/RegistrationTextOne'
+import RegistrationFieldsOne from '../components/registration/registrationOne/RegistrationFieldsOne'
 
 const RegistrationScreenOne = ({navigation}) => {
   return (
@@ -8,6 +9,7 @@ const RegistrationScreenOne = ({navigation}) => {
       <View style={styles.container}>
         <Image style={styles.illustration} source={require('../assets/LoginAndRegistrationAssets/Illustration_1.png')} />
         <RegistrationTextOne/>
+        <RegistrationFieldsOne/>
       </View>
     </ImageBackground>
   )
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 160,
+    bottom: 50,
   },
   illustration:{
     resizeMode: 'contain',

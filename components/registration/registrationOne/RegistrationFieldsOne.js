@@ -40,19 +40,19 @@ const RegistrationFieldsOne = ({navigation}) => {
         {({handleBlur, handleChange, handleSubmit, isValid, values, errors}) => (
           <>
           
-          <View style={styles.picker}>
-          <Picker
-            selectedValue={values.userType}
-            onValueChange={handleChange('userType')}
-            onBlur={handleBlur('userType')}
-            mode="dropdown"
-          >
-            <Picker.Item label="Select an account type." value="" color="gray" />
-            <Picker.Item label="Caregiver" value="caregiver" color="black" />
-            <Picker.Item label="Patient" value="patient" color="black" />
-            <Picker.Item label="Guardian" value="guardian" color="black" />
-          </Picker>
-        </View>
+            <View style={styles.picker}>
+              <Picker
+                selectedValue={values.userType}
+                onValueChange={handleChange('userType')}
+                onBlur={handleBlur('userType')}
+                mode="dropdown"
+              >
+                <Picker.Item label="Select an account type." value="" color="gray" />
+                <Picker.Item label="Caregiver" value="caregiver" color="black" />
+                <Picker.Item label="Patient" value="patient" color="black" />
+                <Picker.Item label="Guardian" value="guardian" color="black" />
+              </Picker>
+            </View>
 
             <View style={styles.input}>
               <TextInput
@@ -79,7 +79,11 @@ const RegistrationFieldsOne = ({navigation}) => {
             </View>
 
 
-            <TouchableOpacity style={styles.proceedButton} onPress={handleSubmit}>
+            <TouchableOpacity
+              style={[styles.proceedButton, !isValid && styles.disabledProceedButton]}
+              onPress={handleSubmit}
+              disabled={!isValid}
+            >
               <Image style={styles.proceedImage} source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')} />
             </TouchableOpacity>
 
@@ -127,5 +131,9 @@ const styles = StyleSheet.create({
     width: 150,
     height: 50,
     resizeMode: 'contain',
+  },
+
+  disabledProceedButton: {
+    opacity: 0.5, 
   },
 })

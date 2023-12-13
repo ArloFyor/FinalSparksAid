@@ -1,34 +1,38 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native'
-import React, {useState} from 'react'
-import { Picker } from '@react-native-picker/picker'
-import { Formik } from 'formik'
-import * as yup from 'yup'
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 const registrationSchema = yup.object().shape({
-  userType: yup.string().oneOf(['caregiver', 'patient', 'guardian'], 'Invalid User Type').required('Required'),
+  userType: yup.string().oneOf(['Caregiver', 'Patient', 'Guardian'], 'Invalid User Type').required('Required'),
   firstName: yup.string().required('Required'),
   lastName: yup.string().required('Required'),
-})
-
-const getRandomProfilePicture = async () => {
-  const response = await fetch('https://randomuser.me/api');
-  const data = await response.json();
-  return data.results[0].picture.large
-}
+});
 
 const onRegister = async (userType, firstName, lastName) => {
   try {
-    console.log('User account has been created: ', userType, firstName, lastName)
+    console.log('User account has been created: ', userType, firstName, lastName);
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
-const RegistrationFieldsOne = ({navigation}) => {
+const RegistrationFieldsOne = ({ navigation }) => {
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(""); // Initialize with an empty string
+  const [items, setItems] = useState([
+    { label: 'Select an option.', value: '' },
+    { label: 'Caregiver', value: 'Caregiver' },
+    { label: 'Patient', value: 'Patient' },
+    { label: 'Guardian', value: 'Guardian' },
+  ]);
+
   return (
     <View>
       <Formik
-        initialValues={{userType: "", firstName: "", lastName: "",}}
+        initialValues={{ userType: "", firstName: "", lastName: "", }}
         onSubmit={(values, actions) => {
           onRegister(values.userType, values.firstName, values.lastName);
           actions.resetForm();
@@ -37,21 +41,22 @@ const RegistrationFieldsOne = ({navigation}) => {
         validateOnMount={true}
       >
 
-        {({handleBlur, handleChange, handleSubmit, isValid, values, errors}) => (
+        {({ handleBlur, handleChange, handleSubmit, isValid, values, errors, setFieldValue }) => (
           <>
-          
-            <View style={styles.picker}>
-              <Picker
-                selectedValue={values.userType}
-                onValueChange={handleChange('userType')}
-                onBlur={handleBlur('userType')}
-                mode="dropdown"
-              >
-                <Picker.Item label="Select an account type." value="" color="gray" />
-                <Picker.Item label="Caregiver" value="caregiver" color="black" />
-                <Picker.Item label="Patient" value="patient" color="black" />
-                <Picker.Item label="Guardian" value="guardian" color="black" />
-              </Picker>
+            <View>
+              <DropDownPicker
+                open={open}
+                value={value} // Set the value directly from the state
+                items={items}
+                setOpen={setOpen}
+                setValue={(selectedValue) => {
+                  setValue(selectedValue);
+                  setFieldValue('userType', selectedValue); // Update userType in Formik
+                }}
+                setItems={setItems}
+                style={styles.picker}
+                zIndex={1000}
+              />
             </View>
 
             <View style={styles.input}>
@@ -78,7 +83,6 @@ const RegistrationFieldsOne = ({navigation}) => {
               />
             </View>
 
-
             <TouchableOpacity
               style={[styles.proceedButton, !isValid && styles.disabledProceedButton]}
               onPress={handleSubmit}
@@ -86,15 +90,12 @@ const RegistrationFieldsOne = ({navigation}) => {
             >
               <Image style={styles.proceedImage} source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')} />
             </TouchableOpacity>
-
           </>
-        )} 
+        )}
       </Formik>
     </View>
-  )
-}
-
-export default RegistrationFieldsOne
+  );
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -109,12 +110,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 
-  inputError: {
-    borderColor: 'red',
-  },
-
   picker: {
-    height: 40,
+    width: 320,
+    height: 50,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
@@ -134,6 +132,8 @@ const styles = StyleSheet.create({
   },
 
   disabledProceedButton: {
-    opacity: 0.5, 
+    opacity: 0.5,
   },
-})
+});
+
+export default RegistrationFieldsOne;

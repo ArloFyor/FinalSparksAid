@@ -10,9 +10,9 @@ const registrationSchema = yup.object().shape({
   lastName: yup.string().required('Required'),
 });
 
-const onRegister = (userType, firstName, lastName) => {
+const onRegister = (firstName, lastName) => {
   try {
-    console.log('User account has been created: ', userType, firstName, lastName);
+    console.log('User account has been created: ', firstName, lastName);
   } catch (error) {
     console.log(error.message);
   }
@@ -22,9 +22,9 @@ const RegistrationFieldsOne = () => {
   return (
     <View>
       <Formik
-        initialValues={{ firstName: "", lastName: "", }}
+        initialValues={{firstName: "", lastName: "",}}
         onSubmit={(values, actions) => {
-          onRegister(values.userType, values.firstName, values.lastName);
+          onRegister(values.firstName, values.lastName);
           actions.resetForm();
         }}
         validationSchema={registrationSchema}
@@ -84,16 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     paddingTop: 5,
-    paddingLeft: 10,
-    backgroundColor: 'white',
-  },
-
-  picker: {
-    width: 320,
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
     paddingLeft: 10,
     backgroundColor: 'white',
   },

@@ -6,25 +6,34 @@ import * as yup from 'yup';
 
 
 const registrationSchema = yup.object().shape({
+  userType: yup.string().oneOf(['patient', 'caregiver']).required('Required'),
   firstName: yup.string().required('Required'),
   lastName: yup.string().required('Required'),
 });
 
-const onRegister = (firstName, lastName) => {
+const onRegister = (userType, firstName, lastName) => {
   try {
-    console.log('User account has been created: ', firstName, lastName);
+    console.log('User account has been created: ', userType, firstName, lastName);
   } catch (error) {
     console.log(error.message);
   }
 };
 
 const RegistrationFieldsOne = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [items, setItems] = useState([
+    {label: 'Patient', value: 'patient'},
+    {label: 'Caregiver', value: 'caregiver'}
+  ])
+  
   return (
     <View>
       <Formik
-        initialValues={{firstName: "", lastName: "",}}
+        initialValues={{userType: "", firstName: "", lastName: "",}}
         onSubmit={(values, actions) => {
-          onRegister(values.firstName, values.lastName);
+          onRegister(values.userType, values.firstName, values.lastName);
+          setValue(""); //Resets the dropdown value
           actions.resetForm();
         }}
         validationSchema={registrationSchema}
@@ -33,6 +42,20 @@ const RegistrationFieldsOne = () => {
 
       {({ handleBlur, handleChange, handleSubmit, isValid, values, errors, setFieldValue }) => (
         <>
+          <View>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              onChangeValue={(value) => handleChange('userType')(value)}
+              containerStyle={styles.picker}
+              placeholder='Select User Type'
+            />
+          </View>
+
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
@@ -78,14 +101,20 @@ export default RegistrationFieldsOne
 const styles = StyleSheet.create({
   input: {
     width: 320,
-    height: 40,
+    height: 45,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     marginTop: 10,
+    top: 10,
     paddingTop: 5,
     paddingLeft: 10,
     backgroundColor: 'white',
+  },
+
+  picker: {
+    width: 320,
+    height: 40,
   },
 
   proceedButton: {

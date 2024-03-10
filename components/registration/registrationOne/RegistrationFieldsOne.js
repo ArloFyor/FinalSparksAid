@@ -6,7 +6,7 @@ import * as yup from 'yup';
 
 
 const registrationSchema = yup.object().shape({
-  userType: yup.string().oneOf(['patient', 'caregiver']).required('Required'),
+  userType: yup.string().oneOf(['patient', 'caregiver', 'guardian']).required('Required'),
   firstName: yup.string().required('Required'),
   lastName: yup.string().required('Required'),
 });
@@ -24,7 +24,8 @@ const RegistrationFieldsOne = () => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([
     {label: 'Patient', value: 'patient'},
-    {label: 'Caregiver', value: 'caregiver'}
+    {label: 'Caregiver', value: 'caregiver'},
+    {label: 'Guardian', value: 'guardian'}
   ])
   
   return (

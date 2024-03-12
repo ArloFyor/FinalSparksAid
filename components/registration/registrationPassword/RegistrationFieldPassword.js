@@ -7,7 +7,7 @@ const passwordSchema = yup.object().shape({
     password: yup.string()
       .required('Password is required')
       .min(8, 'Password must be at least 8 characters long')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, 'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character'),
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, 'Please make the Password secure'),
     confirmPassword: yup.string()
       .required('Confirm Password is required')
       .oneOf([yup.ref('password')], 'Passwords must match')
@@ -25,6 +25,7 @@ const RegistrationFieldPassword = () => {
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={styles.container}>
+          <Text style={[styles.errorText, {right: 8}]}>{touched.password && errors.password}</Text>
           <View style={styles.input}>
             <TextInput
                 placeholder='Password'
@@ -35,7 +36,8 @@ const RegistrationFieldPassword = () => {
             />
           </View>
     
-          <View style={[styles.input, {marginTop: 25}]}>
+          <Text style={[styles.errorText, {top: 8, right: 8}]}>{touched.confirmPassword && errors.confirmPassword}</Text>
+          <View style={[styles.input, {marginTop: 8}]}>
             <TextInput
                 placeholder='Confirm Password'
                 onChangeText={handleChange('confirmPassword')}
@@ -62,7 +64,7 @@ export default RegistrationFieldPassword
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 30,
+        marginTop: 10,
     },
     input: {
         width: 320,
@@ -73,6 +75,10 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 10,
         backgroundColor: 'white',
+    },
+    errorText: {
+        color: 'red',
+        marginLeft: 10,
     },
     disabledButton: {
         opacity: 0.5,

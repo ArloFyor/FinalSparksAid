@@ -10,6 +10,7 @@ import RegistrationScreenOne from './screens/Registration Screens/RegistrationSc
 import RegistrationScreenBirthday from './screens/Registration Screens/RegistrationScreenBirthday'
 import RegistrationScreenGender from './screens/Registration Screens/RegistrationScreenGender'
 import RegistrationScreenInterests from './screens/Registration Screens/RegistrationScreenInterests'
+import RegistrationScreenEmailAndNumber from './screens/Registration Screens/RegistrationScreenEmailAndNumber'
 
 const Stack = createStackNavigator()
 
@@ -31,6 +32,7 @@ const SignedInStack = () => (
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />
             <Stack.Screen name='RegistrationScreenGender' component={RegistrationScreenGender}  />
             <Stack.Screen name='RegistrationScreenInterests' component={RegistrationScreenInterests}    />
+            <Stack.Screen name='RegistrationScreenEmailAndNumber' component={RegistrationScreenEmailAndNumber}  />
         </Stack.Navigator>
     </NavigationContainer>
 )

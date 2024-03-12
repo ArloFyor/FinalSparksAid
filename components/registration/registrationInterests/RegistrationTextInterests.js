@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     questionText:{
         fontSize: 30, 
         textAlign: 'center', 
-        fontWeight: '500',
+        fontWeight: '800',
         marginBottom: 15,
         color: '#6237CF',
       },

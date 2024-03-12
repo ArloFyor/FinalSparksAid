@@ -14,7 +14,7 @@ export default RegistrationTextGender
 const styles = StyleSheet.create({
     questionText:{
         fontSize: 30, 
-        fontWeight: 'bold',
+        fontWeight: '800',
         textAlign: 'center',
         color: '#6237CF',
       },

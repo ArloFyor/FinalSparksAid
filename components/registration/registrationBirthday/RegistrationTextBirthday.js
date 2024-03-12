@@ -16,7 +16,7 @@ export default RegistrationTextBirthday
 const styles = StyleSheet.create({
     questionText:{
         fontSize: 30, 
-        fontWeight: 'bold',
+        fontWeight: '800',
         textAlign: 'center',
         color: '#6237CF',
         marginBottom: 7,

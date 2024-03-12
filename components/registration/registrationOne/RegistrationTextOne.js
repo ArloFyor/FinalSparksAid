@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   followText:{
     fontSize: 16, 
     textAlign: 'center', 
-    fontWeight: '500',
+    fontWeight: '800',
     marginBottom: 25,
   },
   questionText:{

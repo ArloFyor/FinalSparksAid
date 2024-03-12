@@ -6,7 +6,7 @@ const RegistrationTextOne = () => {
     <View>
       <Text style={styles.welcomeText}>Welcome to Sparks<Text style={{color: '#6237CF'}}>Aid</Text>!</Text>
       <Text style={styles.followText}>We are glad to be a part of your journey.</Text>
-      <Text style={styles.questionText}>First, what is your <Text style={{color: '#FCC153'}}>account</Text> type and <Text style={{color: '#FCC153'}}>name</Text>?</Text>
+      <Text style={styles.questionText}>First, what is your <Text style={styles.reminderText}>account</Text> type and <Text style={styles.reminderText}>name</Text>?</Text>
     </View>
   )
 }
@@ -30,5 +30,9 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     fontWeight: '500',
     marginBottom: 20,
+  },
+  reminderText:{
+    color: '#FCC153',
+    fontWeight: '800',
   },
 })

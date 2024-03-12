@@ -82,8 +82,7 @@ const RegistrationFieldsOne = () => {
           </View>
 
           <TouchableOpacity
-                //style={styles.proceedButton}
-                style={[styles.proceedButton, !isValid ? styles.disabledProceedButton : null]}
+                style={[styles.proceedButton, !isValid ? styles.disabledProceedButton : null, {top: 15}]}
                 onPress={handleSubmit}
                 disabled={!isValid}
             >

@@ -4,7 +4,7 @@ import React from 'react'
 const RegistrationTextEmailAndNumber = () => {
   return (
     <View>
-      <Text style={styles.questionText}>What is your <Text style={{color:'#E1C340'}}>email</Text> and</Text>
+      <Text style={[styles.questionText, style={marginTop: 10}]}>What is your <Text style={{color:'#E1C340'}}>email</Text> and</Text>
       <Text style={styles.questionText}><Text style={{color:'#E1C340'}}>mobile number</Text>?</Text>
 
       <Text style={[styles.messageText, {marginTop: 15}]}>These will be used to log in and keep</Text>

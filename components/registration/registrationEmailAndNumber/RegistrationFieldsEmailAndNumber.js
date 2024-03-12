@@ -34,7 +34,7 @@ const RegistrationFieldsEmailAndNumber = () => {
                             {errors.email && touched.email && <Text style={styles.errorText}>{errors.email}</Text>}
                         </View>
 
-                        <View style={[styles.input2, { marginTop: 25 }]}>
+                        <View style={[styles.input, { marginTop: 25 }]}>
                             <TextInput
                                 placeholder='Mobile No.'
                                 onChangeText={(value) => {
@@ -82,17 +82,6 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 10,
         backgroundColor: 'white',
-    },
-
-    input2: {
-        width: 320,
-        height: 45,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingTop: 5,
-        paddingLeft: 10,
-        backgroundColor: 'gray',
     },
     proceedButton: {
         alignSelf: 'center',

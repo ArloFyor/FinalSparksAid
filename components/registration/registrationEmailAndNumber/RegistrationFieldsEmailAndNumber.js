@@ -34,7 +34,7 @@ const RegistrationFieldsEmailAndNumber = () => {
                             {errors.email && touched.email && <Text style={styles.errorText}>{errors.email}</Text>}
                         </View>
 
-                        <View style={[styles.input2, { marginTop: 20 }]}>
+                        <View style={[styles.input2, { marginTop: 25 }]}>
                             <TextInput
                                 placeholder='Mobile No.'
                                 onChangeText={(value) => {
@@ -108,5 +108,8 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: 'red',
+        alignSelf: 'flex-start',
+        right: 10,
+        bottom: 52
     },
 });

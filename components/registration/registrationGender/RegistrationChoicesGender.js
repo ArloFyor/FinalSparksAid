@@ -25,7 +25,7 @@ const RegistrationChoicesGender = () => {
           <Image
             source={require('../../../assets/LoginAndRegistrationAssets/Male_Button.png')}
             style={[
-              styles.image,
+              styles.image1,
               selectedGender !== 'male' && styles.grayscale,
             ]}
           />
@@ -39,7 +39,7 @@ const RegistrationChoicesGender = () => {
           <Image
             source={require('../../../assets/LoginAndRegistrationAssets/Female_Button.png')}
             style={[
-              styles.image,
+              styles.image2,
               selectedGender !== 'female' && styles.grayscale,
             ]}
           />
@@ -71,9 +71,17 @@ const styles = StyleSheet.create({
     width: '45%',
     alignItems: 'center',
   },
-  image: {
+  image1: {
     width: '100%',
     height: 250,
+    left: 10,
+    marginTop: 25,
+    resizeMode: 'contain',
+  },
+  image2: {
+    width: '100%',
+    height: 250,
+    right: 10,
     marginTop: 25,
     resizeMode: 'contain',
   },

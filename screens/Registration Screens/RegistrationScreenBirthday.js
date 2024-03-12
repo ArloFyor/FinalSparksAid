@@ -1,20 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native'
 import React from 'react'
-import RegistrationTextBirthday from '../components/registration/registrationBirthday/RegistrationTextBirthday'
-import RegistrationFieldsBirthday from '../components/registration/registrationBirthday/RegistrationFieldsBirthday'
+import RegistrationTextBirthday from '../../components/registration/registrationBirthday/RegistrationTextBirthday'
+import RegistrationFieldsBirthday from '../../components/registration/registrationBirthday/RegistrationFieldsBirthday'
 
 const RegistrationScreenBirthday = ({navigation}) => {
   return (
-    <ImageBackground style={styles.background} source={require('../assets/Backgrounds/LoginAndRegistrationBackground.png')}>
+    <ImageBackground style={styles.background} source={require('../../assets/Backgrounds/LoginAndRegistrationBackground.png')}>
         <View style={styles.container}>
             
             {/*Back Button*/}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                <Image style={styles.backButton} source={require('../assets/Buttons/backButton_Black.png')} />
+                <Image style={styles.backButton} source={require('../../assets/Buttons/backButton_Black.png')} />
             </TouchableOpacity>
 
             {/*Image*/}
-            <Image style={styles.illustration} source={require('../assets/LoginAndRegistrationAssets/Illustration_2.png')} />
+            <Image style={styles.illustration} source={require('../../assets/LoginAndRegistrationAssets/Illustration_2.png')} />
 
             {/*Text and Instruction*/}
             <RegistrationTextBirthday/>

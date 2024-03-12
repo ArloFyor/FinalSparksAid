@@ -1,0 +1,95 @@
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+
+const RegistrationChoicesGender = () => {
+  const [selectedGender, setSelectedGender] = useState(null);
+
+  const handleProceed = () => {
+    if (selectedGender === 'male') {
+      console.log('Selected gender: Male');
+    } else if (selectedGender === 'female') {
+      console.log('Selected gender: Female');
+    } else {
+      console.log('No gender selected');
+    }
+  };
+
+  return (
+    <View>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.touchableOpacity}
+          onPress={() => setSelectedGender('male')}
+          activeOpacity={0.7}
+        >
+          <Image
+            source={require('../../../assets/LoginAndRegistrationAssets/Male_Button.png')}
+            style={[
+              styles.image,
+              selectedGender !== 'male' && styles.grayscale,
+            ]}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.touchableOpacity}
+          onPress={() => setSelectedGender('female')}
+          activeOpacity={0.7}
+        >
+          <Image
+            source={require('../../../assets/LoginAndRegistrationAssets/Female_Button.png')}
+            style={[
+              styles.image,
+              selectedGender !== 'female' && styles.grayscale,
+            ]}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity
+        style={[styles.proceedButton, selectedGender ? null : styles.disabledButton]}
+        onPress={handleProceed}
+        disabled={!selectedGender}
+      >
+        <Image
+          style={styles.proceedImage}
+          source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default RegistrationChoicesGender;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  touchableOpacity: {
+    width: '45%',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 250,
+    marginTop: 25,
+    resizeMode: 'contain',
+  },
+  grayscale: {
+    tintColor: 'gray',
+  },
+  proceedButton: {
+    alignSelf: 'center',
+    top: 30,
+  },
+  proceedImage: {
+    width: 150,
+    height: 50,
+    resizeMode: 'contain',
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
+});

@@ -6,8 +6,9 @@ import HomeScreen from './screens/HomeScreen'
 import NewPostScreen from './screens/NewPostScreen'
 import OpeningScreen from './screens/OpeningScreen'
 import LoginScreen from './screens/LoginScreen'
-import RegistrationScreenOne from './screens/RegistrationScreenOne'
-import RegistrationScreenBirthday from './screens/RegistrationScreenBirthday'
+import RegistrationScreenOne from './screens/Registration Screens/RegistrationScreenOne'
+import RegistrationScreenBirthday from './screens/Registration Screens/RegistrationScreenBirthday'
+import RegistrationScreenGender from './screens/Registration Screens/RegistrationScreenGender'
 
 const Stack = createStackNavigator()
 
@@ -27,6 +28,7 @@ const SignedInStack = () => (
             <Stack.Screen name='LoginScreen' component={LoginScreen}  />
             <Stack.Screen name='RegistrationScreenOne' component={RegistrationScreenOne}  />
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />
+            <Stack.Screen name='RegistrationScreenGender' component={RegistrationScreenGender}  />
         </Stack.Navigator>
     </NavigationContainer>
 )

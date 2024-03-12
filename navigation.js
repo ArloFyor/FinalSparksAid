@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen'
 import RegistrationScreenOne from './screens/Registration Screens/RegistrationScreenOne'
 import RegistrationScreenBirthday from './screens/Registration Screens/RegistrationScreenBirthday'
 import RegistrationScreenGender from './screens/Registration Screens/RegistrationScreenGender'
+import RegistrationScreenInterests from './screens/Registration Screens/RegistrationScreenInterests'
 
 const Stack = createStackNavigator()
 
@@ -29,6 +30,7 @@ const SignedInStack = () => (
             <Stack.Screen name='RegistrationScreenOne' component={RegistrationScreenOne}  />
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />
             <Stack.Screen name='RegistrationScreenGender' component={RegistrationScreenGender}  />
+            <Stack.Screen name='RegistrationScreenInterests' component={RegistrationScreenInterests}    />
         </Stack.Navigator>
     </NavigationContainer>
 )

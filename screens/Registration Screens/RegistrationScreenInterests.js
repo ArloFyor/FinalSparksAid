@@ -1,32 +1,33 @@
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity  } from 'react-native'
 import React from 'react'
-import RegistrationTextGender from '../../components/registration/registrationGender/RegistrationTextGender'
-import RegistrationChoicesGender from '../../components/registration/registrationGender/RegistrationChoicesGender'
+import RegistrationTextInterests from '../../components/registration/registrationInterests/RegistrationTextInterests'
+import RegistrationFieldsInterests from '../../components/registration/registrationInterests/RegistrationFieldsInterests'
 
-const RegistrationScreenGender = ({navigation}) => {
+const RegistrationScreenInterests = ({navigation}) => {
   return (
-    <ImageBackground style={styles.background} source={require('../../assets/Backgrounds/LoginAndRegistrationBackground.png')}   >
+    <ImageBackground style={styles.background} source={require('../../assets/Backgrounds/LoginAndRegistrationBackground.png')}>
         <View style={styles.container}>
+
             {/*Back Button*/}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Image style={styles.backButton} source={require('../../assets/Buttons/backButton_Black.png')} />
             </TouchableOpacity>
 
             {/*Image*/}
-            <Image style={styles.illustration} source={require('../../assets/LoginAndRegistrationAssets/Illustration_3.png')} />
+            <Image style={styles.illustration} source={require('../../assets/LoginAndRegistrationAssets/Illustration_4.png')} />
 
             {/*Text and Instruction*/}
-            <RegistrationTextGender />
+            <RegistrationTextInterests  />
 
             {/*Input Fields*/}
-            <RegistrationChoicesGender />
+            <RegistrationFieldsInterests    />
 
         </View>
     </ImageBackground>
   )
 }
 
-export default RegistrationScreenGender
+export default RegistrationScreenInterests
 
 const styles = StyleSheet.create({
     background: {

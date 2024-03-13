@@ -29,20 +29,23 @@ const RegistrationFieldPassword = ({navigation}) => {
   const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
     try {
       const authUser = await createUserWithEmailAndPassword(auth, email, password)
-      console.log("Account successfully registered")
       
-      const docRef = await addDoc(collection(db, 'users'), {
-        owner_uid: authUser.user.uid,
-        userType: userType,
-        fullName: fullName,
-        userName: userName,
-        birthDate: birthDate,
-        age: age,
-        gender: gender,
-        interests: interests,
-        mobileNumber: mobileNumber,
-        email: authUser.user.email,
-        profile_picture: await getRandomProfilePicture(),
+      console.log("Account successfully registered")
+
+      const userEmail = authUser.user.email;
+      const sanitizedEmail = userEmail.replace(/\./g, '_'); // Replace '.' with '_' to sanitize email
+      const docRef = await setDoc(doc(collection(db, 'users'), sanitizedEmail), {
+          owner_uid: authUser.user.uid,
+          userType: userType,
+          fullName: fullName,
+          userName: userName,
+          birthDate: birthDate,
+          age: age,
+          gender: gender,
+          interests: interests,
+          mobileNumber: mobileNumber,
+          email: userEmail,
+          profile_picture: await getRandomProfilePicture(),
       });
       
       navigation.navigate('OpeningScreen')

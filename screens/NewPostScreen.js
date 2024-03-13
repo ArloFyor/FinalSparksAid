@@ -3,6 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'reac
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { storage, storageRef, db } from '../firebase';
 
 const placeholderImage = require('../assets/SamplePicsAndPosts/ProfilePictures/placeholderProfile.png');
 

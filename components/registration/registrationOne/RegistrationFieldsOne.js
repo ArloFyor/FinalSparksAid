@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const registrationSchema = yup.object().shape({
   userType: yup.string().oneOf(['patient', 'caregiver', 'guardian']).required('Required'),
@@ -20,6 +20,8 @@ const onRegister = (userType, firstName, lastName) => {
 };
 
 const RegistrationFieldsOne = () => {
+  const navigation = useNavigation(); // Initialize navigation
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [items, setItems] = useState([
@@ -34,8 +36,13 @@ const RegistrationFieldsOne = () => {
         initialValues={{userType: "", firstName: "", lastName: "",}}
         onSubmit={(values, actions) => {
           onRegister(values.userType, values.firstName, values.lastName);
-          setValue(""); //Resets the dropdown value
-          actions.resetForm();
+          //setValue(""); //Resets the dropdown value
+          //actions.resetForm();
+          navigation.navigate('RegistrationScreenBirthday', { 
+            userType: values.userType, 
+            firstName: values.firstName, 
+            lastName: values.lastName 
+          });
         }}
         validationSchema={registrationSchema}
         validateOnMount={true}

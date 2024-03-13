@@ -20,7 +20,7 @@ const RegistrationScreenOne = ({navigation}) => {
         <RegistrationTextOne/>
 
         {/*Input Fields*/}
-        <RegistrationFieldsOne/>
+        <RegistrationFieldsOne navigation={navigation}/>
       </View>
     </ImageBackground>
   )

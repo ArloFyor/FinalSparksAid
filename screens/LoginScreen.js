@@ -1,17 +1,29 @@
 import React from 'react';
-import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground} from 'react-native';
+import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Alert} from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required('Username is required'),
+  //username: Yup.string().required('Username is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().required('Password is required'),
 });
+
+const onLogin = async (email, password) => {
+  try {
+    const authUser = await signInWithEmailAndPassword(auth, email, password)
+    console.log("Successfully logged in: ", email)
+  } catch(error) {
+    Alert.alert("Account not registered", "Please register your account.")
+  }
+}
 
 const App = ({navigation}) => {
   const handleLogin = (values, { errors }) => {
       // Implement login logic here
-      console.log('Form values:', values);
+      onLogin(values.email, values.password)
   };
 
   return (
@@ -24,19 +36,19 @@ const App = ({navigation}) => {
         <Image style={styles.logoName} source={require('../assets/LoginAndRegistrationAssets/TitleAndTagline.png')} />
 
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={(values, formikBag) => handleLogin(values, formikBag)}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <>
-              {touched.username && errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
+              {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
               <TextInput
-                style={[styles.input, touched.username && errors.username && styles.inputError]}
-                placeholder="Username"
-                onChangeText={handleChange('username')}
-                onBlur={handleBlur('username')}
-                value={values.username}
+                style={[styles.input, touched.email && errors.email && styles.inputError]}
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
               />
               
               {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'reac
 import React from 'react'
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useRoute } from '@react-navigation/native'; // Import useRoute hook
 
 const passwordSchema = yup.object().shape({
     password: yup.string()
@@ -14,11 +15,23 @@ const passwordSchema = yup.object().shape({
   });
 
 const RegistrationFieldPassword = () => {
+  const route = useRoute(); // Initialize useRoute hook
+
   return (
     <Formik
       initialValues={{ password: '', confirmPassword: '' }}
       validationSchema={passwordSchema}
       onSubmit={(values, { resetForm }) => {
+        const { userType, firstName, lastName, birthDate, age, gender, interests, email, mobileNumber } = route.params;
+        console.log('User Type:', userType);
+        console.log('First Name:', firstName);
+        console.log('Last Name:', lastName);
+        console.log('Birth Date:', birthDate);
+        console.log('Age:', age);
+        console.log('Gender:', gender);
+        console.log('Interests:', interests);
+        console.log('Email:', email);
+        console.log('Mobile Number:', mobileNumber);
         console.log('Password:', values.password);
         resetForm();
       }}

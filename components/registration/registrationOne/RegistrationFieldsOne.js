@@ -13,7 +13,7 @@ const registrationSchema = yup.object().shape({
 
 const onRegister = (userType, firstName, lastName) => {
   try {
-    console.log('User account has been created: ', userType, firstName, lastName);
+    console.log('Account Creation has started:');
   } catch (error) {
     console.log(error.message);
   }
@@ -36,8 +36,6 @@ const RegistrationFieldsOne = () => {
         initialValues={{userType: "", firstName: "", lastName: "",}}
         onSubmit={(values, actions) => {
           onRegister(values.userType, values.firstName, values.lastName);
-          //setValue(""); //Resets the dropdown value
-          //actions.resetForm();
           navigation.navigate('RegistrationScreenBirthday', { 
             userType: values.userType, 
             firstName: values.firstName, 

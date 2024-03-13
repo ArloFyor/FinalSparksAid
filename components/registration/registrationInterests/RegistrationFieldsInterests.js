@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 const RegistrationFieldsInterests = () => {
+    const route = useRoute(); // Initialize useRoute hook
+    const navigation = useNavigation(); // Initialize useNavigation hook
+
     const [interest1, setInterest1] = useState('');
     const [interest2, setInterest2] = useState('');
     const [interest3, setInterest3] = useState('');
@@ -10,19 +14,23 @@ const RegistrationFieldsInterests = () => {
     const [input3Disabled, setInput3Disabled] = useState(true);
 
     const handleProceed = () => {
-        if (interest1) console.log('Interest 1:', interest1);
-        if (interest2) console.log('Interest 2:', interest2);
-        if (interest3) console.log('Interest 3:', interest3);
-
-        // Clear the TextInput fields
-        setInterest1('');
-        setInterest2('');
-        setInterest3('');
-
-        // Reset disabled states
-        setInput2Disabled(true);
-        setInput3Disabled(true);
-        setProceedDisabled(true);
+        const { userType, firstName, lastName, birthDate, age, gender } = route.params; // Extracting passed parameters
+        
+        const interests = {
+            interestOne: interest1,
+            ...(interest2 && { interestTwo: interest2 }), // Include interestTwo only if it has a value
+            ...(interest3 && { interestThree: interest3 }), // Include interestThree only if it has a value
+        };
+        
+        navigation.navigate('RegistrationScreenEmailAndNumber', {
+            userType: userType,
+            firstName: firstName,
+            lastName: lastName,
+            birthDate: birthDate,
+            age: age,
+            gender: gender,
+            interests: interests
+        }); // Navigate to the next screen and pass interests as parameters
     };
 
     const handleInterest1Change = (text) => {

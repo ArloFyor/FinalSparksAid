@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import {useRoute, useNavigation } from '@react-navigation/native';
 
 const registrationSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
@@ -9,10 +10,24 @@ const registrationSchema = yup.object().shape({
 });
 
 const RegistrationFieldsEmailAndNumber = () => {
+    const route = useRoute(); // Initialize useRoute hook
+    const navigation = useNavigation(); // Initialize useNavigation hook
+    
     const handleSubmit = (values, { resetForm }) => {
-        console.log("Email:", values.email);
-        console.log("Mobile Number:", values.mobileNumber);
-        resetForm(); // This will clear the form fields
+        const { userType, firstName, lastName, birthDate, age, gender, interests } = route.params; // Extracting passed parameters
+
+        // Navigate to the next screen and pass the parameters
+        navigation.navigate('RegistrationScreenPassword', {
+            userType: userType,
+            firstName: firstName,
+            lastName: lastName,
+            birthDate: birthDate,
+            age: age,
+            gender: gender,
+            interests: interests,
+            email: values.email,
+            mobileNumber: values.mobileNumber,
+        });
     };
 
     return (

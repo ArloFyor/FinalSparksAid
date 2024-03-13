@@ -1,21 +1,23 @@
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 const RegistrationChoicesGender = () => {
+  const route = useRoute(); // Initialize useRoute hook
   const navigation = useNavigation(); // Initialize useNavigation hook
   const [selectedGender, setSelectedGender] = useState(null);
 
   const handleProceed = () => {
-    if (selectedGender === 'male') {
-      console.log('Selected gender: Male');
-    } else if (selectedGender === 'female') {
-      console.log('Selected gender: Female');
-    } else {
-      console.log('No gender selected');
-    }
-
-    navigation.navigate('RegistrationScreenInterests', { gender: selectedGender }); // Navigate to the next screen and pass the gender parameter
+    const { userType, firstName, lastName, birthDate, age } = route.params; // Extracting passed parameters
+    
+    navigation.navigate('RegistrationScreenInterests', {
+      userType: userType,
+      firstName: firstName,
+      lastName: lastName,
+      birthDate: birthDate,
+      age: age, 
+      gender: selectedGender 
+    }); // Navigate to the next screen and pass the gender parameter
   };
 
   return (

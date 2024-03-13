@@ -1,7 +1,31 @@
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
+import { db, auth } from '../../firebase';
+import { signOut } from 'firebase/auth';
 
 const BottomTab = ({ navigation }) => {
+  const handleLogoutConfirmation = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Logout', onPress: handleSignout },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const handleSignout = async () => {
+    try {
+        await signOut(auth);
+        console.log('Signed out successfully');
+        navigation.navigate("OpeningScreen");
+    } catch(error) {
+        console.log(error.message);
+    }
+  };
+  
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -21,7 +45,7 @@ const BottomTab = ({ navigation }) => {
           <Image source={require('../../assets/Buttons/Companions_Button.png')} style={styles.icon} />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleLogoutConfirmation}>
           <Image source={require('../../assets/Buttons/Logout_Button.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>

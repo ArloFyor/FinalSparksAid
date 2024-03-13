@@ -11,16 +11,17 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-const onLogin = async (email, password) => {
-  try {
-    const authUser = await signInWithEmailAndPassword(auth, email, password)
-    console.log("Successfully logged in: ", email)
-  } catch(error) {
-    Alert.alert("Account not registered", "Please register your account.")
-  }
-}
-
 const App = ({navigation}) => {
+  const onLogin = async (email, password) => {
+    try {
+      const authUser = await signInWithEmailAndPassword(auth, email, password)
+      console.log("Successfully logged in: ", email)
+      navigation.navigate('HomeScreen')
+    } catch(error) {
+      Alert.alert("Account not registered", "Please register your account.")
+    }
+  }
+  
   const handleLogin = (values, { errors }) => {
       // Implement login logic here
       onLogin(values.email, values.password)

@@ -5,11 +5,7 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { getAnalytics } from "firebase/analytics";
 import { getStorage, ref } from "firebase/storage";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDmtoAqCGjhqonn1wMjU_Mu5iBe9nayGBI",
   authDomain: "rn-sparksaid.firebaseapp.com",

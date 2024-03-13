@@ -8,12 +8,12 @@ const RegistrationChoicesGender = () => {
   const [selectedGender, setSelectedGender] = useState(null);
 
   const handleProceed = () => {
-    const { userType, firstName, lastName, birthDate, age } = route.params; // Extracting passed parameters
+    const { userType, fullName, userName, birthDate, age } = route.params; // Extracting passed parameters
     
     navigation.navigate('RegistrationScreenInterests', {
       userType: userType,
-      firstName: firstName,
-      lastName: lastName,
+      fullName: fullName,
+      userName: userName,
       birthDate: birthDate,
       age: age, 
       gender: selectedGender 

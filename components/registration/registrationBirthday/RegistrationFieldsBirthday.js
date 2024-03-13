@@ -46,12 +46,12 @@ const RegistrationFieldsBirthday = () => {
   };
 
   const handleProceed = () => {
-    const { userType, firstName, lastName } = route.params; // Extracting passed parameters
+    const { userType, fullName, userName } = route.params; // Extracting passed parameters
 
     navigation.navigate('RegistrationScreenGender', {
       userType: userType,
-      firstName: firstName,
-      lastName: lastName,
+      fullName: fullName,
+      userName: userName,
       birthDate: date.toISOString().slice(0, 10),
       age: age
     });

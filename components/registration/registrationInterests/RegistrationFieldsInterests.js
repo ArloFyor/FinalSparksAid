@@ -14,7 +14,7 @@ const RegistrationFieldsInterests = () => {
     const [input3Disabled, setInput3Disabled] = useState(true);
 
     const handleProceed = () => {
-        const { userType, firstName, lastName, birthDate, age, gender } = route.params; // Extracting passed parameters
+        const { userType, fullName, userName, birthDate, age, gender } = route.params; // Extracting passed parameters
         
         const interests = {
             interestOne: interest1,
@@ -24,8 +24,8 @@ const RegistrationFieldsInterests = () => {
         
         navigation.navigate('RegistrationScreenEmailAndNumber', {
             userType: userType,
-            firstName: firstName,
-            lastName: lastName,
+            fullName: fullName,
+            userName: userName,
             birthDate: birthDate,
             age: age,
             gender: gender,

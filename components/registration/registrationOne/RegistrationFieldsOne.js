@@ -7,11 +7,11 @@ import { useNavigation } from '@react-navigation/native'; // Import useNavigatio
 
 const registrationSchema = yup.object().shape({
   userType: yup.string().oneOf(['patient', 'caregiver', 'guardian']).required('Required'),
-  firstName: yup.string().required('Required'),
-  lastName: yup.string().required('Required'),
+  fullName: yup.string().required('Required'),
+  userName: yup.string().required('Required'),
 });
 
-const onRegister = (userType, firstName, lastName) => {
+const onRegister = (userType, fullName, userName) => {
   try {
     console.log('Account Creation has started:');
   } catch (error) {
@@ -33,13 +33,13 @@ const RegistrationFieldsOne = () => {
   return (
     <View>
       <Formik
-        initialValues={{userType: "", firstName: "", lastName: "",}}
+        initialValues={{userType: "", fullName: "", userName: "",}}
         onSubmit={(values, actions) => {
-          onRegister(values.userType, values.firstName, values.lastName);
+          onRegister(values.userType, values.fullName, values.userName);
           navigation.navigate('RegistrationScreenBirthday', { 
             userType: values.userType, 
-            firstName: values.firstName, 
-            lastName: values.lastName 
+            fullName: values.fullName, 
+            userName: values.userName 
           });
         }}
         validationSchema={registrationSchema}
@@ -65,24 +65,24 @@ const RegistrationFieldsOne = () => {
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
-              placeholder="First Name"
+              placeholder="Full Name"
               autoCapitalize="none"
               textContentType="username"
-              onChangeText={(text) => handleChange('firstName')(text)}
-              onBlur={handleBlur('firstName')}
-              value={values.firstName}
+              onChangeText={(text) => handleChange('fullName')(text)}
+              onBlur={handleBlur('fullName')}
+              value={values.fullName}
             />
           </View>
 
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
-              placeholder="Last Name"
+              placeholder="Username"
               autoCapitalize="none"
               textContentType="username"
-              onChangeText={(text) => handleChange('lastName')(text)}
-              onBlur={handleBlur('lastName')}
-              value={values.lastName}
+              onChangeText={(text) => handleChange('userName')(text)}
+              onBlur={handleBlur('userName')}
+              value={values.userName}
             />
           </View>
 

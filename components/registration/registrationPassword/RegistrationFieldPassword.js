@@ -3,8 +3,9 @@ import React from 'react'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native'; // Import useRoute hook
-import { auth } from '../../../firebase';
+import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 
 const passwordSchema = yup.object().shape({
     password: yup.string()
@@ -19,11 +20,33 @@ const passwordSchema = yup.object().shape({
 const RegistrationFieldPassword = ({navigation}) => {
   const route = useRoute(); // Initialize useRoute hook
 
-  const onSignup = async(email, password) => {
+  const getRandomProfilePicture = async() => {
+    const response = await fetch('https://randomuser.me/api')
+    const data = await response.json()
+    return data.results[0].picture.large
+  }
+
+  const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
+      const authUser = await createUserWithEmailAndPassword(auth, email, password)
       console.log("Account successfully registered")
+      
+      const docRef = await addDoc(collection(db, 'users'), {
+        owner_uid: authUser.user.uid,
+        userType: userType,
+        fullName: fullName,
+        userName: userName,
+        birthDate: birthDate,
+        age: age,
+        gender: gender,
+        interests: interests,
+        mobileNumber: mobileNumber,
+        email: authUser.user.email,
+        profile_picture: await getRandomProfilePicture(),
+      });
+      
       navigation.navigate('OpeningScreen')
+
     } catch(error) {
       Alert.alert('Failure to Register', 'Kindly report this to the researchers.')
     }
@@ -34,12 +57,12 @@ const RegistrationFieldPassword = ({navigation}) => {
       initialValues={{ password: '', confirmPassword: '' }}
       validationSchema={passwordSchema}
       onSubmit={(values, { resetForm }) => {
-        const { userType, firstName, lastName, birthDate, age, gender, interests, email, mobileNumber } = route.params;
+        const { userType, fullName, userName, birthDate, age, gender, interests, email, mobileNumber } = route.params;
         
         /*
         console.log('User Type:', userType);
-        console.log('First Name:', firstName);
-        console.log('Last Name:', lastName);
+        console.log('First Name:', fullName);
+        console.log('Last Name:', userName);
         console.log('Birth Date:', birthDate);
         console.log('Age:', age);
         console.log('Gender:', gender);
@@ -48,7 +71,7 @@ const RegistrationFieldPassword = ({navigation}) => {
         console.log('Mobile Number:', mobileNumber);
         console.log('Password:', values.password); */
 
-        onSignup(email, values.password)
+        onSignup(email, values.password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber)
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (

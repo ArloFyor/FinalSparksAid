@@ -14,13 +14,13 @@ const RegistrationFieldsEmailAndNumber = () => {
     const navigation = useNavigation(); // Initialize useNavigation hook
     
     const handleSubmit = (values, { resetForm }) => {
-        const { userType, firstName, lastName, birthDate, age, gender, interests } = route.params; // Extracting passed parameters
+        const { userType, fullName, userName, birthDate, age, gender, interests } = route.params; // Extracting passed parameters
 
         // Navigate to the next screen and pass the parameters
         navigation.navigate('RegistrationScreenPassword', {
             userType: userType,
-            firstName: firstName,
-            lastName: lastName,
+            fullName: fullName,
+            userName: userName,
             birthDate: birthDate,
             age: age,
             gender: gender,

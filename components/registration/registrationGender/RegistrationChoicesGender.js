@@ -1,7 +1,9 @@
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const RegistrationChoicesGender = () => {
+  const navigation = useNavigation(); // Initialize useNavigation hook
   const [selectedGender, setSelectedGender] = useState(null);
 
   const handleProceed = () => {
@@ -12,6 +14,8 @@ const RegistrationChoicesGender = () => {
     } else {
       console.log('No gender selected');
     }
+
+    navigation.navigate('RegistrationScreenInterests', { gender: selectedGender }); // Navigate to the next screen and pass the gender parameter
   };
 
   return (

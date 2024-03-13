@@ -1,10 +1,11 @@
-import { StyleSheet, Text, TextInput, View, Image, Pressable, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, View, Image, Pressable, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { useRoute } from '@react-navigation/native'; // Import useRoute hook
+import { useRoute, useNavigation } from '@react-navigation/native'; // Import useRoute and useNavigation hooks
 
 const RegistrationFieldsBirthday = () => {
   const route = useRoute(); // Initialize useRoute hook
+  const navigation = useNavigation(); // Initialize useNavigation hook
   const [date, setDate] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState('');
   const [age, setAge] = useState('');
@@ -46,11 +47,16 @@ const RegistrationFieldsBirthday = () => {
 
   const handleProceed = () => {
     const { userType, firstName, lastName } = route.params; // Extracting passed parameters
-    console.log("User Type:", userType);
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Date:", date.toISOString().slice(0, 10));
-    console.log("Age:", age);
+    console.log("Birth Date: ", date.toISOString().slice(0, 10))
+    console.log("Age: ", age)
+
+    navigation.navigate('RegistrationScreenGender', {
+      userType: userType,
+      firstName: firstName,
+      lastName: lastName,
+      birthDate: date.toISOString().slice(0, 10),
+      age: age
+    });
   };
 
   return (
@@ -86,7 +92,7 @@ const RegistrationFieldsBirthday = () => {
   )
 }
 
-export default RegistrationFieldsBirthday
+export default RegistrationFieldsBirthday;
 
 const styles = StyleSheet.create({
   container: {
@@ -133,4 +139,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
-})
+});

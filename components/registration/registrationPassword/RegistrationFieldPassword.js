@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
 import React from 'react'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native'; // Import useRoute hook
+import { auth } from '../../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const passwordSchema = yup.object().shape({
     password: yup.string()
@@ -14,8 +16,18 @@ const passwordSchema = yup.object().shape({
       .oneOf([yup.ref('password')], 'Passwords must match')
   });
 
-const RegistrationFieldPassword = () => {
+const RegistrationFieldPassword = ({navigation}) => {
   const route = useRoute(); // Initialize useRoute hook
+
+  const onSignup = async(email, password) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password)
+      console.log("Account successfully registered")
+      navigation.navigate('OpeningScreen')
+    } catch(error) {
+      Alert.alert('Failure to Register', 'Kindly report this to the researchers.')
+    }
+  }
 
   return (
     <Formik
@@ -23,6 +35,8 @@ const RegistrationFieldPassword = () => {
       validationSchema={passwordSchema}
       onSubmit={(values, { resetForm }) => {
         const { userType, firstName, lastName, birthDate, age, gender, interests, email, mobileNumber } = route.params;
+        
+        /*
         console.log('User Type:', userType);
         console.log('First Name:', firstName);
         console.log('Last Name:', lastName);
@@ -32,8 +46,9 @@ const RegistrationFieldPassword = () => {
         console.log('Interests:', interests);
         console.log('Email:', email);
         console.log('Mobile Number:', mobileNumber);
-        console.log('Password:', values.password);
-        resetForm();
+        console.log('Password:', values.password); */
+
+        onSignup(email, values.password)
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (

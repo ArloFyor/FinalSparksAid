@@ -19,7 +19,7 @@ const RegistrationScreenPassword = ({navigation}) => {
             <RegistrationTextPassword />
 
             {/*Input Fields*/}
-            <RegistrationFieldPassword />
+            <RegistrationFieldPassword navigation={navigation} />
 
         </View>
     </ImageBackground>

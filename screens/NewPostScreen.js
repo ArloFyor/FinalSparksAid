@@ -3,12 +3,16 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'reac
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { storage, storageRef, db } from '../firebase';
+import { storage, db } from '../firebase';
+import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 
 const placeholderImage = require('../assets/SamplePicsAndPosts/ProfilePictures/placeholderProfile.png');
 
 const NewPostScreen = ({navigation}) => {
   const [postButtonOpacity, setPostButtonOpacity] = useState(0.5);
+  const [image, setImage] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const postValidationSchema = Yup.object().shape({
     caption: Yup.string().max(2200, 'You have exceeded the amount of characters for this caption.'),
@@ -34,24 +38,59 @@ const NewPostScreen = ({navigation}) => {
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
       formik.setFieldValue('selectedImage', result.assets[0].uri);
+
     }
   };
 
-  function handlePost({navigation}) {
+  async function uploadImage (uri, fileType) {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+  
+    const storageRef = ref(storage, "Posts/" + new Date().getTime())
+    
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+    // listen for state changes
+    uploadTask.on('state_changed', 
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        setProgress(progress.toFixed());
+      },
+      (error) => {
+        //handle error
+        console.error('Error uploading image:', error);
+      },
+      () => {
+        // handle successful upload
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("File available at ", downloadURL);
+  
+          // save record
+          setImage("");
+        });
+      }
+    );
+  }
+
+  async function handlePost({navigation}) {
     if (formik.values.selectedImage === null) {
       // Display an alert message if no image is selected
       return;
     }
 
-    console.log(formik.values)
+    try {
+      const downloadURL = await uploadImage(formik.values.selectedImage, "image");
+      
+      // Clear formik state
+      formik.resetForm();
 
-    // Add logic to send data to your server or perform other actions.
+      // Reset button opacity after posting
+      setPostButtonOpacity(0.5);
 
-    // Clear formik state
-    formik.resetForm();
-
-    // Reset button opacity after posting
-    setPostButtonOpacity(0.5);
+    } catch (error){
+      console.error('Error getting download URL:', error);
+    }
   }
 
   // Update button opacity when selectedImage changes

@@ -3,9 +3,9 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'reac
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { storage, db } from '../firebase';
+import { auth, db, storage } from '../firebase';
 import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, Timestamp, doc, getDoc } from 'firebase/firestore';
 
 const placeholderImage = require('../assets/SamplePicsAndPosts/ProfilePictures/placeholderProfile.png');
 
@@ -18,6 +18,22 @@ const NewPostScreen = ({navigation}) => {
     caption: Yup.string().max(2200, 'You have exceeded the amount of characters for this caption.'),
     selectedImage: Yup.string().required('Please select an image.'),
   });
+
+  async function getUserUsername() {
+    const userEmail = auth.currentUser?.email;
+    const sanitizedEmail = userEmail.replace(/\./g, '_');
+    const userDocRef = doc(db, 'users', sanitizedEmail);
+    const userDocSnap = await getDoc(userDocRef);
+    return userDocSnap.exists() ? userDocSnap.data().userName : 'Unknown User';
+  }
+  
+  async function getUserProfilePicture() {
+    const userEmail = auth.currentUser?.email;
+    const sanitizedEmail = userEmail.replace(/\./g, '_');
+    const userDocRef = doc(db, 'users', sanitizedEmail);
+    const userDocSnap = await getDoc(userDocRef);
+    return userDocSnap.exists() ? userDocSnap.data().profile_picture : 'https://example.com/placeholder-profile-picture.jpg';
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -42,7 +58,7 @@ const NewPostScreen = ({navigation}) => {
     }
   };
 
-  async function uploadImage (uri, fileType) {
+  async function uploadImage (uri, fileType, caption) {
     const response = await fetch(uri);
     const blob = await response.blob();
   
@@ -67,6 +83,7 @@ const NewPostScreen = ({navigation}) => {
           console.log("File available at ", downloadURL);
   
           // save record
+          await saveRecord("image", downloadURL, Timestamp.fromDate(new Date()), caption);
           setImage("");
         });
       }
@@ -80,7 +97,7 @@ const NewPostScreen = ({navigation}) => {
     }
 
     try {
-      const downloadURL = await uploadImage(formik.values.selectedImage, "image");
+      await uploadImage(formik.values.selectedImage, "image", formik.values.caption);
       
       // Clear formik state
       formik.resetForm();
@@ -91,6 +108,36 @@ const NewPostScreen = ({navigation}) => {
     } catch (error){
       console.error('Error getting download URL:', error);
     }
+  }
+
+  async function saveRecord(fileType, url, createdAt, caption) {
+    const userEmail = auth.currentUser?.email;
+    const sanitizedEmail = userEmail.replace(/\./g, '_');
+    
+    const userDocRef = doc(db, 'users', sanitizedEmail)
+    const postCollectionRef = collection(userDocRef, 'posts')
+  
+    const username = await getUserUsername(); // get the username here
+    const profile_picture = await getUserProfilePicture(); // get the profile picture here
+  
+    try {
+      const docRef = await addDoc(postCollectionRef, {
+        fileType,
+        imageURL: url,
+        createdAt,
+        caption,
+        username,
+        profile_picture, // use the profile picture here
+        project_id: postCollectionRef.id,
+        owner_uid: auth.currentUser.uid,
+        likes: 0,
+        likes_by_users: [],
+        comments: [],
+      });
+      console.log("document saved correctly", docRef.id)
+    } catch(error) {
+      console.log(error.message)
+    };
   }
 
   // Update button opacity when selectedImage changes

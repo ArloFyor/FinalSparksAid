@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, Image, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
-import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy, collection } from 'firebase/firestore';
 
 const ProfileBody = () => {
 
@@ -14,26 +14,28 @@ const ProfileBody = () => {
   const [gender, setGender] = useState('');
   const [posts, setPosts] = useState([])
 
-  const postsCollectionRef = collectionGroup(db, 'posts')
+  const userDocRef = doc(db, 'users', sanitizedEmail)
+  const postsCollectionRef = collection(userDocRef, 'posts')
 
   useEffect(() => {
-    const getUserData = async () => {
-      const docRef = doc(db, 'users', sanitizedEmail);
-      const docSnap = await getDoc(docRef);
+    if (auth.currentUser) {
+        const getUserData = async () => {
+        const docRef = doc(db, 'users', sanitizedEmail);
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        setProfilePicture(docSnap.data().profile_picture);
-        setName(docSnap.data().fullName);
-        setBirthDate(docSnap.data().birthDate);
-        setAge(docSnap.data().age);
-        setGender(docSnap.data().gender);
-        
-      } else {
-        console.log('No such document!');
-      }
-    };
-
-    getUserData();
+        if (docSnap.exists()) {
+            setProfilePicture(docSnap.data().profile_picture);
+            setName(docSnap.data().fullName);
+            setBirthDate(docSnap.data().birthDate);
+            setAge(docSnap.data().age);
+            setGender(docSnap.data().gender);
+            
+        } else {
+            console.log('No such document!');
+        }
+        };
+        getUserData();
+    }
   }, []);
 
   useEffect(() => {

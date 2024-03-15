@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
+import { Divider } from 'react-native-elements'; // Assuming Divider is imported
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
@@ -39,8 +40,7 @@ const CompanionBody = () => {
     const companionDocs = companionsSnapshot.docs.map((doc) => doc.data());
 
     const companionFullNamesAndAges = [];
-
-for (const companion of companionDocs) {
+    for (const companion of companionDocs) {
       const companionEmail = companion.email;
 
       if (companionEmails.includes(companionEmail)) {
@@ -49,8 +49,14 @@ for (const companion of companionDocs) {
         const userData = userDocSnapshot.data();
 
         companionFullNamesAndAges.push({
-          fullName: userData.fullName,
+          id: companion.id,
+          profilePicture: userData.profile_picture,
+          username: userData.userName,
           age: userData.age,
+          gender: userData.gender,
+          interests: userData.interests.interestOne,
+          interestsTwo: userData.interests.interestTwo,
+          interestsThree: userData.interests.interestThree,
         });
       }
     }
@@ -58,63 +64,94 @@ for (const companion of companionDocs) {
     setCompanionData(companionFullNamesAndAges);
   };
 
+  const renderCompanionItem = ({ item }) => {
+    const interests = [item.interests, item.interestsTwo, item.interestsThree]
+      .filter((interest) => interest) // Filter out empty interests
+      .join(', '); // Join non-empty interests with commas
+
+    return (
+      <TouchableOpacity style={styles.touchableOpacityContainer}>
+        <Divider style={styles.divider} width={1} />
+        <View style={styles.dataItemContainer}>
+          <Image style={styles.profilePicture} source={{ uri: item.profilePicture }} />
+          <View style={styles.dataItem}>
+            <Text style={styles.username}>{item.username}</Text>
+            <Text style={styles.ageGender}>
+              {item.age} {item.gender}
+            </Text>
+            <Text style={styles.ageGender}>
+              Loves: {interests}
+            </Text>
+          </View>
+        </View>
+        <Divider style={styles.divider} width={1} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Companions</Text>
-      {companionEmails.length > 0 ? (
-        <View style={styles.emailList}>
-          {companionEmails.map((email) => (
-            <Text key={email} style={styles.emailText}>
-              {email}
-            </Text>
-          ))}
-        </View>
-      ) : (
-        <Text style={styles.noDataText}>No companions found.</Text>
-      )}
-
       {companionData.length > 0 && (
-        <View style={styles.dataList}>
-          {companionData.map((data) => (
-            <Text key={data.fullName} style={styles.dataText}>
-              {data.fullName} - {data.age}
-            </Text>
-          ))}
-        </View>
+        <FlatList
+          data={companionData}
+          renderItem={renderCompanionItem}
+          keyExtractor={(item) => item.id}
+        />
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  emailList: {
-    // Add styles for the email list container (optional)
-  },
-  emailText: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  noDataText: {
-    fontSize: 16,
-    fontStyle: 'italic',
-    color: 'gray',
-  },
-  dataList: {
-    // Add styles for the data list container (optional)
-  },
-  dataText: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-});
+    container: {
+      flex: 1,
+      marginTop: 15,
+    },
+    header: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    touchableOpacityContainer: {
+        justifyContent: 'flex-start', // Align items at the top
+      },
+    
+    dataItemContainer: {
+        flexDirection: 'row',
+        marginRight: 20,
+        marginTop: 5,
+        marginLeft: 20,
+        alignItems: 'center', // Align items vertically
+    },
+
+    profilePicture: {
+        width: 70,
+        height: 70,
+        borderRadius: 10,
+        marginRight: 20,
+        bottom: 1,
+    },
+
+    dataItem: {
+      flex: 1,
+    },
+
+    username: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 5,
+    },
+
+    ageGender: {
+      fontSize: 16,
+      marginBottom: 5,
+    },
+
+    divider: {
+      backgroundColor: 'black',
+      height: 1,
+      marginVertical: 5,
+    },
+  });
 
 export default CompanionBody;

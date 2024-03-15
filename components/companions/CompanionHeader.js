@@ -8,12 +8,17 @@ const CompanionHeader = ({navigation}) => {
         <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => navigation.push('HomeScreen')}>
             <Image 
             style={styles.homeButton} 
-            source={require('../../assets/Buttons/Home_Button_wText.png')} 
+            source={require('../../assets/Buttons/whiteHomeButton.png')} 
             />
         </TouchableOpacity>
       
-        <TouchableOpacity onPress={() => navigation.push('AddCompanionScreen')}>
-        <Text style={styles.companionText}>My <Text style={{color: '#FFBD59'}}>Companion</Text></Text>
+        <Text style={styles.companionText}>My <Text style={{color: '#FFBD59'}}>Companions</Text></Text>
+
+        <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => navigation.push('AddCompanionScreen')}>
+            <Image 
+            style={styles.homeButton} 
+            source={require('../../assets/Buttons/addCompanionButton.png')} 
+            />
         </TouchableOpacity>
     </View>
   )
@@ -45,14 +50,13 @@ const styles = StyleSheet.create({
       homeButton: {
         width: 70,
         height: 70,
-        marginLeft: 20,
-        marginTop: 50,
+        marginTop: 55,
       },
       companionText: {
         marginTop: 55,
-        fontSize: 28,
+        fontSize: 32,
         color: '#FFFDE7',
-        marginRight: 15,
+        marginRight: 0,
       },
 
       coloredLink:{

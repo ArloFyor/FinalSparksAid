@@ -5,7 +5,7 @@ import Suggested_Activities from '../components/home/Suggested_Activities'
 import Post from '../components/home/Post'
 import BottomTabs_A from '../components/home/BottomTabs_A'
 import { POSTS } from '../data/posts'
-import { collectionGroup, onSnapshot, query, orderBy, limit, doc, collection } from 'firebase/firestore'
+import { collectionGroup, onSnapshot, query, orderBy, limit, doc, collection, getDocs, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 
 //const postsCollectionRef = collectionGroup(db, 'posts')
@@ -14,6 +14,56 @@ const HomeScreen = ({navigation}) => {
   const [posts, setPosts] = useState([])
   const userEmail = auth.currentUser.email;
   const sanitizedEmail = userEmail.replace(/\./g, '_');
+
+  const [companionEmails, setCompanionEmails] = useState([]);
+  const [companionData, setCompanionData] = useState([]);
+
+  useEffect(() => {
+    const fetchCompanionEmails = async () => {
+      const userEmail = auth.currentUser.email;
+      const sanitizedEmail = userEmail.replace(/\./g, '_');
+      const userDocRef = doc(db, 'users', sanitizedEmail);
+      const companionCollectionRef = collection(userDocRef, 'companions');
+
+      const companionEmails = [];
+      try {
+        const snapshot = await getDocs(companionCollectionRef);
+        snapshot.forEach((doc) => {
+          companionEmails.push(doc.data().email);
+        });
+      } catch (error) {
+        console.error('Error fetching companion emails:', error);
+      }
+
+      setCompanionEmails(companionEmails);
+      fetchCompanionData(companionEmails);
+    };
+
+    fetchCompanionEmails();
+  }, []);
+
+  const fetchCompanionData = async (companionEmails) => {
+    const userDocRef = doc(db, 'users', auth.currentUser.email.replace(/\./g, '_'));
+    const companionsQuery = query(collection(userDocRef, 'companions')),
+      companionsSnapshot = await getDocs(companionsQuery);
+  
+    const companionDocs = companionsSnapshot.docs.map((doc) => doc.data());
+  
+    const companionPosts = [];
+    for (const companion of companionDocs) {
+      const companionEmail = companion.email;
+  
+      if (companionEmails.includes(companionEmail)) {
+        const postDocRef = collection(db, 'users', companionEmail.replace(/\./g, '_'), 'posts');
+        const postDocSnapshot = await getDocs(postDocRef);
+        const userData = postDocSnapshot.docs.map(doc => doc.data());
+  
+        companionPosts.push(...userData);
+      }
+    }
+  
+    setCompanionData(companionPosts);
+  };
 
   const userDocRef = doc(db, 'users', sanitizedEmail)
   const postsCollectionRef = collection(userDocRef, 'posts')
@@ -38,6 +88,10 @@ const HomeScreen = ({navigation}) => {
         <Suggested_Activities navigation={navigation} />
 
         {/*Posts on the Home Screen*/}
+        {companionData.map((companionData,index) => (
+                    <Post post={companionData} key={index}/>
+                ))}
+
         {posts.map((post,index) => (
                     <Post post={post} key={index}/>
                 ))}

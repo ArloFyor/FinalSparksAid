@@ -1,70 +1,139 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native'
 import React from 'react'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { auth, db } from '../../../firebase';
-import { collection, doc, addDoc } from 'firebase/firestore';
+import { collection, doc, addDoc, where, query, getDocs } from 'firebase/firestore';
+
 
 const registrationSchema = yup.object().shape({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup.string().email('Invalid email').required('Email is required').test(
+    'email-exists',
+    'Entered email does not exist in the system.',
+    async (value) => {
+      const userExists = await checkUserExists(value);
+      return userExists;
+    }
+  ),
 });
 
-const AddCompanionField = () => {
+const checkUserExists = async (email) => {
+  const usersRef = collection(db, 'users');
+  const q = query(usersRef, where('email', '==', email));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => doc.data());
+}
 
-  async function saveRecord(email_address) {
-    const userEmail = auth.currentUser?.email;
-    const sanitizedEmail = userEmail.replace(/\./g, '_');
-    
-    const userDocRef = doc(db, 'users', sanitizedEmail)
-    const companionCollectionRef = collection(userDocRef, 'companions')
-  
+const saveRecord = async (email_address) => {
+  const userEmail = auth.currentUser?.email;
+  if (!userEmail) return;
+
+  const sanitizedEmail = userEmail.replace(/\./g, '_');
+  const userDocRef = doc(db, 'users', sanitizedEmail);
+  const companionCollectionRef = collection(userDocRef, 'companions');
+
+  const userExists = await checkUserExists(email_address);
+
+  if (userEmail === email_address) {
+    Alert.alert(
+      'Invalid Email',
+      'You cannot add your own email address as a companion.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+      ],
+      { cancelable: false }
+    );
+    return;
+  }
+
+  if (userExists.length > 0) {
+    const companionDocRef = query(companionCollectionRef, where('email', '==', email_address));
+    const companionDocSnapshot = await getDocs(companionDocRef);
+
+    if (!companionDocSnapshot.empty) {
+      Alert.alert(
+        'Duplicate Email',
+        'The email address you have entered has already been added as a companion.',
+        [
+{ text: 'Cancel', style: 'cancel' },
+        ],
+        { cancelable: false }
+      );
+      return;
+    }
+
     try {
       const docRef = await addDoc(companionCollectionRef, {
         email: email_address,
       });
-      console.log("document saved correctly", docRef.id)
-    } catch(error) {
-      console.log(error.message)
-    };
+      if (docRef) console.log("Document saved correctly",docRef.id);
+    } catch (error) {
+      console.log(error.message);
+    }
+  } else {
+    // User with entered email does not exist, display message and prevent adding
+    Alert.alert(
+      'Email Not Found',
+      'The email address you entered does not exist in the system. Addition canceled.',
+      [
+        { text: 'OK', style: 'cancel' },
+      ]
+    );
+    return;
   }
+}
 
+const AddCompanionField = () => {
   const handleSubmit = (values, { resetForm }) => {
-    saveRecord(values.email)
+    if (values.email.toLowerCase() === auth.currentUser.email) {
+      Alert.alert(
+        'Error',
+        'You cannot add your own email.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Proceed'},
+        ],
+        { cancelable: false }
+      );
+    } else {
+      saveRecord(values.email)
+    }
+    resetForm()
   };
 
   return (
     <View style={styles.container}>
-    <Formik
+      <Formik
         initialValues={{ email: '' }}
         onSubmit={handleSubmit}
         validationSchema={registrationSchema}
-    >
+      >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid, dirty }) => (
-            <>
-                <View style={styles.input}>
-                    <TextInput
-                        placeholder='Email'
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                    />
-                    {errors.email && touched.email && <Text style={styles.errorText}>{errors.email}</Text>}
-                </View>
+          <>
+            <View style={styles.input}>
+              <TextInput
+                placeholder='Email'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              {errors.email && touched.email && <Text style={styles.errorText}>{errors.email}</Text>}
+            </View>
 
-                <TouchableOpacity
-                    style={[styles.proceedButton, (!isValid || !dirty) && styles.disabledButton]}
-                    onPress={handleSubmit}
-                    disabled={!isValid || !dirty}
-                >
-                    <Image
-                        style={styles.proceedImage}
-                        source={require('../../../assets/LoginAndRegistrationAssets/addButton.png')}
-                    />
-                </TouchableOpacity>
-            </>
+            <TouchableOpacity
+              style={[styles.proceedButton, (!isValid || !dirty) && styles.disabledButton]}
+              onPress={handleSubmit}
+              disabled={!isValid || !dirty}
+            >
+              <Image
+                style={styles.proceedImage}
+                source={require('../../../assets/LoginAndRegistrationAssets/addButton.png')}
+              />
+            </TouchableOpacity>
+          </>
         )}
-    </Formik>
-</View>
+      </Formik>
+    </View>
   )
 }
 

@@ -2,6 +2,8 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'reac
 import React from 'react'
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { auth, db } from '../../../firebase';
+import { collection, doc, addDoc } from 'firebase/firestore';
 
 const registrationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -9,9 +11,26 @@ const registrationSchema = yup.object().shape({
 
 const AddCompanionField = () => {
 
+  async function saveRecord(email_address) {
+    const userEmail = auth.currentUser?.email;
+    const sanitizedEmail = userEmail.replace(/\./g, '_');
+    
+    const userDocRef = doc(db, 'users', sanitizedEmail)
+    const companionCollectionRef = collection(userDocRef, 'companions')
+  
+    try {
+      const docRef = await addDoc(companionCollectionRef, {
+        email: email_address,
+      });
+      console.log("document saved correctly", docRef.id)
+    } catch(error) {
+      console.log(error.message)
+    };
+  }
+
   const handleSubmit = (values, { resetForm }) => {
-    console.log(values)
-};
+    saveRecord(values.email)
+  };
 
   return (
     <View style={styles.container}>

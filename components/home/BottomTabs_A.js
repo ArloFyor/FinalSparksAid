@@ -37,7 +37,7 @@ const BottomTab = ({ navigation }) => {
           <Image source={require('../../assets/Buttons/Photo_Button.png')} style={styles.icon} />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('ProfileScreen')}>
           <Image source={require('../../assets/Buttons/Profile_Button_Transparent.png')} style={styles.icon} />
         </TouchableOpacity>
 

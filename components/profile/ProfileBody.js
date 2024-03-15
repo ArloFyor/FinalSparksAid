@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy } from 'firebase/firestore';
 
 const ProfileBody = () => {
 
@@ -11,8 +11,10 @@ const ProfileBody = () => {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [age, setAge] = useState(0);
-  const [gender, setGender] = useState(''); 
+  const [gender, setGender] = useState('');
+  const [posts, setPosts] = useState([])
 
+  const postsCollectionRef = collectionGroup(db, 'posts')
 
   useEffect(() => {
     const getUserData = async () => {
@@ -34,6 +36,23 @@ const ProfileBody = () => {
     getUserData();
   }, []);
 
+  useEffect(() => {
+    // Check if user is logged in
+    if (auth.currentUser) {
+      const q = query(postsCollectionRef, orderBy('createdAt', 'desc'))
+      const unsubscribe = onSnapshot(q, snapshot => {
+        snapshot.docChanges().forEach((change) => {
+            if(change.type === "added") {
+                setPosts((prevFiles) => [...prevFiles, change.doc.data()])
+            }
+        })
+      })
+
+      // Clean up the listener when the component unmounts
+      return () => unsubscribe()
+    }
+  }, []) 
+
   const capitalizeFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   };
@@ -43,7 +62,6 @@ const ProfileBody = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
         {profilePicture && ( // Conditional rendering check
           <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
         )}
@@ -65,7 +83,23 @@ const ProfileBody = () => {
             </View>
         </View>
         <Text style={styles.memoryHeader}>My Memories</Text>
-      </ScrollView>
+        <View>
+            <FlatList 
+                data={posts}
+                keyExtractor={(item) => item.imageURL}
+                renderItem={({item}) =>{
+                    return (
+                        <Image 
+                            source={{uri: item.imageURL}}
+                            style={{width: "34%", height: 120}}
+                        />
+                    )
+                }}
+                numColumns={3}
+                contentContainerStyle={{ gap: 2 }}
+                columnWrapperStyle={{ gap: 2 }}
+            />
+        </View>
     </View>
   );
 }

@@ -1,38 +1,76 @@
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { auth, db } from '../../firebase'; // Assuming these are imported
+import { doc, getDoc } from 'firebase/firestore';
 
 const ProfileBody = () => {
+
+  const userEmail = auth.currentUser.email;
+  const sanitizedEmail = userEmail.replace(/\./g, '_');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [name, setName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState(''); 
+
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const docRef = doc(db, 'users', sanitizedEmail);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setProfilePicture(docSnap.data().profile_picture);
+        setName(docSnap.data().fullName);
+        setBirthDate(docSnap.data().birthDate);
+        setAge(docSnap.data().age);
+        setGender(docSnap.data().gender);
+        
+      } else {
+        console.log('No such document!');
+      }
+    };
+
+    getUserData();
+  }, []);
+
+  const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
+  
+  // Usage in your component:
+  const capitalizedGender = capitalizeFirstLetter(gender);
+
   return (
     <View style={styles.container}>
-        <ScrollView>
-            <Image style={styles.profilePicture} source={require('../../assets/SamplePicsAndPosts/ProfilePictures/GrandpaCarl.jpg')} />
-            <Text style={styles.userName}>Carl</Text>
-            <View style={styles.userInfoContainer}>
-
-                <View style={styles.userInfoContainer2}>
-                    <Text style={styles.userInfoHead}>Birth Date</Text>
-                    <Text style={styles.userInfo}>09/19/2003</Text>
-                </View>
-
-                <View style={styles.userInfoContainer2}>
-                    <Text style={styles.userInfoHead}>Age</Text>
-                    <Text style={styles.userInfo}>70</Text>
-                </View>
-
-                <View style={styles.userInfoContainer2}>
-                    <Text style={styles.userInfoHead}>Gender</Text>
-                    <Text style={styles.userInfo}>Male</Text>
-                </View>
+      <ScrollView>
+        {profilePicture && ( // Conditional rendering check
+          <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
+        )}
+        <Text style={styles.userName}>{name}</Text>
+        <View style={styles.userInfoContainer}>
+            <View style={styles.userInfoContainer2}>
+                <Text style={styles.userInfoHead}>Birth Date</Text>
+                <Text style={styles.userInfo}>{birthDate}</Text>
             </View>
 
-            <Text style={{marginLeft: 8, marginTop: 30, fontSize: 22, fontWeight: '500', color: '#6237CF',}}>My Memories</Text>
+            <View style={styles.userInfoContainer2}>
+                <Text style={styles.userInfoHead}>Age</Text>
+                <Text style={styles.userInfo}>{age}</Text>
+            </View>
 
-        </ScrollView>
+            <View style={styles.userInfoContainer2}>
+                <Text style={styles.userInfoHead}>Gender</Text>
+                <Text style={styles.userInfo}>{capitalizedGender}</Text>
+            </View>
+        </View>
+        <Text style={{ marginLeft: 8, marginTop: 30, fontSize: 22, fontWeight: '500', color: '#6237CF', }}>My Memories</Text>
+      </ScrollView>
     </View>
-  )
+  );
 }
 
-export default ProfileBody
+export default ProfileBody;
 
 const styles = StyleSheet.create({
 

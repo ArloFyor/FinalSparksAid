@@ -1,19 +1,40 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, Image, StyleSheet, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { auth, db } from '../../firebase';
+import { collection, doc, getDoc } from 'firebase/firestore';
 
 const Header_A = () => {
+  const userEmail = auth.currentUser.email;
+  const sanitizedEmail = userEmail.replace(/\./g, '_');
+  const [profilePicture, setProfilePicture] = useState('');
+
+  useEffect(() => {
+    const getProfilePicture = async () => {
+      const docRef = doc(db, 'users', sanitizedEmail);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setProfilePicture(docSnap.data().profile_picture);
+      } else {
+        console.log('No such document!');
+      }
+    }
+
+    getProfilePicture();
+  }, []);
+
   return (
     <View style={styles.container}>
-      
-        <Image
-            style={styles.logo}
-            source={require('../../assets/HeaderTexts/HomeScreenText.png')}
-        />
 
-        <Image
-            style={styles.profilePic}
-            source={require('../../assets/SamplePicsAndPosts/ProfilePictures/GrandpaCarl.jpg')}
-        />
+      <Image
+        style={styles.logo}
+        source={require('../../assets/HeaderTexts/HomeScreenText.png')}
+      />
+
+      {profilePicture && <Image
+        style={styles.profilePic}
+        source={{ uri: profilePicture }}
+      />}
 
     </View>
   )

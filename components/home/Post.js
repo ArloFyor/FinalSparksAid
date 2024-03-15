@@ -41,8 +41,8 @@ const PostHeader = ({ post }) => {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 5, alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Image source={post.profile_picture} style={styles.profilePicture} />
-        <Text style={{ marginLeft: 8, fontSize: 15, fontFamily: 'serif', marginTop: 5 }}>{post.user}</Text>
+        <Image source={{uri: post.profile_picture}} style={styles.profilePicture} />
+        <Text style={{ marginLeft: 8, fontSize: 15, fontFamily: 'serif', marginTop: 5 }}>{post.username}</Text>
       </View>
       <Text style={{ fontWeight: 'bold', marginRight: 10 }}>...</Text>
     </View>
@@ -53,7 +53,7 @@ const PostImage = ({ post }) => {
   return (
     <View style={{ width: '100%', height: 450, alignItems: 'center', justifyContent: 'center' }}>
       <Image
-        source={post.imageURL}
+        source={{uri: post.imageURL}}
         style={{ height: '100%', width: '100%', resizeMode: 'cover', aspectRatio: 0.9 }}
       />
     </View>
@@ -81,8 +81,8 @@ const Caption = ({ post }) => {
   return (
     <View style={{ marginTop: 5 }}>
       <Text>
-        <Text style={{ fontWeight: 600 }}>{post.user}</Text>
-        <Text> {post.caption}</Text>
+        <Text style={{ fontWeight: 600 }}>{post.username}</Text>
+        <Text>: {post.caption}</Text>
       </Text>
     </View>
   );

@@ -1,47 +1,52 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { Divider } from 'react-native-elements';
 
-const postFooterIcons = [
+const PostFooterIcons = [
   {
-    name: 'Save',
-    imageURL: require('../../assets/Buttons/save_Button.png'),
+    name: 'Heart',
+    imageURL: require('../../assets/Buttons/inactive_heartButton.png'),
+    isActive: false,
   },
   {
     name: 'Comment',
     imageURL: require('../../assets/Buttons/comment_Button.png'),
+    isActive: false,
   },
 ];
 
 const Post = ({ post }) => {
-    const [showComments, setShowComments] = useState(false);
-  
-    const handleToggleComments = () => {
-      setShowComments(!showComments);
-    };
-  
-    return (
-      <View style={{ marginBottom: 20, marginTop: 8 }}>
-        <Divider width={1} orientation='vertical' />
-        <PostHeader post={post} />
-        <PostImage post={post} />
-        <View style={{ marginHorizontal: 15, marginTop: 10, top: 5 }}>
-          <PostFooter />
-          <Caption post={post} />
-          <TouchableOpacity onPress={handleToggleComments}>
-            <CommentSection post={post} />
-          </TouchableOpacity>
-          {showComments && <Comments post={post} />}
-        </View>
-      </View>
-    );
+  const [showComments, setShowComments] = useState(false);
+  const [postFooterIconsState, setPostFooterIcons] = useState(PostFooterIcons);
+
+  const handleToggleIcon = (index) => {
+    const newPostFooterIcons = [...postFooterIconsState];
+    newPostFooterIcons[index].isActive = !newPostFooterIcons[index].isActive;
+    setPostFooterIcons(newPostFooterIcons);
   };
+
+  return (
+    <View style={{ marginBottom: 20, marginTop: 8 }}>
+      <Divider width={1} orientation='vertical' />
+      <PostHeader post={post} />
+      <PostImage post={post} />
+      <View style={{ marginHorizontal: 15, marginTop: 10, top: 5 }}>
+        <PostFooter postFooterIcons={postFooterIconsState} onToggleIcon={handleToggleIcon} />
+        <Caption post={post} />
+        <TouchableOpacity>
+          <CommentSection post={post} />
+        </TouchableOpacity>
+        {showComments && <Comments post={post} />}
+      </View>
+    </View>
+  );
+};
 
 const PostHeader = ({ post }) => {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 5, alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Image source={{uri: post.profile_picture}} style={styles.profilePicture} />
+        <Image source={{ uri: post.profile_picture }} style={styles.profilePicture} />
         <Text style={{ marginLeft: 8, fontSize: 15, fontFamily: 'serif', marginTop: 5 }}>{post.username}</Text>
       </View>
       <Text style={{ fontWeight: 'bold', marginRight: 10 }}>...</Text>
@@ -53,25 +58,31 @@ const PostImage = ({ post }) => {
   return (
     <View style={{ width: '100%', height: 450, alignItems: 'center', justifyContent: 'center' }}>
       <Image
-        source={{uri: post.imageURL}}
+        source={{ uri: post.imageURL }}
         style={{ height: '100%', width: '100%', resizeMode: 'cover', aspectRatio: 0.9 }}
       />
     </View>
   );
 };
 
-const PostFooter = () => {
+const PostFooter = ({ postFooterIcons, onToggleIcon }) => {
   return (
-    <View style={{ flexDirection: 'row', right: 5}}>
-      <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[0].imageURL} />
-      <Icon imgStyle={styles.footerIcon} imgURL={postFooterIcons[1].imageURL} />
+    <View style={{ flexDirection: 'row', right: 5 }}>
+      {postFooterIcons.map((icon, index) => (
+        <Icon
+          key={index}
+          imgStyle={[styles.footerIcon, index !== 0 && { marginLeft: 5 }]} // Add marginRight to all icons except the first one
+          imgURL={icon.isActive && index === 0 ? require('../../assets/Buttons/active_heartButton.png') : icon.imageURL}
+          onPress={() => onToggleIcon(index)}
+        />
+      ))}
     </View>
   );
 };
 
-const Icon = ({ imgStyle, imgURL }) => {
+const Icon = ({ imgStyle, imgURL, onPress }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <Image style={imgStyle} source={imgURL} />
     </TouchableOpacity>
   );
@@ -79,10 +90,10 @@ const Icon = ({ imgStyle, imgURL }) => {
 
 const Caption = ({ post }) => {
   return (
-    <View style={{ marginTop: 5 }}>
+    <View style={{ marginTop: 8 }}>
       <Text>
-        <Text style={{ fontWeight: 600 }}>{post.username}</Text>
-        <Text>: {post.caption}</Text>
+        <Text style={{ fontWeight: 600, fontSize: 16 }}>{post.username}</Text>
+        <Text style={{ fontSize: 16 }}>: {post.caption}</Text>
       </Text>
     </View>
   );
@@ -105,22 +116,22 @@ const CommentSection = ({ post }) => {
 };
 
 const Comments = ({ post }) => {
-    const lastFourComments = post.comments?.slice(-4);
+  const lastFourComments = post.comments?.slice(-4);
 
-    return (
-        <>
-        {lastFourComments?.map((comment, index) => (
-            <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
-            <Text>
-                <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
-                {comment.comment}
-            </Text>
-            </View>
-        ))}
-        </>
-    );
+  return (
+    <>
+      {lastFourComments?.map((comment, index) => (
+        <View key={index} style={{ flexDirection: 'row', marginTop: 5 }}>
+          <Text>
+            <Text style={{ fontWeight: 700 }}>{comment.user} </Text>
+            {comment.comment}
+          </Text>
+        </View>
+      ))}
+    </>
+  );
 };
-  
+
 const styles = StyleSheet.create({
   profilePicture: {
     width: 40,

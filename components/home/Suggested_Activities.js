@@ -15,7 +15,7 @@ const Suggested_Activities = ({navigation}) => {
                     <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_2.png')}/> 
                 </TouchableOpacity>
                 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.push('CompanionScreen')}>
                     <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_3.png')}/> 
                 </TouchableOpacity>
             </ScrollView>

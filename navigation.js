@@ -13,6 +13,8 @@ import RegistrationScreenInterests from './screens/Registration Screens/Registra
 import RegistrationScreenEmailAndNumber from './screens/Registration Screens/RegistrationScreenEmailAndNumber'
 import RegistrationScreenPassword from './screens/Registration Screens/RegistrationScreenPassword'
 import ProfileScreen from './screens/ProfileScreen'
+import CompanionScreen from './screens/CompanionScreen'
+import AddCompanionScreen from './screens/AddCompanionScreen'
 
 const Stack = createStackNavigator()
 
@@ -37,6 +39,9 @@ const SignedInStack = () => (
             <Stack.Screen name='RegistrationScreenEmailAndNumber' component={RegistrationScreenEmailAndNumber}  />
             <Stack.Screen name='RegistrationScreenPassword' component={RegistrationScreenPassword}  />
             <Stack.Screen name='ProfileScreen' component={ProfileScreen}    />
+            <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
+            <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
+
         </Stack.Navigator>
     </NavigationContainer>
 )

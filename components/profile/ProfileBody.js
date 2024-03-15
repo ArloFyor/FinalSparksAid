@@ -64,7 +64,7 @@ const ProfileBody = () => {
                 <Text style={styles.userInfo}>{capitalizedGender}</Text>
             </View>
         </View>
-        <Text style={{ marginLeft: 8, marginTop: 30, fontSize: 22, fontWeight: '500', color: '#6237CF', }}>My Memories</Text>
+        <Text style={styles.memoryHeader}>My Memories</Text>
       </ScrollView>
     </View>
   );
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
         fontWeight: '400',
     },
 
-    
     userInfo:{
         marginTop: 5,
         fontSize: 18,
@@ -119,5 +118,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: '#6237CF',
         left: 5,
+    },
+
+    memoryHeader: {
+        marginLeft: 8, 
+        marginTop: 30, 
+        fontSize: 22, 
+        fontWeight: '500', 
+        color: '#6237CF', 
     }
 })

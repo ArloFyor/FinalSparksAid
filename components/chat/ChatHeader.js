@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // Keep for horizontal centering
     alignItems: 'center', // Center child elements vertically
     flexDirection: 'row',
-    borderBottomLeftRadius: 55, 
-    borderBottomRightRadius: 55, 
+    borderBottomLeftRadius: 30, 
+    borderBottomRightRadius: 30, 
   },
   backButton: {
     width: 40,

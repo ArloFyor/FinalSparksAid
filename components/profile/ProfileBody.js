@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy, collection } from 'firebase/firestore';
 
-const ProfileBody = ({navigation}) => {
-
-  const userEmail = auth.currentUser.email;
+const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
+  const userEmail = emailAddress;
   const sanitizedEmail = userEmail.replace(/\./g, '_');
   const [profilePicture, setProfilePicture] = useState('');
   const [name, setName] = useState('');
@@ -39,7 +38,7 @@ const ProfileBody = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    // Check if user is logged in
+    // Check if user islogged in
     if (auth.currentUser) {
       const q = query(postsCollectionRef, orderBy('createdAt', 'desc'))
       const unsubscribe = onSnapshot(q, snapshot => {
@@ -62,10 +61,13 @@ const ProfileBody = ({navigation}) => {
   // Usage in your component:
   const capitalizedGender = capitalizeFirstLetter(gender);
 
+  // Check if the emailAddress passed is equal to auth.currentUser.email
+  const canNavigateToNewProfilePictureScreen = emailAddress === auth.currentUser.email;
+
   return (
     <View style={styles.container}>
         {profilePicture && ( // Conditional rendering check
-            <TouchableOpacity onPress={() => navigation.push('NewProfilePictureScreen')}>
+            <TouchableOpacity onPress={() => canNavigateToNewProfilePictureScreen && navigation.push('NewProfilePictureScreen')}>
                 <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
             </TouchableOpacity>
         )}
@@ -157,8 +159,7 @@ const styles = StyleSheet.create({
         color: '#6237CF',
         left: 5,
     },
-
-    memoryHeader: {
+memoryHeader: {
         marginLeft: 8, 
         marginTop: 30, 
         fontSize: 22, 

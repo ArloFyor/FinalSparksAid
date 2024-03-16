@@ -7,7 +7,7 @@ const CompanionScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
         <CompanionHeader navigation={navigation}/>
-        <CompanionBody/>
+        <CompanionBody navigation={navigation}/>
     </SafeAreaView>
   )
 }

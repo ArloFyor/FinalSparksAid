@@ -5024,6 +5024,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsrsasign@^8.0.12:
+  version "8.0.24"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.24.tgz#fc26bac45494caac3dd8f69c1f95847c4bda6c83"
+  integrity sha512-u45jAyusqUpyGbFc2IbHoeE4rSkoBWQgLe/w99temHenX+GyCz4nflU5sjK7ajU1ffZTezl6le7u43Yjr/lkQg==
+
 kind-of@^5.0.0:
   version "5.1.0"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-5.1.0.tgz"
@@ -6331,6 +6336,13 @@ react-native-communications@2.2.1:
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
   integrity sha512-5+C0X9mopI0+qxyQHzOPEi5v5rxNBQjxydPPiKMQSlX1RBIcJ8uTcqUPssQ9Mo8p6c1IKIWJUSqCj4jAmD0qVQ==
 
+react-native-dialogflow@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-dialogflow/-/react-native-dialogflow-3.2.2.tgz#91d74f053ebc18390332f2b21dcc17553b83a638"
+  integrity sha512-LWsrW7b9LA8+MTW4gA0z5jD7XrZ9ASfUMTck0hySEvnI+eqkY8Tz2cd166kHRW7yyIHlo5IhtkivWgm4EAyiNw==
+  dependencies:
+    jsrsasign "^8.0.12"
+
 react-native-dropdown-picker@^5.4.6:
   version "5.4.6"
   resolved "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.6.tgz"
@@ -6449,6 +6461,11 @@ react-native-vector-icons@^10.0.2:
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-voice@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-voice/-/react-native-voice-0.3.0.tgz#2ca3ff8f8f6fc6d087e10b6d3ecd50af8e01a166"
+  integrity sha512-puSrXCNn1MM03UZkY8q+GW931OqBCEBCiupNK4vD8i49esGqRDDmzv8sRYyEgXj5ScVDKe6lnlKCmJSn5Wo2UA==
 
 react-native-web@~0.19.6:
   version "0.19.9"

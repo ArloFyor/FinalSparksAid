@@ -11,7 +11,7 @@ const Suggested_Activities = ({navigation}) => {
                     <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_1.png')}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.push('MessagesScreen')}>
                     <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_2.png')}/> 
                 </TouchableOpacity>
                 

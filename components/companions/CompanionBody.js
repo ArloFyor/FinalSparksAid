@@ -22,7 +22,7 @@ const CompanionBody = ({ navigation }) => {
           companionEmails.push(doc.data().email);
         });
       } catch (error) {
-        console.error('Error fetching companion emails:', error);
+        console.log('Error fetching companion emails:', error);
       }
 
       setCompanionEmails(companionEmails);

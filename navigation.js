@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { auth } from './firebase'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import HomeScreen from './screens/HomeScreen'
@@ -17,8 +18,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import CompanionScreen from './screens/CompanionScreen'
 import AddCompanionScreen from './screens/AddCompanionScreen'
 import ChatScreen from './screens/ChatScreen'
-import { auth } from './firebase'
-
+import MessagesScreen from './screens/MessagesScreen'
 
 const Stack = createStackNavigator()
 
@@ -59,6 +59,8 @@ export const SignedInStack = () => (
             <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
             <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
             <Stack.Screen name='ChatScreen' component={ChatScreen}  />
+            <Stack.Screen name='MessagesScreen' component={MessagesScreen}  />
+
         </Stack.Navigator>
     </NavigationContainer>
 )

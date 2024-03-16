@@ -18,6 +18,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import CompanionScreen from './screens/CompanionScreen'
 import AddCompanionScreen from './screens/AddCompanionScreen'
 import ChatScreen from './screens/ChatScreen'
+import ChatBotScreen from './screens/ChatBotScreen'
 import MessagesScreen from './screens/MessagesScreen'
 
 const Stack = createStackNavigator()
@@ -59,6 +60,7 @@ export const SignedInStack = () => (
             <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
             <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
             <Stack.Screen name='ChatScreen' component={ChatScreen}  />
+            <Stack.Screen name='ChatBotScreen' component={ChatBotScreen}    />
             <Stack.Screen name='MessagesScreen' component={MessagesScreen}  />
 
         </Stack.Navigator>

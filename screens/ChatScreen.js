@@ -4,8 +4,9 @@ import { GiftedChat } from 'react-native-gifted-chat'
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
+import ChatHeader from '../components/chat/ChatHeader'
 
-const ChatScreen = () => {
+const ChatScreen = ({navigation}) => {
   const [messages, setMessages] = useState([])
 
   useLayoutEffect(() => {
@@ -40,6 +41,8 @@ const ChatScreen = () => {
   }, []);
 
   return (
+    <>
+    <ChatHeader navigation={navigation}/>
     <GiftedChat
       messages={messages} // No need to reverse
       onSend={messages => onSend(messages)}
@@ -51,6 +54,7 @@ const ChatScreen = () => {
         backgroundColor: '#F5F5DC',
       }}
     />
+    </>
   )
 }
 

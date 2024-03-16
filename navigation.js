@@ -17,6 +17,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import CompanionScreen from './screens/CompanionScreen'
 import AddCompanionScreen from './screens/AddCompanionScreen'
 import ChatScreen from './screens/ChatScreen'
+import { auth } from './firebase'
 
 
 const Stack = createStackNavigator()

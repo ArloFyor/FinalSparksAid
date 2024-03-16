@@ -29,7 +29,7 @@ const BottomTab = ({ navigation }) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('ChatScreen')}>
           <Image source={require('../../assets/Buttons/Chat_Button.png')} style={styles.icon} />
         </TouchableOpacity>
 

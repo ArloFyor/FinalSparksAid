@@ -45,6 +45,24 @@ const RegistrationFieldPassword = ({navigation}) => {
           email: userEmail,
           profile_picture: await getRandomProfilePicture(),
       });
+
+      const userDocRef = doc(collection(db, 'users'), sanitizedEmail)
+      const companionCollectionRef = collection(userDocRef, 'companions')
+
+      const devEmail = 'sparksaid@gmail.com'
+
+  
+      addDoc(companionCollectionRef, {
+        email:devEmail
+      });
+
+      const devDocRef = doc(collection(db, 'users'), devEmail.replace(/\./g, '_'))
+      const devCompanionCollectionRef = collection(devDocRef, 'companions')
+
+      addDoc(devCompanionCollectionRef, {
+        email:auth.currentUser.email
+      });
+
       
       navigation.navigate('OpeningScreen')
 

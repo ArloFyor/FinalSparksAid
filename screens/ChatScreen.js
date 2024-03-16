@@ -14,22 +14,26 @@ import {
   query,
   onSnapshot,
   getDoc,
+  setDoc,
   doc
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 import ChatHeader from '../components/chat/ChatHeader';
 
-const ChatScreen = ({ navigation }) => {
+const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
   const [userAvatar, setUserAvatar] = useState(''); // State for storing the avatar
 
+  const { chatRoomID } = route.params
+
   useLayoutEffect(() => {
-    const collectionRef = collection(db, 'chats');
-    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+    const chatRoomRef = doc(collection(db, 'chatRooms'), chatRoomID)
+    const chatCollection = collection(chatRoomRef, 'chats')
+    const q = query(chatCollection, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, snapshot => {
-      console.log('snapshot');
+      console.log("Loading ChatRoom:", chatRoomID);
       setMessages(
         snapshot.docs.map(doc => ({
           _id: doc.id,
@@ -63,7 +67,10 @@ const ChatScreen = ({ navigation }) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
 
     const { _id, createdAt, text, user } = messages[0];
-    addDoc(collection(db, 'chats'), {
+    const chatRoomRef = doc(collection(db, 'chatRooms'), chatRoomID)
+    const chatCollection = collection(chatRoomRef, 'chats')
+
+    addDoc(chatCollection, {
       _id,
       createdAt,
       text,

@@ -57,7 +57,8 @@ const MessagesBody = ({ navigation }) => {
           interests: userData.interests.interestOne,
           interestsTwo: userData.interests.interestTwo,
           interestsThree: userData.interests.interestThree,
-          email: userData.email
+          email: userData.email,
+          uid: userData.owner_uid,
         });
       }
     }
@@ -71,7 +72,10 @@ const MessagesBody = ({ navigation }) => {
       .join(', '); // Join non-empty interests with commas
   
     return (
-      <TouchableOpacity style={styles.touchableOpacityContainer} onPress={() => navigation.push('ChatScreen')}>
+      <TouchableOpacity style={styles.touchableOpacityContainer} onPress={() => {
+        const chatRoomID = concatenateInOrder(auth.currentUser.uid, item.uid);
+        navigation.push('ChatScreen', { chatRoomID });
+      }}>
         <Divider style={styles.divider} width={1} />
         <View style={styles.dataItemContainer}>
           <Image style={styles.profilePicture} source={{ uri: item.profilePicture }} />
@@ -89,6 +93,15 @@ const MessagesBody = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
+
+  function concatenateInOrder(string1, string2) {
+    // Sort the strings alphabetically, ensuring consistent order for output
+    const sortedStrings = [string1, string2].sort();
+  
+    // Concatenate the sorted strings
+    return sortedStrings.join('');
+  }
+  
 
   return (
     <View style={styles.container}>

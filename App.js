@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import SignedInStack from './navigation'
+import AuthNavigation from './AuthNavigation'
 
 const App = () => {
   return (
-    <SignedInStack />
+    <AuthNavigation />
   )
 }
 

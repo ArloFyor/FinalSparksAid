@@ -26,16 +26,13 @@ const screenOptions = {
     headerShown: false,
 }
 
-const SignedInStack = () => (
+export const SignedOutStack = () => (
     <NavigationContainer>
         <Stack.Navigator
             initialRouteName='OpeningScreen'
             screenOptions={screenOptions}
         >
             <Stack.Screen name='OpeningScreen' component={OpeningScreen}  />
-            <Stack.Screen name='HomeScreen' component={HomeScreen}  />
-            <Stack.Screen name='NewPostScreen' component={NewPostScreen}  />
-            <Stack.Screen name='NewProfilePictureScreen' component={NewProfilePictureScreen}    />
             <Stack.Screen name='LoginScreen' component={LoginScreen}  />
             <Stack.Screen name='RegistrationScreenOne' component={RegistrationScreenOne}  />
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />
@@ -43,13 +40,23 @@ const SignedInStack = () => (
             <Stack.Screen name='RegistrationScreenInterests' component={RegistrationScreenInterests}    />
             <Stack.Screen name='RegistrationScreenEmailAndNumber' component={RegistrationScreenEmailAndNumber}  />
             <Stack.Screen name='RegistrationScreenPassword' component={RegistrationScreenPassword}  />
-            <Stack.Screen name='ProfileScreen' component={ProfileScreen}    />
-            <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
-            <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
-            <Stack.Screen name='ChatScreen' component={ChatScreen}  />
-
         </Stack.Navigator>
     </NavigationContainer>
 )
 
-export default SignedInStack
+export const SignedInStack = () => (
+    <NavigationContainer>
+        <Stack.Navigator
+            initialRouteName='HomeScreen'
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen name='HomeScreen' component={HomeScreen}  />
+            <Stack.Screen name='NewPostScreen' component={NewPostScreen}  />
+            <Stack.Screen name='NewProfilePictureScreen' component={NewProfilePictureScreen}    />
+            <Stack.Screen name='ProfileScreen' component={ProfileScreen}    />
+            <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
+            <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
+            <Stack.Screen name='ChatScreen' component={ChatScreen}  />
+        </Stack.Navigator>
+    </NavigationContainer>
+)

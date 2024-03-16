@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import HomeScreen from './screens/HomeScreen'
 import NewPostScreen from './screens/NewPostScreen'
+import NewProfilePictureScreen from './screens/NewProfilePictureScreen'
 import OpeningScreen from './screens/OpeningScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegistrationScreenOne from './screens/Registration Screens/RegistrationScreenOne'
@@ -15,7 +16,8 @@ import RegistrationScreenPassword from './screens/Registration Screens/Registrat
 import ProfileScreen from './screens/ProfileScreen'
 import CompanionScreen from './screens/CompanionScreen'
 import AddCompanionScreen from './screens/AddCompanionScreen'
-import NewProfilePictureScreen from './screens/NewProfilePictureScreen'
+import ChatScreen from './screens/ChatScreen'
+
 
 const Stack = createStackNavigator()
 
@@ -43,6 +45,7 @@ const SignedInStack = () => (
             <Stack.Screen name='ProfileScreen' component={ProfileScreen}    />
             <Stack.Screen name='CompanionScreen' component={CompanionScreen}    />
             <Stack.Screen name='AddCompanionScreen' component={AddCompanionScreen} />
+            <Stack.Screen name='ChatScreen' component={ChatScreen}  />
 
         </Stack.Navigator>
     </NavigationContainer>

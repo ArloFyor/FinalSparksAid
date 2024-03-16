@@ -21,9 +21,7 @@ const RegistrationFieldPassword = ({navigation}) => {
   const route = useRoute(); // Initialize useRoute hook
 
   const getRandomProfilePicture = async() => {
-    const response = await fetch('https://randomuser.me/api')
-    const data = await response.json()
-    return data.results[0].picture.large
+    return "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
   }
 
   const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {

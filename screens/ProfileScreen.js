@@ -7,7 +7,7 @@ const ProfileScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ProfileHeader navigation={navigation} />
-      <ProfileBody />
+      <ProfileBody navigation={navigation}/>
     </SafeAreaView>
   )
 }

@@ -15,6 +15,7 @@ import RegistrationScreenPassword from './screens/Registration Screens/Registrat
 import ProfileScreen from './screens/ProfileScreen'
 import CompanionScreen from './screens/CompanionScreen'
 import AddCompanionScreen from './screens/AddCompanionScreen'
+import NewProfilePictureScreen from './screens/NewProfilePictureScreen'
 
 const Stack = createStackNavigator()
 
@@ -31,6 +32,7 @@ const SignedInStack = () => (
             <Stack.Screen name='OpeningScreen' component={OpeningScreen}  />
             <Stack.Screen name='HomeScreen' component={HomeScreen}  />
             <Stack.Screen name='NewPostScreen' component={NewPostScreen}  />
+            <Stack.Screen name='NewProfilePictureScreen' component={NewProfilePictureScreen}    />
             <Stack.Screen name='LoginScreen' component={LoginScreen}  />
             <Stack.Screen name='RegistrationScreenOne' component={RegistrationScreenOne}  />
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />

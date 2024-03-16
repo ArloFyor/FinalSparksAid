@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, ScrollView, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy, collection } from 'firebase/firestore';
 
-const ProfileBody = () => {
+const ProfileBody = ({navigation}) => {
 
   const userEmail = auth.currentUser.email;
   const sanitizedEmail = userEmail.replace(/\./g, '_');
@@ -65,7 +65,9 @@ const ProfileBody = () => {
   return (
     <View style={styles.container}>
         {profilePicture && ( // Conditional rendering check
-          <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
+            <TouchableOpacity onPress={() => navigation.push('NewProfilePictureScreen')}>
+                <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
+            </TouchableOpacity>
         )}
         <Text style={styles.userName}>{name}</Text>
         <View style={styles.userInfoContainer}>

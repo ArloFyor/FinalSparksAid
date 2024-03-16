@@ -55,7 +55,7 @@ const saveRecord = async (email_address) => {
         'Duplicate Email',
         'The email address you have entered has already been added as a companion.',
         [
-{ text: 'Cancel', style: 'cancel' },
+          { text: 'Cancel', style: 'cancel' },
         ],
         { cancelable: false }
       );
@@ -67,6 +67,17 @@ const saveRecord = async (email_address) => {
         email: email_address,
       });
       if (docRef) console.log("Document saved correctly",docRef.id);
+
+      //Add the companion user on the current user's side
+      const sanitizedCompanionEmail = email_address.replace(/\./g, '_');
+      const companionUserDocRef = doc(db, 'users', sanitizedCompanionEmail);
+      const currentUserCompanionCollectionRef = collection(companionUserDocRef, 'companions');
+
+      const docRef2 = await addDoc(currentUserCompanionCollectionRef, {
+        email: userEmail,
+      });
+      if (docRef2) console.log("Document saved correctly on Companion Side: ",docRef2.id);
+
     } catch (error) {
       console.log(error.message);
     }

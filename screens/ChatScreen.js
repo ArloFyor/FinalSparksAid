@@ -25,7 +25,7 @@ const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
   const [userAvatar, setUserAvatar] = useState(''); // State for storing the avatar
 
-  const { chatRoomID } = route.params
+  const { chatRoomID, companionProfilePicture, companionName } = route.params
 
   useLayoutEffect(() => {
     const chatRoomRef = doc(collection(db, 'chatRooms'), chatRoomID)
@@ -33,7 +33,6 @@ const ChatScreen = ({ navigation, route }) => {
     const q = query(chatCollection, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, snapshot => {
-      console.log("Loading ChatRoom:", chatRoomID);
       setMessages(
         snapshot.docs.map(doc => ({
           _id: doc.id,
@@ -80,7 +79,7 @@ const ChatScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <ChatHeader navigation={navigation} />
+      <ChatHeader navigation={navigation} profilePicture={companionProfilePicture} companionName={companionName}/>
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}

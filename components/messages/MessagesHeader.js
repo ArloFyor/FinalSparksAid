@@ -12,7 +12,7 @@ const MessagesHeader = ({navigation}) => {
             />
         </TouchableOpacity>
       
-        <Text style={styles.companionText}>My <Text style={{color: '#FFBD59'}}>Messages</Text></Text>
+        <Text style={styles.companionText}>My <Text style={{color: '#FFBD59'}}>Contacts</Text></Text>
 
     </View>
   )

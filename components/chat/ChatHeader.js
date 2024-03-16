@@ -1,12 +1,19 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
-const ChatHeader = ({ navigation }) => {
+const ChatHeader = ({ navigation, profilePicture, companionName }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image style={styles.backButton} source={require('../../assets/Buttons/backButton_White.png')} />
       </TouchableOpacity>
+
+      <Text style={styles.companionName}>{companionName}</Text>
+
+      <Image
+      style={styles.companionPicture} 
+      source={{ uri: profilePicture }}
+      />
     </View>
   )
 }
@@ -17,8 +24,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#5E17EB',
     height: 130,
-    justifyContent: 'space-between', // Keep for horizontal centering
     alignItems: 'center', // Center child elements vertically
+    justifyContent: 'space-between',
     flexDirection: 'row',
     borderBottomLeftRadius: 30, 
     borderBottomRightRadius: 30, 
@@ -28,6 +35,21 @@ const styles = StyleSheet.create({
     height: 40,
     marginTop: 35,
     marginLeft: 35,
-
   },
+  companionPicture:{
+    borderRadius: 30,
+    height: 55,
+    width: 55,
+    marginTop: 28,
+    marginRight: 25,
+  },
+  companionName:{
+    fontSize: 32,
+    fontWeight: 'bold',
+    fontFamily: 'serif',
+    color: 'white',
+    marginTop: 30,
+    left: 3,
+  },
+
 })

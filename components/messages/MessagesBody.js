@@ -51,6 +51,7 @@ const MessagesBody = ({ navigation }) => {
         companionFullNamesAndAges.push({
           id: companion.id,
           profilePicture: userData.profile_picture,
+          fullname: userData.fullName,
           username: userData.userName,
           age: userData.age,
           gender: userData.gender,
@@ -74,7 +75,9 @@ const MessagesBody = ({ navigation }) => {
     return (
       <TouchableOpacity style={styles.touchableOpacityContainer} onPress={() => {
         const chatRoomID = concatenateInOrder(auth.currentUser.uid, item.uid);
-        navigation.push('ChatScreen', { chatRoomID });
+        const companionProfilePicture = item.profilePicture
+        const companionName = item.username
+        navigation.push('ChatScreen', { chatRoomID, companionProfilePicture, companionName });
       }}>
         <Divider style={styles.divider} width={1} />
         <View style={styles.dataItemContainer}>
@@ -82,10 +85,7 @@ const MessagesBody = ({ navigation }) => {
           <View style={styles.dataItem}>
             <Text style={styles.username}>{item.username}</Text>
             <Text style={styles.ageGender}>
-              {item.age} {item.gender}
-            </Text>
-            <Text style={styles.ageGender}>
-              Loves: {interests}
+              {item.fullname}
             </Text>
           </View>
         </View>
@@ -109,7 +109,7 @@ const MessagesBody = ({ navigation }) => {
         <FlatList
           data={companionData}
           renderItem={renderCompanionItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.username}
         />
       )}
     </View>

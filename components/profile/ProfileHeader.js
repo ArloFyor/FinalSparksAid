@@ -5,10 +5,10 @@ const ProfileHeader = ({navigation}) => {
   return (
     <View style={styles.container}>
       
-      <TouchableOpacity style={styles.homeButtonOpacity} onPress={() => navigation.push('HomeScreen')}>
+      <TouchableOpacity style={styles.backButtonOpacity} onPress={() => navigation.goBack()}>
         <Image 
-          style={styles.homeButton} 
-          source={require('../../assets/Buttons/Home_Button_wText.png')} 
+          style={styles.backButton} 
+          source={require('../../assets/Buttons/backButton_White.png')} 
         />
       </TouchableOpacity>
       
@@ -41,13 +41,13 @@ const styles = StyleSheet.create({
       marginRight: 5,
   },
 
-  homeButtonOpacity: {
+  backButtonOpacity: {
     alignSelf: 'flex-start',
   },
-  homeButton: {
-    width: 70,
-    height: 70,
-    marginLeft: 20,
-    marginTop: 50,
+  backButton: {
+    width: 40,
+    height: 40,
+    marginLeft: 25,
+    marginTop: 70,
   },
 })

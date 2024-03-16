@@ -1,13 +1,28 @@
-import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react'
-import { Text, TouchableOpacity, View, StyleSheet, Image } from 'react-native'
-import { GiftedChat } from 'react-native-gifted-chat'
-import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore'
-import { auth, db } from '../firebase'
-import { useNavigation } from '@react-navigation/native'
-import ChatHeader from '../components/chat/ChatHeader'
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Image,
+} from 'react-native';
+import { GiftedChat } from 'react-native-gifted-chat';
+import {
+  collection,
+  addDoc,
+  orderBy,
+  query,
+  onSnapshot,
+  getDoc,
+  doc
+} from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import { useNavigation } from '@react-navigation/native';
+import ChatHeader from '../components/chat/ChatHeader';
 
-const ChatScreen = ({navigation}) => {
-  const [messages, setMessages] = useState([])
+const ChatScreen = ({ navigation }) => {
+  const [messages, setMessages] = useState([]);
+  const [userAvatar, setUserAvatar] = useState(''); // State for storing the avatar
 
   useLayoutEffect(() => {
     const collectionRef = collection(db, 'chats');
@@ -27,6 +42,22 @@ const ChatScreen = ({navigation}) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const fetchUserAvatar = async () => {
+      const userEmail = auth.currentUser.email;
+      const sanitizedEmail = userEmail.replace(/\./g, '_');
+      const userDocRef = doc(db, 'users', sanitizedEmail);
+      const docSnap = await getDoc(userDocRef);
+      if (docSnap.exists) {
+        const userData = docSnap.data();
+        const profilePicture = userData?.profile_picture;
+        setUserAvatar(profilePicture);
+      } else {
+        console.error('User document does not exist');
+      }
+    };
+    fetchUserAvatar();
+  }, [auth.currentUser]); // Re-fetch when user changes
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
@@ -42,21 +73,21 @@ const ChatScreen = ({navigation}) => {
 
   return (
     <>
-    <ChatHeader navigation={navigation}/>
-    <GiftedChat
-      messages={messages} // No need to reverse
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: auth?.currentUser?.email,
-        avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7_VjjrJSV5MRdER99hM6aPOZNzLrapPQ7IA&usqp=CAU',
-      }}
-      messagesContainerStyle={{
-        backgroundColor: '#F5F5DC',
-      }}
-    />
+      <ChatHeader navigation={navigation} />
+      <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: auth?.currentUser?.email,
+          avatar: userAvatar, // Use the fetched avatar
+        }}
+        messagesContainerStyle={{
+          backgroundColor: '#F5F5DC',
+        }}
+      />
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

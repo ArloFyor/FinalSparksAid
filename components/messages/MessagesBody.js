@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 
-const CompanionBody = ({ navigation }) => {
+const MessagesBody = ({ navigation }) => {
   const [companionEmails, setCompanionEmails] = useState([]);
   const [companionData, setCompanionData] = useState([]);
 
@@ -71,7 +71,7 @@ const CompanionBody = ({ navigation }) => {
       .join(', '); // Join non-empty interests with commas
   
     return (
-      <TouchableOpacity style={styles.touchableOpacityContainer} onPress={() => navigation.push('ProfileScreen', { emailAddress: item.email })}>
+      <TouchableOpacity style={styles.touchableOpacityContainer} onPress={() => navigation.push('ChatScreen')}>
         <Divider style={styles.divider} width={1} />
         <View style={styles.dataItemContainer}>
           <Image style={styles.profilePicture} source={{ uri: item.profilePicture }} />
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default CompanionBody;
+export default MessagesBody;

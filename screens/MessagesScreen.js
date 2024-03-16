@@ -1,14 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import React from 'react'
+import MessagesHeader from '../components/messages/MessagesHeader'
+import MessagesBody from '../components/messages/MessagesBody'
 
-const MessagesScreen = () => {
+const MessagesScreen = ({navigation}) => {
   return (
-    <View>
-      <Text>MessagesScreen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+        <MessagesHeader navigation={navigation}/>
+        <MessagesBody navigation={navigation}/>
+    </SafeAreaView>
   )
 }
 
 export default MessagesScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#F5F5DC',
+        flex: 1,
+      },
+})

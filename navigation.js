@@ -33,6 +33,7 @@ export const SignedOutStack = () => (
             screenOptions={screenOptions}
         >
             <Stack.Screen name='OpeningScreen' component={OpeningScreen}  />
+            <Stack.Screen name='HomeScreen' component={HomeScreen}  />
             <Stack.Screen name='LoginScreen' component={LoginScreen}  />
             <Stack.Screen name='RegistrationScreenOne' component={RegistrationScreenOne}  />
             <Stack.Screen name='RegistrationScreenBirthday' component={RegistrationScreenBirthday}  />
@@ -50,6 +51,7 @@ export const SignedInStack = () => (
             initialRouteName='HomeScreen'
             screenOptions={screenOptions}
         >
+            <Stack.Screen name='OpeningScreen' component={OpeningScreen}  />
             <Stack.Screen name='HomeScreen' component={HomeScreen}  />
             <Stack.Screen name='NewPostScreen' component={NewPostScreen}  />
             <Stack.Screen name='NewProfilePictureScreen' component={NewProfilePictureScreen}    />

@@ -4,8 +4,13 @@ export default {
   "expo": {
     "name": "SparksAid",
     "slug": "your-app-sparksAid",
+    "description": "This is SparksAid, a safe space for people with Dementia and their Companions",
     "version": "1.0.0",
+    "orientation": 'portrait',
     "platforms": ["ios", "android"],
+    "ios": {
+      "tabletOnly": false
+    },
     "icon": "./assets/logoAndSlug/sparksAidLogo.png",
     "splash": {
       "image": "./assets/logoAndSlug/slugImage.png",

@@ -6,13 +6,8 @@ import { addDoc, doc, collection, Timestamp } from 'firebase/firestore';
 
 const PostFooterIcons = [
   {
-    name: 'Heart',
-    imageURL: require('../../assets/Buttons/inactive_heartButton.png'),
-    isActive: false,
-  },
-  {
-    name: 'Comment',
-    imageURL: require('../../assets/Buttons/comment_Button.png'),
+    name: 'Save',
+    imageURL: require('../../assets/Buttons/save_Button.png'),
     isActive: false,
   },
 ];
@@ -107,7 +102,8 @@ const PostFooter = ({ postFooterIcons, onToggleIcon, post }) => {
         <Icon
           key={index}
           imgStyle={[styles.footerIcon, index !== 0 && { marginLeft: 5 }]} // Add marginRight to all icons except the first one
-          imgURL={icon.isActive && index === 0 ? require('../../assets/Buttons/active_heartButton.png') : icon.imageURL}
+          //imgURL={icon.isActive && index === 0 ? require('../../assets/Buttons/active_heartButton.png') : icon.imageURL}
+          imgURL={icon.imageURL}
           onPress={() => {
             // Only trigger console.log("Peko") when the icon at index 0 is pressed
             if (index === 0) {

@@ -242,6 +242,18 @@ export function matchAndRespond(text) {
             return responses[Math.floor(Math.random() * responses.length)];
             },
         },
+
+        /* For Dementia Related */
+        {
+            regex: DEMENTIA_REGEX1,
+            response: (matches) => {
+            const responses = [
+                `Sometimes our brains work a little differently as we get older. That can make it harder to remember things sometimes. Don't worry, I'm here to help. What would you like to do now?`,
+                `If you think it makes someone to be less of a person, it does not, and those people must be appreciated just the same.`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
             
     ];
   
@@ -308,3 +320,7 @@ const GENERAL_REGEX25 = /why dont you (.*)/i;
 const GENERAL_REGEX26 = /(?:everybody|everyone) (.*)/i;
 const GENERAL_REGEX27 = /(?:work|job|employ|working) (.*)/i;
 const GENERAL_REGEX28 = /i like (.*)/i;
+
+// Dementia Related
+const DEMENTIA_REGEX1 = /\bdementia\b/i;
+

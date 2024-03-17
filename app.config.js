@@ -6,11 +6,11 @@ export default {
     "slug": "your-app-sparksAid",
     "version": "1.0.0",
     "platforms": ["ios", "android"],
-    "icon": "https://media.discordapp.net/attachments/773131285505245186/1219036391619428382/sparksAidLogo.png?ex=6609d71c&is=65f7621c&hm=f55baa3e27cf7a4c709ff48e869bddeb8183f7b05372354b0579897013b2a694&=&format=webp&quality=lossless",
+    "icon": "./assets/logoAndSlug/sparksAidLogo.png",
     "splash": {
-      "image": "https://media.discordapp.net/attachments/773131285505245186/1219036392105971762/slugImage.png?ex=6609d71c&is=65f7621c&hm=5ab6ab7dded784d8f5a8402831bd4707da12cfedb74e34ff24aa4cecc8b53708&=&format=webp&quality=lossless&width=276&height=597",
+      "image": "./assets/logoAndSlug/slugImage.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F5F5DC"
     },
     "extra": {
       "apiKey": process.env.API_KEY,

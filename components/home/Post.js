@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { Divider } from 'react-native-elements';
+import { auth, db } from '../../firebase';
+import { addDoc, doc, collection, Timestamp } from 'firebase/firestore';
 
 const PostFooterIcons = [
   {
@@ -31,7 +33,7 @@ const Post = ({ post }) => {
       <PostHeader post={post} />
       <PostImage post={post} />
       <View style={{ marginHorizontal: 15, marginTop: 10, top: 5 }}>
-        <PostFooter postFooterIcons={postFooterIconsState} onToggleIcon={handleToggleIcon} />
+        <PostFooter postFooterIcons={postFooterIconsState} onToggleIcon={handleToggleIcon} post={post} />
         <Caption post={post} />
         <TouchableOpacity>
           <CommentSection post={post} />
@@ -65,7 +67,40 @@ const PostImage = ({ post }) => {
   );
 };
 
-const PostFooter = ({ postFooterIcons, onToggleIcon }) => {
+const PostFooter = ({ postFooterIcons, onToggleIcon, post }) => {
+
+
+  async function saveRecord(post) {
+    const userEmail = auth.currentUser?.email;
+    const sanitizedEmail = userEmail.replace(/\./g, '_');
+  
+    const userDocRef = doc(db, 'users', sanitizedEmail);
+    const postCollectionRef = collection(userDocRef, 'posts');
+  
+    try {
+      const docRef = await addDoc(postCollectionRef, {
+        imageURL: post.imageURL,
+        createdAt: Timestamp.fromDate(new Date()),
+        caption: post.caption,
+        username: post.username,
+        profile_picture: post.profile_picture,
+        project_id: postCollectionRef.id,
+        owner_uid: auth.currentUser.uid,
+        owner_email: auth.currentUser.email,
+        enabled: 'disabled', // Set to true or another appropriate value
+        likes_by_users: post.likes_by_users || [], // Initialize as an empty array if not present
+        comments: post.comments || [], // Initialize as an empty array if not present
+      });
+      console.log("document saved correctly", docRef.id);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  const handleProceed = () => {
+    saveRecord(post);
+  };
+
   return (
     <View style={{ flexDirection: 'row', right: 5 }}>
       {postFooterIcons.map((icon, index) => (
@@ -73,12 +108,29 @@ const PostFooter = ({ postFooterIcons, onToggleIcon }) => {
           key={index}
           imgStyle={[styles.footerIcon, index !== 0 && { marginLeft: 5 }]} // Add marginRight to all icons except the first one
           imgURL={icon.isActive && index === 0 ? require('../../assets/Buttons/active_heartButton.png') : icon.imageURL}
-          onPress={() => onToggleIcon(index)}
+          onPress={() => {
+            // Only trigger console.log("Peko") when the icon at index 0 is pressed
+            if (index === 0) {
+              Alert.alert(
+                'Save Post?',
+                'Would you like to save this post in your profile?',
+                [
+                  { text: 'Cancel', style: 'cancel' },
+                  { text: 'Proceed', onPress: handleProceed },
+                ],
+                { cancelable: false }
+              );
+
+              onToggleIcon(index);
+            }
+            onToggleIcon(index);
+          }}
         />
       ))}
     </View>
   );
 };
+
 
 const Icon = ({ imgStyle, imgURL, onPress }) => {
   return (

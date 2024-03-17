@@ -66,21 +66,25 @@ const HomeScreen = ({ navigation }) => {
     .sort((a, b) => b.createdAt - a.createdAt)
     .slice(0, 14);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Header_A />
-        <Suggested_Activities navigation={navigation} />
-
-        {/* Render combined, sorted, and limited posts */}
-        {combinedPosts.map((post, index) => (
-          <Post post={post} key={index} />
-        ))}
-
-      </ScrollView>
-      <BottomTabs_A navigation={navigation} />
-    </SafeAreaView>
-  );
+    return (
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <Header_A />
+          <Suggested_Activities navigation={navigation} />
+    
+          {/* Render combined, sorted, and limited posts */}
+          {combinedPosts
+            .filter(post => post.enabled !== 'disabled') // Filter out posts where 'enabled' is 'disabled'
+            .map((post, index) => (
+              <Post post={post} key={index} />
+            ))
+          }
+    
+        </ScrollView>
+        <BottomTabs_A navigation={navigation} />
+      </SafeAreaView>
+    );
+    
 }
 
 const styles = StyleSheet.create({

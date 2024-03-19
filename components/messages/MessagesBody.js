@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react
 import { Divider } from 'react-native-elements'; // Assuming Divider is imported
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore';
 
 const MessagesBody = ({ navigation }) => {
   const [companionEmails, setCompanionEmails] = useState([]);

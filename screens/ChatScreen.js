@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import {
-  Text,
-  TouchableOpacity,
-  View,
   StyleSheet,
-  Image,
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import {
@@ -14,7 +10,6 @@ import {
   query,
   onSnapshot,
   getDoc,
-  setDoc,
   doc
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';

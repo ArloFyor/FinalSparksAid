@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
-import { db, auth } from '../../firebase';
+import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 
 const BottomTab = ({ navigation }) => {

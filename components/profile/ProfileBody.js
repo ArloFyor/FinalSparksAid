@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
-import { doc, getDoc, onSnapshot, collectionGroup, query, orderBy, collection } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, query, orderBy, collection } from 'firebase/firestore';
 
 const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
   const userEmail = emailAddress;

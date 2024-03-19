@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { StyleSheet, SafeAreaView } from 'react-native'
 import React from 'react'
 import CompanionHeader from '../components/companions/CompanionHeader'
 import CompanionBody from '../components/companions/CompanionBody'

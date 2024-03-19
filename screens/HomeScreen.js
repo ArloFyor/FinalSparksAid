@@ -1,11 +1,10 @@
-import { View, SafeAreaView, Text, StyleSheet, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Header_A from '../components/home/Header_A'
 import Suggested_Activities from '../components/home/Suggested_Activities'
 import Post from '../components/home/Post'
 import BottomTabs_A from '../components/home/BottomTabs_A'
-import { POSTS } from '../data/posts'
-import { collectionGroup, onSnapshot, query, orderBy, limit, doc, collection, getDocs, getDoc } from 'firebase/firestore'
+import { onSnapshot, query, orderBy, limit, doc, collection, getDocs, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 
 const HomeScreen = ({ navigation }) => {

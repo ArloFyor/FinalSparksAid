@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { auth, db, storage } from '../firebase';
-import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { addDoc, collection, onSnapshot, Timestamp, doc, getDoc, setDoc } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { Timestamp, doc, setDoc } from 'firebase/firestore';
 
 const placeholderImage = require('../assets/SamplePicsAndPosts/ProfilePictures/placeholderProfile.png');
 

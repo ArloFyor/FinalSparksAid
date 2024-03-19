@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
 const ProfileHeader = ({navigation}) => {

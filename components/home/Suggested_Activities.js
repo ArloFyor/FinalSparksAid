@@ -8,11 +8,11 @@ const Suggested_Activities = ({navigation}) => {
         <View style={styles.containerDirectory}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <TouchableOpacity onPress={() => navigation.push('ChatBotScreen')}>
-                    <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_2.png')}/>
+                    <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_1.png')}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
-                    <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_1.png')}/> 
+                <TouchableOpacity onPress={() => navigation.push('NewProfilePictureScreen')}>
+                    <Image style={styles.directory} source={require('../../assets/HomeScreenAssets/SuggestedActivities_2.png')}/> 
                 </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => navigation.push('CompanionScreen')}>

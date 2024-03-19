@@ -2,6 +2,19 @@ export function matchAndRespond(text) {
     const lowerText = text.toLowerCase();
   
     const predefinedPatterns = [
+
+        /* For Dementia Related */
+        {
+            regex: DEMENTIA_REGEX1,
+            response: (matches) => {
+            const responses = [
+                `Sometimes our brains work a little differently as we get older. That can make it harder to remember things sometimes. Don't worry, I'm here to help. What would you like to do now?`,
+                `If you think it makes someone to be less of a person, it does not, and those people must be appreciated just the same.`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+
         /* For Feelings */
         {
             regex: FEELING_REGEX,
@@ -242,14 +255,217 @@ export function matchAndRespond(text) {
             return responses[Math.floor(Math.random() * responses.length)];
             },
         },
-
-        /* For Dementia Related */
         {
-            regex: DEMENTIA_REGEX1,
+            regex: GENERAL_REGEX8,
             response: (matches) => {
             const responses = [
-                `Sometimes our brains work a little differently as we get older. That can make it harder to remember things sometimes. Don't worry, I'm here to help. What would you like to do now?`,
-                `If you think it makes someone to be less of a person, it does not, and those people must be appreciated just the same.`,
+                `Are you interested in whether I am ${matches[1]}`,
+                `What if I were ${matches[1]}`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX9,
+            response: (matches) => {
+            const responses = [
+                `Are you concerned over my ${matches[1]}?`,
+                `Do you want my ${matches[1]}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX10,
+            response: (matches) => {
+            const responses = [
+                `What if you were ${matches[1]}?`,
+                `What would it mean if you were ${matches[1]}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX11,
+            response: (matches) => {
+            const responses = [
+                `Were you really ${matches[1]}?`,
+                `Perhaps you already know you were ${matches[1]}? But have you asked the people you trust whether that is true?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX12,
+            response: (matches) => {
+            const responses = [
+                `How do you know that you cannot ${matches[1]}?`,
+                `Do you really want to be able to do ${matches[1]}? As long as you are not harming yourself.`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX13,
+            response: (matches) => {
+            const responses = [
+                `Don't you really ${matches[1]}?`,
+                `Do you wish to be able to ${matches[1]}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX14,
+            response: (matches) => {
+            const responses = [
+                `Why do you ${matches[1]} it?`,
+                `As long as you ${matches[1]} it thats all that matters`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX15,
+            response: (matches) => {
+            const responses = [
+                `Do you wish to ${matches[1]} me?`,
+                `Why do you ${matches[1]} me?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX16,
+            response: (matches) => {
+            const responses = [
+                `I live here in this app, this conversation, today.`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX17,
+            response: (matches) => {
+            const responses = [
+                `Do you like to be ${matches[1]}`,
+                `What is it like, over ${matches[1]}`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX18,
+            response: (matches) => {
+            const responses = [
+                `Why do you think ${matches[1]}?`,
+                `Why do you feel ${matches[1]}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX19,
+            response: (matches) => {
+            const responses = [
+                `You seem quite certain`,
+                `I understand`,
+                `You are sure`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX20,
+            response: (matches) => {
+            const responses = [
+                `Are you sure no one "${matches[1]}"?`,
+                `Surely someone does`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX21,
+            response: (matches) => {
+            const responses = [
+                `Are you just saying that to be negative?`,
+                `Why not?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX22,
+            response: (matches) => {
+            const responses = [
+                `Your ${matches[1]}?`,
+                `Why do you say your ${matches[1]}?`,
+                `Is it important that your ${matches[1]}?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX23,
+            response: (matches) => {
+            const responses = [
+                `Why do you ask?`,
+                `Is that really important now?`,
+                `What would you want to hear?`,
+                `Have you asked anyone else?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX24,
+            response: (matches) => {
+            const responses = [
+                `Why would you want me to do ${matches[1]}?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX25,
+            response: (matches) => {
+            const responses = [
+                `Really everyone?`,
+                `Who, for example?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX26,
+            response: (matches) => {
+            const responses = [
+                `And do you enjoy working at ${matches[1]}?`,
+                `Do you get paid well working ${matches[1]}?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: GENERAL_REGEX27,
+            response: (matches) => {
+            const responses = [
+                `Why do you like ${matches[1]}?`,
+                `What makes you like ${matches[1]}?`,
+                `It is great to like something. As long as it does not bring harm.`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+
+        /* Extra Interactions */
+
+        {
+            regex: EXTRA_REGEX1,
+            response: (matches) => {
+            const responses = [
+                `♫ This is Yellow, by Coldplay ♫\n\nLook at the stars\nLook how they shine for you\n\nAnd everything you do\n\nYeah, they were all yellow\n\nI came along\nI wrote a song for you\nAnd all the things you do\n\nAnd it was called Yellow\n\nSo then I took my turn\nOh, what a thing to have done\nAnd it was all yellow\n\nYour skin, oh yeah, your skin and bones\nTurn into something beautiful\nAnd you know, you know I love you so\n\n♫ You know I love you so ♫`,
             ];
             return responses[Math.floor(Math.random() * responses.length)];
             },
@@ -268,6 +484,9 @@ export function matchAndRespond(text) {
     return 'Sorry, I don\'t understand. I am still learning and trying my best to understand people in hopes that I can be a good friend for them. Thank you for your patience';
 }
 
+// Dementia Related
+const DEMENTIA_REGEX1 = /\bdementia\b/i;
+
 // Feelings
 const FEELING_REGEX = /Is it (.*)/i;
 const FEELING_REGEX2 = /I am (.*)/i;
@@ -281,15 +500,13 @@ const GREETING_REGEX4 = /(?:your name|you're name|ur name|who are you| who is sp
 const GREETING_REGEX5 = /how are you(.*)/i
 const GREETING_REGEX6 = /goodmorning|good morning|morning/i;
 const GREETING_REGEX7 = /hey(.*)/i;
-const GREETING_REGEX8 = /hi/i;
+const GREETING_REGEX8 = /\bhi\b/i;
 const GREETING_REGEX9 = /(?:i'?m|im|i am) good|good/i;
 const GREETING_REGEX10 = /(?:brilliant|excellent|superb)/i;
 const GREETING_REGEX11 = /(?:feeling )?sad(?:ness)?/i;
 const GREETING_REGEX12 = /If I (.*)|if (.*)/i;
 const GREETING_REGEX13 = /perhaps (.*) /i
 const GREETING_REGEX14 = /computer\s*/i;
-
-
 
 // General Conversation
 const GENERAL_REGEX1 = /(?:college|school|course|study)/i; // Provided regex
@@ -299,28 +516,29 @@ const GENERAL_REGEX4 = /you remember (.*)/i; // Provided regex
 const GENERAL_REGEX5 = /remember (.*)/i; // Provided regex
 const GENERAL_REGEX6 = /thank you/i;
 const GENERAL_REGEX7 = /sorry(.*)/i;
-const GENERAL_REGEX8 = /(?:recall|remember)(.*)/i;
-const GENERAL_REGEX9 = /are you (.*)/i;
-const GENERAL_REGEX10 = /(?:you're|your) (.*)/i;
-const GENERAL_REGEX11 = /was i (.*)/i;
-const GENERAL_REGEX12 = /i was (.*)/i;
-const GENERAL_REGEX13 = /(?:i cant|i can't|i cannot) (.*)/i;
-const GENERAL_REGEX14 = /(?:i dont| i do not|i don't) (.*)/i;
-const GENERAL_REGEX15 = /(?:i(.*)it)/i;
-const GENERAL_REGEX16 = /(?:i(.*)you)/i;
-const GENERAL_REGEX17 = /you live/i;
-const GENERAL_REGEX18 = /(?:i live|i am from) (.*)/i;
-const GENERAL_REGEX19 = /(.*)you(.*)/i;
-const GENERAL_REGEX20 = /(?:i feel|i think|it seems) (.*)/i;
-const GENERAL_REGEX21 = /(?:yes|ya|indeed|of course)/i;
-const GENERAL_REGEX22 = /no one (.*)/i;
-const GENERAL_REGEX23 = /my (.*)/i;
-const GENERAL_REGEX24 = /what/i;
-const GENERAL_REGEX25 = /why dont you (.*)/i;
-const GENERAL_REGEX26 = /(?:everybody|everyone) (.*)/i;
-const GENERAL_REGEX27 = /(?:work|job|employ|working) (.*)/i;
-const GENERAL_REGEX28 = /i like (.*)/i;
+const GENERAL_REGEX8 = /are you (.*)/i;
+const GENERAL_REGEX9 = /(?:you're|your) (.*)/i;
+const GENERAL_REGEX10 = /was i (.*)/i;
+const GENERAL_REGEX11 = /i was (.*)/i;
+const GENERAL_REGEX12 = /(?:i cant|i can't|i cannot) (.*)/i;
+const GENERAL_REGEX13 = /(?:i dont| i do not|i don't) (.*)/i;
+const GENERAL_REGEX14 = /(?:i(.*)it)/i;
+const GENERAL_REGEX15 = /(?:i(.*)you)/i;
+const GENERAL_REGEX16 = /you live/i;
+const GENERAL_REGEX17 = /(?:i live|i am from) (.*)/i;
+const GENERAL_REGEX18 = /(?:i feel|i think|it seems) (.*)/i;
+const GENERAL_REGEX19 = /(?:yes|ya|indeed|of course)/i;
+const GENERAL_REGEX20 = /no one (.*)/i;
+const GENERAL_REGEX21 = /^\s*No\b(.*)/i;
+const GENERAL_REGEX22 = /my (.*)/i;
+const GENERAL_REGEX23 = /what/i;
+const GENERAL_REGEX24 = /why dont you (.*)/i;
+const GENERAL_REGEX25 = /(?:everybody|everyone) (.*)/i;
+const GENERAL_REGEX26 = /(?:work|job|employ|working) (.*)/i;
+const GENERAL_REGEX27 = /i like (.*)/i;
 
-// Dementia Related
-const DEMENTIA_REGEX1 = /\bdementia\b/i;
+// Extra Commands
+const EXTRA_REGEX1 = /sing(.*?)song/i;
+
+
 

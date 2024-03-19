@@ -4,8 +4,6 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import ChatBotHeader from '../components/chat/ChatBotHeader';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { Dialogflow_V2 } from 'react-native-dialogflow';
-import { dialogFlowConfig } from '../dialogFlow';
 import { matchAndRespond } from '../responses';
 
 const ChatBotScreen = ({navigation}) => {

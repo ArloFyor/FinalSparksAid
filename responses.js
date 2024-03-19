@@ -9,7 +9,7 @@ export function matchAndRespond(text) {
             response: (matches) => {
             const responses = [
                 `Sometimes our brains work a little differently as we get older. That can make it harder to remember things sometimes. Don't worry, I'm here to help. What would you like to do now?`,
-                `If you think it makes someone to be less of a person, it does not, and those people must be appreciated just the same.`,
+                //`If you think it makes someone to be less of a person, it does not, and those people must be appreciated just the same.`,
             ];
             return responses[Math.floor(Math.random() * responses.length)];
             },
@@ -20,6 +20,17 @@ export function matchAndRespond(text) {
             response: (matches) => {
             const responses = [
                 `You can seek professional help by contacting this number: (632) 731-3001, Dementia Society of the Philippines`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+
+        {
+            regex: DEMENTIA_REGEX3,
+            response: (matches) => {
+            const responses = [
+                `You are not alone, I, Sparky am here.`,
+                `You can always talk to me or anyone here in the SparksAid application. You are not alone.`
             ];
             return responses[Math.floor(Math.random() * responses.length)];
             },
@@ -506,6 +517,9 @@ export function matchAndRespond(text) {
 // Dementia Related
 const DEMENTIA_REGEX1 = /\bdementia\b/i;
 const DEMENTIA_REGEX2 = /\bneed\s+professional\s+help\b/i;
+const DEMENTIA_REGEX3 = /\bam\s+alone\b/i;
+
+
 
 // Feelings
 const FEELING_REGEX = /Is it (.*)/i;

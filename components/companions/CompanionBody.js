@@ -49,7 +49,7 @@ const CompanionBody = ({ navigation }) => {
         const userData = userDocSnapshot.data();
 
         companionFullNamesAndAges.push({
-          id: companion.id,
+          id: userData.owner_uid,
           profilePicture: userData.profile_picture,
           username: userData.userName,
           age: userData.age,

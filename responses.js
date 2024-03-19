@@ -15,6 +15,16 @@ export function matchAndRespond(text) {
             },
         },
 
+        {
+            regex: DEMENTIA_REGEX2,
+            response: (matches) => {
+            const responses = [
+                `You can seek professional help by contacting this number: (632) 731-3001, Dementia Society of the Philippines`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+
         /* For Feelings */
         {
             regex: FEELING_REGEX,
@@ -470,6 +480,15 @@ export function matchAndRespond(text) {
             return responses[Math.floor(Math.random() * responses.length)];
             },
         },
+        {
+            regex: EXTRA_REGEX2,
+            response: (matches) => {
+            const responses = [
+                `In a sunny meadow lived a speedy hare, known for his effortless bursts of incredible speed. He constantly bragged about his prowess, looking down on everyone else, especially the small, brown rabbit who lived nearby. The rabbit, with his steady hops, couldn't compete in a quick sprint, but he never complained. One day, the hare, full of hot air, challenged the rabbit to a race across the meadow. The other animals gathered, excited by the unexpected competition.\n\nThe race began! The hare tore off like a furry blur, leaving the rabbit far behind in a cloud of dust. Confident in his lead, the hare decided to take a nap under a shady tree. "Plenty of time to rest before that slowpoke catches up," he chuckled to himself. Meanwhile, the rabbit, using his smaller size to his advantage, kept a steady pace, hopping tirelessly. He navigated around obstacles the hare had simply leaped over in his haste.`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
             
     ];
   
@@ -486,6 +505,7 @@ export function matchAndRespond(text) {
 
 // Dementia Related
 const DEMENTIA_REGEX1 = /\bdementia\b/i;
+const DEMENTIA_REGEX2 = /\bneed\s+professional\s+help\b/i;
 
 // Feelings
 const FEELING_REGEX = /Is it (.*)/i;
@@ -493,7 +513,7 @@ const FEELING_REGEX2 = /I am (.*)/i;
 const FEELING_REGEX3 = /you are (.*)/i;
 
 // Greetings
-const GREETING_REGEX = /hello (.*)/i;
+const GREETING_REGEX = /^(?:hello\b|(hello\s+.*))/i;
 const GREETING_REGEX2 = /hi (.*)/i;
 const GREETING_REGEX3 = /(?:name is|name'?s) (.*)/i;
 const GREETING_REGEX4 = /(?:your name|you're name|ur name|who are you| who is sparky)/i
@@ -539,6 +559,11 @@ const GENERAL_REGEX27 = /i like (.*)/i;
 
 // Extra Commands
 const EXTRA_REGEX1 = /sing(.*?)song/i;
+const EXTRA_REGEX2 = /(?:tell\s+a\s+story|tell\s+(.*?)\s+a\s+story)\b/i;
+
+
+
+
 
 
 

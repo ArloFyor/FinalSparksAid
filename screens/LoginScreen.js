@@ -62,8 +62,8 @@ const App = ({navigation}) => {
                 value={values.password}
               />
 
-              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => console.log('Prompt Forgot Password.')}>
-                <Text style={styles.blueLink}>Forgot Password?</Text>
+              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.push('RegistrationScreenOne')}>
+                <Text style={styles.blueLink}>Sign up</Text>
               </TouchableOpacity>    
 
               <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>

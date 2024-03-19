@@ -75,6 +75,8 @@ const saveRecord = async (email_address) => {
 
       const docRef2 = await addDoc(currentUserCompanionCollectionRef, {
         email: userEmail,
+
+      
       });
       if (docRef2) console.log("Document saved correctly on Companion Side: ",docRef2.id);
 
@@ -94,7 +96,7 @@ const saveRecord = async (email_address) => {
   }
 }
 
-const AddCompanionField = () => {
+const AddCompanionField = ({navigation}) => {
   const handleSubmit = (values, { resetForm }) => {
     if (values.email.toLowerCase() === auth.currentUser.email) {
       Alert.alert(

@@ -1,14 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase';
+import { collection, doc, deleteDoc } from 'firebase/firestore';
 
 const ViewImageScreen = ({ navigation, route }) => {
     
   const { imageURL, imageCaption, imageCreatedAt, docId, owner_email } = route.params;
+
+  // Firestore
   const userEmail = auth.currentUser.email;
+  const sanitizedEmail = userEmail.replace(/\./g, '_');
+  const userDocRef = doc(db, 'users', sanitizedEmail);
+  const postsCollectionRef = collection(userDocRef, 'posts');
 
   // Check if the user is the owner of the image
   const isOwner = userEmail === owner_email;
+
+  // Function to delete the document from Firestore
+  const deleteDocument = async () => {
+    try {
+      await deleteDoc(doc(postsCollectionRef, docId));
+      console.log('Document successfully deleted!');
+      // You may add additional logic here, such as navigating back to the previous screen
+    } catch (error) {
+      console.log('Error removing document: ', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -23,7 +40,7 @@ const ViewImageScreen = ({ navigation, route }) => {
         <Text style={styles.createdDate}>{imageCreatedAt}</Text>
 
         {isOwner ? ( // Render delete button only if the user is the owner
-          <TouchableOpacity style={styles.deleteButtonOpacity} onPress={() => console.log({docId})}>
+          <TouchableOpacity style={styles.deleteButtonOpacity} onPress={deleteDocument}>
               <Image 
               style={styles.deleteButton} 
               source={require('../assets/Buttons/deleteButton.png')} 

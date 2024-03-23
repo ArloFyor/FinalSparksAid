@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase';
 import { collection, doc, deleteDoc } from 'firebase/firestore';
 
-const ViewImageScreen = ({ navigation, route }) => {
+const ViewImageScreen = ({ route }) => {
     
   const { imageURL, imageCaption, imageCreatedAt, docId, owner_email } = route.params;
+  const navigation = useNavigation();
 
   // Firestore
   const userEmail = auth.currentUser.email;
@@ -19,11 +21,35 @@ const ViewImageScreen = ({ navigation, route }) => {
   // Function to delete the document from Firestore
   const deleteDocument = async () => {
     try {
-      await deleteDoc(doc(postsCollectionRef, docId));
-      console.log('Document successfully deleted!');
-      // You may add additional logic here, such as navigating back to the previous screen
+      Alert.alert(
+        'Confirm Deletion',
+        'Are you sure you want to delete this post?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete',
+            onPress: async () => {
+              await deleteDoc(doc(postsCollectionRef, docId));
+              navigation.navigate('HomeScreen'); // Navigate to HomeScreen after successful deletion
+              Alert.alert(
+                'Post Deleted Successfully',
+                'The post can no longer be viewed from your profile screen.',
+                [
+                  { text: 'OK', style: 'cancel' },
+                ]
+              );
+              
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
-      console.log('Error removing document: ', error);
+      console.error('Error removing document: ', error);
     }
   };
 

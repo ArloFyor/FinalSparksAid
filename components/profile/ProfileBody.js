@@ -44,12 +44,14 @@ const ProfileBody = ({ emailAddress = auth.currentUser.email }) => {
     if (auth.currentUser) {
       const q = query(postsCollectionRef, orderBy('createdAt', 'desc'))
       const unsubscribe = onSnapshot(q, snapshot => {
+        const updatedPosts = [];
         snapshot.docChanges().forEach((change) => {
             if(change.type === "added") {
-                setPosts((prevFiles) => [...prevFiles, change.doc.data()])
+                updatedPosts.push({ id: change.doc.id, ...change.doc.data() });
             }
-        })
-      })
+        });
+        setPosts(prevPosts => [...prevPosts, ...updatedPosts]);
+      });
 
       // Clean up the listener when the component unmounts
       return () => unsubscribe()
@@ -66,9 +68,9 @@ const ProfileBody = ({ emailAddress = auth.currentUser.email }) => {
   // Check if the emailAddress passed is equal to auth.currentUser.email
   const canNavigateToNewProfilePictureScreen = emailAddress === auth.currentUser.email;
 
-  const navigateToViewImageScreen = (imageURL, imageCaption, imageCreatedAt) => {
+  const navigateToViewImageScreen = (imageURL, imageCaption, imageCreatedAt, docId, owner_email) => {
     const formattedDate = timestampToString(imageCreatedAt.toDate());
-    navigation.navigate('ViewImageScreen', { imageURL, imageCaption, imageCreatedAt: formattedDate });
+    navigation.navigate('ViewImageScreen', { imageURL, imageCaption, imageCreatedAt: formattedDate, docId, owner_email });
   };
   
   const timestampToString = (timestamp) => {
@@ -104,9 +106,9 @@ const ProfileBody = ({ emailAddress = auth.currentUser.email }) => {
       <Text style={styles.memoryHeader}>My Memories</Text>
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.imageURL}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigateToViewImageScreen(item.imageURL, item.caption, item.createdAt)} style={styles.imageContainer}>
+          <TouchableOpacity onPress={() => navigateToViewImageScreen(item.imageURL, item.caption, item.createdAt, item.id, item.owner_email)} style={styles.imageContainer}>
             <Image source={{ uri: item.imageURL }} style={styles.image} />
           </TouchableOpacity>
         )}

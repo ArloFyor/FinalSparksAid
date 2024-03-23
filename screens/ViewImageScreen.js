@@ -1,8 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { auth, db } from '../firebase';
 
 const ViewImageScreen = ({ navigation, route }) => {
-  const { imageURL, imageCaption, imageCreatedAt = 'March 00, 2020' } = route.params;
+    
+  const { imageURL, imageCaption, imageCreatedAt, docId, owner_email } = route.params;
+  const userEmail = auth.currentUser.email;
+
+  // Check if the user is the owner of the image
+  const isOwner = userEmail === owner_email;
 
   return (
     <View style={styles.container}>
@@ -16,12 +22,16 @@ const ViewImageScreen = ({ navigation, route }) => {
         <Text style={styles.caption}>{imageCaption}</Text>
         <Text style={styles.createdDate}>{imageCreatedAt}</Text>
 
-        <TouchableOpacity style={styles.deleteButtonOpacity} onPress={() => console.log("Delete prompt")}>
-            <Image 
-            style={styles.deleteButton} 
-            source={require('../assets/Buttons/deleteButton.png')} 
-            />
-        </TouchableOpacity>
+        {isOwner ? ( // Render delete button only if the user is the owner
+          <TouchableOpacity style={styles.deleteButtonOpacity} onPress={() => console.log({docId})}>
+              <Image 
+              style={styles.deleteButton} 
+              source={require('../assets/Buttons/deleteButton.png')} 
+              />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.deleteButtonPlaceholder} /> // Empty placeholder view
+        )}
     </View>
   );
 };
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
         height: 45, // Increase the size of the circle
         marginTop: 70,
         marginLeft: 40,
-        },
+    },
     deleteButtonOpacity: {
         alignSelf: 'center',
     },
@@ -66,6 +76,10 @@ const styles = StyleSheet.create({
         width: 70, // Increase the size of the circle
         height: 70, // Increase the size of the circle
         marginTop: 40,
+    },
+    deleteButtonPlaceholder: {
+        width: 70, // Same width as the delete button
+        height: 70, // Same height as the delete button
+        marginTop: 40,
     }
-  });
-  
+});

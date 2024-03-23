@@ -6,14 +6,20 @@ const ViewImageScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: imageURL }} />
-        <Text style={styles.caption}>{imageCaption}</Text>
-        <Text style={styles.createdDate}>{imageCreatedAt}</Text>
-
         <TouchableOpacity style={styles.backButtonOpacity} onPress={() => navigation.goBack()}>
             <Image 
             style={styles.backButton} 
             source={require('../assets/Buttons/backButton_Black.png')} 
+            />
+        </TouchableOpacity>
+        <Image style={styles.image} source={{ uri: imageURL }} />
+        <Text style={styles.caption}>{imageCaption}</Text>
+        <Text style={styles.createdDate}>{imageCreatedAt}</Text>
+
+        <TouchableOpacity style={styles.deleteButtonOpacity} onPress={() => console.log("Delete prompt")}>
+            <Image 
+            style={styles.deleteButton} 
+            source={require('../assets/Buttons/deleteButton.png')} 
             />
         </TouchableOpacity>
     </View>
@@ -45,12 +51,21 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     backButtonOpacity: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
     },
     backButton: {
-        width: 40, // Increase the size of the circle
-        height: 40, // Increase the size of the circle
+        width: 45, // Increase the size of the circle
+        height: 45, // Increase the size of the circle
         marginTop: 70,
+        marginLeft: 40,
         },
+    deleteButtonOpacity: {
+        alignSelf: 'center',
+    },
+    deleteButton: {
+        width: 70, // Increase the size of the circle
+        height: 70, // Increase the size of the circle
+        marginTop: 40,
+    }
   });
   

@@ -21,6 +21,7 @@ import ChatScreen from './screens/ChatScreen'
 import ChatBotScreen from './screens/ChatBotScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import PatientProfilingScreen from './screens/PatientProfilingScreen'
+import ViewImageScreen from './screens/ViewImageScreen'
 
 const Stack = createStackNavigator()
 
@@ -64,6 +65,7 @@ export const SignedInStack = () => (
             <Stack.Screen name='ChatBotScreen' component={ChatBotScreen}    />
             <Stack.Screen name='MessagesScreen' component={MessagesScreen}  />
             <Stack.Screen name='PatientProfilingScreen' component={PatientProfilingScreen}  />
+            <Stack.Screen name='ViewImageScreen' component={ViewImageScreen}    />
 
         </Stack.Navigator>
     </NavigationContainer>

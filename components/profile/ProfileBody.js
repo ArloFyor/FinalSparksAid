@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { doc, getDoc, onSnapshot, query, orderBy, collection } from 'firebase/firestore';
 
-const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
+const ProfileBody = ({ emailAddress = auth.currentUser.email }) => {
+  const navigation = useNavigation();
   const userEmail = emailAddress;
   const sanitizedEmail = userEmail.replace(/\./g, '_');
   const [profilePicture, setProfilePicture] = useState('');
@@ -64,6 +66,17 @@ const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
   // Check if the emailAddress passed is equal to auth.currentUser.email
   const canNavigateToNewProfilePictureScreen = emailAddress === auth.currentUser.email;
 
+  const navigateToViewImageScreen = (imageURL, imageCaption, imageCreatedAt) => {
+    const formattedDate = timestampToString(imageCreatedAt.toDate());
+    navigation.navigate('ViewImageScreen', { imageURL, imageCaption, imageCreatedAt: formattedDate });
+  };
+  
+  const timestampToString = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
     <View style={styles.container}>
       {profilePicture && (
@@ -92,11 +105,11 @@ const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.imageURL}
-        renderItem={({ item }) => {
-          return (
-            <Image source={{ uri: item.imageURL }} style={{ width: "34%", height: 120 }} />
-          );
-        }}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigateToViewImageScreen(item.imageURL, item.caption, item.createdAt)} style={styles.imageContainer}>
+            <Image source={{ uri: item.imageURL }} style={styles.image} />
+          </TouchableOpacity>
+        )}
         numColumns={3}
         contentContainerStyle={{ gap: 2 }}
         columnWrapperStyle={{ gap: 2 }}
@@ -108,61 +121,64 @@ const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
 export default ProfileBody;
 
 const styles = StyleSheet.create({
-
-    userInfoContainer:{
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        flexDirection: 'row',
-        right: 5
-    },
-
-    userInfoContainer2:{
-        alignItems: 'center',
-        right: 5
-    },
-
-    userInfoHead:{
-        marginTop: 15,
-        fontSize: 20,
-        color: '#6237CF',
-        fontFamily: 'serif',
-        fontWeight: '400',
-    },
-
-    userInfo:{
-        marginTop: 5,
-        fontSize: 18,
-        color: 'black',
-        fontFamily: 'serif',
-        fontWeight: '400',
-    },
-
-    profilePicture: {
-        borderRadius: 50,
-        width: 130,
-        height: 130,
-        marginTop: 30,
-        left: 5,
-        alignSelf: 'center'
-    },
-
-    userName: {
-        marginTop: 13,
-        fontSize: 22,
-        fontWeight: '500',
-        alignSelf: 'center',
-        color: '#6237CF',
-        left: 5,
-    },
-    memoryHeader: {
-        marginLeft: 8, 
-        marginTop: 30,
-        marginBottom: 10, 
-        fontSize: 22, 
-        fontWeight: '500', 
-        color: '#6237CF', 
-    },
-    container: {
-        flex: 1,
-    },
-})
+  userInfoContainer: {
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
+    right: 5,
+  },
+  userInfoContainer2: {
+    alignItems: 'center',
+    right: 5,
+  },
+  userInfoHead: {
+    marginTop: 15,
+    fontSize: 20,
+    color: '#6237CF',
+    fontFamily: 'serif',
+    fontWeight: '400',
+  },
+  userInfo: {
+    marginTop: 5,
+    fontSize: 18,
+    color: 'black',
+    fontFamily: 'serif',
+    fontWeight: '400',
+  },
+  profilePicture: {
+    borderRadius: 50,
+    width: 130,
+    height: 130,
+    marginTop: 30,
+    left: 5,
+    alignSelf: 'center',
+  },
+  userName: {
+    marginTop: 13,
+    fontSize: 22,
+    fontWeight: '500',
+    alignSelf: 'center',
+    color: '#6237CF',
+    left: 5,
+  },
+  memoryHeader: {
+    marginLeft: 8,
+    marginTop: 30,
+    marginBottom: 10,
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#6237CF',
+  },
+  container: {
+    flex: 1,
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 120,
+  },
+});

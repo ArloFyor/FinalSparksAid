@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../../firebase'; // Assuming these are imported
 import { doc, getDoc, onSnapshot, query, orderBy, collection } from 'firebase/firestore';
@@ -38,7 +38,7 @@ const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
   }, []);
 
   useEffect(() => {
-    // Check if user islogged in
+    // Check if user is logged in
     if (auth.currentUser) {
       const q = query(postsCollectionRef, orderBy('createdAt', 'desc'))
       const unsubscribe = onSnapshot(q, snapshot => {
@@ -66,49 +66,44 @@ const ProfileBody = ({ navigation, emailAddress = auth.currentUser.email }) => {
 
   return (
     <View style={styles.container}>
-        {profilePicture && ( // Conditional rendering check
-            <TouchableOpacity onPress={() => canNavigateToNewProfilePictureScreen && navigation.push('NewProfilePictureScreen')}>
-                <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
-            </TouchableOpacity>
-        )}
-        <Text style={styles.userName}>{name}</Text>
-        <View style={styles.userInfoContainer}>
-            <View style={styles.userInfoContainer2}>
-                <Text style={styles.userInfoHead}>Birth Date</Text>
-                <Text style={styles.userInfo}>{birthDate}</Text>
-            </View>
-
-            <View style={styles.userInfoContainer2}>
-                <Text style={styles.userInfoHead}>Age</Text>
-                <Text style={styles.userInfo}>{age}</Text>
-            </View>
-
-            <View style={styles.userInfoContainer2}>
-                <Text style={styles.userInfoHead}>Gender</Text>
-                <Text style={styles.userInfo}>{capitalizedGender}</Text>
-            </View>
+      {profilePicture && (
+        <TouchableOpacity onPress={() => canNavigateToNewProfilePictureScreen && navigation.push('NewProfilePictureScreen')}>
+          <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
+        </TouchableOpacity>
+      )}
+      <Text style={styles.userName}>{name}</Text>
+      <View style={styles.userInfoContainer}>
+        <View style={styles.userInfoContainer2}>
+          <Text style={styles.userInfoHead}>Birth Date</Text>
+          <Text style={styles.userInfo}>{birthDate}</Text>
         </View>
-        <Text style={styles.memoryHeader}>My Memories</Text>
-        <View>
-            <FlatList 
-                data={posts}
-                keyExtractor={(item) => item.imageURL}
-                renderItem={({item}) =>{
-                    return (
-                        <Image 
-                            source={{uri: item.imageURL}}
-                            style={{width: "34%", height: 120}}
-                        />
-                    )
-                }}
-                numColumns={3}
-                contentContainerStyle={{ gap: 2 }}
-                columnWrapperStyle={{ gap: 2 }}
-            />
+
+        <View style={styles.userInfoContainer2}>
+          <Text style={styles.userInfoHead}>Age</Text>
+          <Text style={styles.userInfo}>{age}</Text>
         </View>
+
+        <View style={styles.userInfoContainer2}>
+          <Text style={styles.userInfoHead}>Gender</Text>
+          <Text style={styles.userInfo}>{capitalizedGender}</Text>
+        </View>
+      </View>
+      <Text style={styles.memoryHeader}>My Memories</Text>
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item.imageURL}
+        renderItem={({ item }) => {
+          return (
+            <Image source={{ uri: item.imageURL }} style={{ width: "34%", height: 120 }} />
+          );
+        }}
+        numColumns={3}
+        contentContainerStyle={{ gap: 2 }}
+        columnWrapperStyle={{ gap: 2 }}
+      />
     </View>
   );
-}
+};
 
 export default ProfileBody;
 
@@ -159,11 +154,15 @@ const styles = StyleSheet.create({
         color: '#6237CF',
         left: 5,
     },
-memoryHeader: {
+    memoryHeader: {
         marginLeft: 8, 
-        marginTop: 30, 
+        marginTop: 30,
+        marginBottom: 10, 
         fontSize: 22, 
         fontWeight: '500', 
         color: '#6237CF', 
-    }
+    },
+    container: {
+        flex: 1,
+    },
 })

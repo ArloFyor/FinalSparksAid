@@ -69,6 +69,14 @@ const saveRecord = async (email_address, navigation) => { // Pass navigation obj
       if (docRef) {
         console.log("Document saved correctly", docRef.id);
         navigation.navigate('HomeScreen'); // Navigate to 'HomeScreen'
+
+        Alert.alert(
+          'Added Companion Successfully',
+          'User has been added to your Companion List.',
+          [
+            { text: 'OK', style: 'cancel' },
+          ]
+        );
       }
 
       //Add the companion user on the current user's side

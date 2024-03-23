@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { auth, db } from '../../../firebase';
 import { collection, doc, addDoc, where, query, getDocs } from 'firebase/firestore';
-
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const registrationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required').test(
@@ -24,7 +24,7 @@ const checkUserExists = async (email) => {
   return snapshot.docs.map(doc => doc.data());
 }
 
-const saveRecord = async (email_address) => {
+const saveRecord = async (email_address, navigation) => { // Pass navigation object to the function
   const userEmail = auth.currentUser?.email;
   if (!userEmail) return;
 
@@ -66,7 +66,10 @@ const saveRecord = async (email_address) => {
       const docRef = await addDoc(companionCollectionRef, {
         email: email_address,
       });
-      if (docRef) console.log("Document saved correctly",docRef.id);
+      if (docRef) {
+        console.log("Document saved correctly", docRef.id);
+        navigation.navigate('HomeScreen'); // Navigate to 'HomeScreen'
+      }
 
       //Add the companion user on the current user's side
       const sanitizedCompanionEmail = email_address.replace(/\./g, '_');
@@ -75,10 +78,8 @@ const saveRecord = async (email_address) => {
 
       const docRef2 = await addDoc(currentUserCompanionCollectionRef, {
         email: userEmail,
-
-      
       });
-      if (docRef2) console.log("Document saved correctly on Companion Side: ",docRef2.id);
+      if (docRef2) console.log("Document saved correctly on Companion Side: ", docRef2.id);
 
     } catch (error) {
       console.log(error.message);
@@ -96,7 +97,8 @@ const saveRecord = async (email_address) => {
   }
 }
 
-const AddCompanionField = ({navigation}) => {
+const AddCompanionField = () => {
+  const navigation = useNavigation(); // Initialize navigation object
   const handleSubmit = (values, { resetForm }) => {
     if (values.email.toLowerCase() === auth.currentUser.email) {
       Alert.alert(
@@ -109,7 +111,7 @@ const AddCompanionField = ({navigation}) => {
         { cancelable: false }
       );
     } else {
-      saveRecord(values.email)
+      saveRecord(values.email, navigation); // Pass navigation object to saveRecord function
     }
     resetForm()
   };

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react' // Import useState hook
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native'; // Import useRoute hook
@@ -20,9 +20,7 @@ const passwordSchema = yup.object().shape({
 const RegistrationFieldPassword = ({navigation}) => {
   const route = useRoute(); // Initialize useRoute hook
 
-  const getRandomProfilePicture = async() => {
-    return "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
-  }
+  const [passwordConfirmed, setPasswordConfirmed] = useState(false); // State to track password confirmation
 
   const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
     try {
@@ -43,7 +41,7 @@ const RegistrationFieldPassword = ({navigation}) => {
           interests: interests,
           mobileNumber: mobileNumber,
           email: userEmail,
-          profile_picture: await getRandomProfilePicture(),
+          profile_picture: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
       });
 
       const userDocRef = doc(collection(db, 'users'), sanitizedEmail)
@@ -99,7 +97,12 @@ const RegistrationFieldPassword = ({navigation}) => {
           <View style={styles.input}>
             <TextInput
                 placeholder='Password'
-                onChangeText={handleChange('password')}
+                onChangeText={(text) => {
+                  handleChange('password')(text);
+                  if (passwordConfirmed && text !== values.confirmPassword) {
+                    setPasswordConfirmed(false);
+                  }
+                }}
                 onBlur={handleBlur('password')}
                 value={values.password}
                 secureTextEntry={true}
@@ -110,14 +113,21 @@ const RegistrationFieldPassword = ({navigation}) => {
           <View style={[styles.input, {marginTop: 8}]}>
             <TextInput
                 placeholder='Confirm Password'
-                onChangeText={handleChange('confirmPassword')}
+                onChangeText={(text) => {
+                  handleChange('confirmPassword')(text);
+                  if (text === values.password) {
+                    setPasswordConfirmed(true);
+                  } else {
+                    setPasswordConfirmed(false);
+                  }
+                }}
                 onBlur={handleBlur('confirmPassword')}
                 value={values.confirmPassword}
                 secureTextEntry={true}
             />
           </View>
     
-          <TouchableOpacity style={[styles.proceedButton, (errors.password || errors.confirmPassword || values.password === '' || values.password !== values.confirmPassword) ? styles.disabledButton : null]} disabled={errors.password || errors.confirmPassword || values.password === '' || values.password !== values.confirmPassword} onPress={handleSubmit}>
+          <TouchableOpacity style={[styles.proceedButton, (errors.password || errors.confirmPassword || values.password === '' || !passwordConfirmed) ? styles.disabledButton : null]} disabled={errors.password || errors.confirmPassword || values.password === '' || !passwordConfirmed} onPress={handleSubmit}>
                 <Image
                     style={styles.proceedImage}
                     source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')}

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         marginTop: 50,
-        marginLeft: 20,
+        marginLeft: 5,
       },
       addButton: {
         width: 60,

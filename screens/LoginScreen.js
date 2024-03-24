@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Alert} from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -12,6 +12,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const App = ({navigation}) => {
+  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+
   const onLogin = async (email, password) => {
     try {
       const authUser = await signInWithEmailAndPassword(auth, email, password)
@@ -25,6 +27,10 @@ const App = ({navigation}) => {
   const handleLogin = (values, { errors }) => {
       // Implement login logic here
       onLogin(values.email, values.password)
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -53,14 +59,19 @@ const App = ({navigation}) => {
               />
               
               {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+              <View style={styles.input}>
               <TextInput
-                style={[styles.input, touched.password && errors.password && styles.inputError]}
+                style={[styles.passwordInput, touched.password && errors.password && styles.inputError]}
                 placeholder="Password"
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
               />
+                <TouchableOpacity onPress={togglePasswordVisibility} style={styles.showButton}>
+                  <Text style={{color: 'blue'}}>{showPassword ? 'Hide' : 'Show'}</Text>
+                </TouchableOpacity>
+              </View>
 
               <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.push('RegistrationScreenOne')}>
                 <Text style={styles.blueLink}>Sign up</Text>
@@ -147,6 +158,17 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  showButton: {
+    position: 'absolute',
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  passwordInput: {
+    flex: 1, // Take remaining space
+    textAlignVertical: 'center'
   },
 });
 

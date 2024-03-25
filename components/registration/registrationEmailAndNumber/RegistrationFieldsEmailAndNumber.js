@@ -6,7 +6,7 @@ import {useRoute, useNavigation } from '@react-navigation/native';
 
 const registrationSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
-    mobileNumber: yup.string().matches(/^[0-9]+$/, 'Must be only digits').min(10, 'Must be at least 10 digits').max(15, 'Cannot exceed 15 digits').required('Mobile number is required'),
+    mobileNumber: yup.string().matches(/^[0-9]+$/, 'Must be only digits').min(11, 'Must be at least 11 digits').max(15, 'Cannot exceed 15 digits').required('Mobile number is required'),
 });
 
 const RegistrationFieldsEmailAndNumber = () => {

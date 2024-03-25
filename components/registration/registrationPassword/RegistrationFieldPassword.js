@@ -11,16 +11,15 @@ const passwordSchema = yup.object().shape({
     password: yup.string()
       .required('Password is required')
       .min(8, 'Password must be at least 8 characters long')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, 'Please make the Password secure'),
-    confirmPassword: yup.string()
-      .required('Confirm Password is required')
-      .oneOf([yup.ref('password')], 'Passwords must match')
   });
 
 const RegistrationFieldPassword = ({navigation}) => {
   const route = useRoute(); // Initialize useRoute hook
+  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
 
-  const [passwordConfirmed, setPasswordConfirmed] = useState(false); // State to track password confirmation
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
     try {
@@ -71,67 +70,40 @@ const RegistrationFieldPassword = ({navigation}) => {
 
   return (
     <Formik
-      initialValues={{ password: '', confirmPassword: '' }}
-      validationSchema={passwordSchema}
+      initialValues={{ password: '' }}
       onSubmit={(values, { resetForm }) => {
         const { userType, fullName, userName, birthDate, age, gender, interests, email, mobileNumber } = route.params;
         
-        /*
-        console.log('User Type:', userType);
-        console.log('First Name:', fullName);
-        console.log('Last Name:', userName);
-        console.log('Birth Date:', birthDate);
-        console.log('Age:', age);
-        console.log('Gender:', gender);
-        console.log('Interests:', interests);
-        console.log('Email:', email);
-        console.log('Mobile Number:', mobileNumber);
-        console.log('Password:', values.password); */
-
         onSignup(email, values.password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber)
       }}
+      validationSchema={passwordSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={styles.container}>
           <Text style={[styles.errorText, {right: 8}]}>{touched.password && errors.password}</Text>
           <View style={styles.input}>
-            <TextInput
-                placeholder='Password'
-                onChangeText={(text) => {
-                  handleChange('password')(text);
-                  if (passwordConfirmed && text !== values.confirmPassword) {
-                    setPasswordConfirmed(false);
-                  }
-                }}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                secureTextEntry={true}
-            />
+          <TextInput
+              style={styles.passwordInput}
+              placeholder='Password'
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              value={values.password}
+              secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
+          />
+            <TouchableOpacity onPress={togglePasswordVisibility} style={styles.showButton}>
+              <Text style={{color: 'blue'}}>{showPassword ? 'Hide' : 'Show'}</Text>
+            </TouchableOpacity>
           </View>
     
-          <Text style={[styles.errorText, {top: 8, right: 8}]}>{touched.confirmPassword && errors.confirmPassword}</Text>
-          <View style={[styles.input, {marginTop: 8}]}>
-            <TextInput
-                placeholder='Confirm Password'
-                onChangeText={(text) => {
-                  handleChange('confirmPassword')(text);
-                  if (text === values.password) {
-                    setPasswordConfirmed(true);
-                  } else {
-                    setPasswordConfirmed(false);
-                  }
-                }}
-                onBlur={handleBlur('confirmPassword')}
-                value={values.confirmPassword}
-                secureTextEntry={true}
+          <TouchableOpacity 
+            style={[styles.proceedButton, (errors.password || values.password === '') ? styles.disabledButton : null]} 
+            disabled={!!errors.password || values.password === ''}
+            onPress={handleSubmit}
+          >
+            <Image
+              style={styles.proceedImage}
+              source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')}
             />
-          </View>
-    
-          <TouchableOpacity style={[styles.proceedButton, (errors.password || errors.confirmPassword || values.password === '' || !passwordConfirmed) ? styles.disabledButton : null]} disabled={errors.password || errors.confirmPassword || values.password === '' || !passwordConfirmed} onPress={handleSubmit}>
-                <Image
-                    style={styles.proceedImage}
-                    source={require('../../../assets/LoginAndRegistrationAssets/proceedButton.png')}
-                />
           </TouchableOpacity>
     
         </View>
@@ -143,33 +115,48 @@ const RegistrationFieldPassword = ({navigation}) => {
 export default RegistrationFieldPassword
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 10,
-    },
-    input: {
-        width: 320,
-        height: 45,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingTop: 5,
-        paddingLeft: 10,
-        backgroundColor: 'white',
-    },
-    errorText: {
-        color: 'red',
-        marginLeft: 10,
-    },
-    disabledButton: {
-        opacity: 0.5,
-    },
-    proceedImage: {
-        width: 150,
-        height: 50,
-        resizeMode: 'contain',
-    },
-    proceedButton: {
-        alignSelf: 'center',
-        top: 30,
-    },
-})
+  container: {
+      marginTop: 10,
+  },
+  input: {
+      width: 320,
+      height: 45,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 5,
+      paddingTop: 5,
+      paddingLeft: 10,
+      backgroundColor: 'white',
+      flexDirection: 'row', // Add flexDirection row to align TextInput and button horizontally
+      alignItems: 'center', // Center items vertically
+  },
+  errorText: {
+      color: 'red',
+      marginLeft: 10,
+  },
+  disabledButton: {
+      opacity: 0.5,
+  },
+  proceedImage: {
+      width: 150,
+      height: 50,
+      resizeMode: 'contain',
+  },
+  proceedButton: {
+      alignSelf: 'center',
+      top: 30,
+  },
+  showButton: {
+    position: 'absolute',
+    right: 10,
+    bottom: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  passwordInput: {
+    flex: 1, // Take remaining space
+    textAlignVertical: 'top'
+  },
+});
+

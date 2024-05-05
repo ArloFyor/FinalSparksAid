@@ -480,6 +480,28 @@ export function matchAndRespond(text) {
             },
         },
 
+        /* Filipino Interactions */
+        {
+            regex: TAGALOG_REGEX1,
+            response: (matches) => {
+            const responses = [
+                `Maayos naman, ikaw kamusta ka?`,
+                `Maganda naman ang aking araw, kamusta ka naman?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+        {
+            regex: TAGALOG_REGEX2,
+            response: (matches) => {
+            const responses = [
+                `Ako si Sparky, ang iyong katulong, magandang araw sayo kaibigan!`,
+                `Ang pangalan ko ay Sparky, ang iyong kaibigan at katulong, kamusta ka kaibigan?`,
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+            },
+        },
+
         /* Extra Interactions */
 
         {
@@ -570,6 +592,10 @@ const GENERAL_REGEX24 = /why dont you (.*)/i;
 const GENERAL_REGEX25 = /(?:everybody|everyone) (.*)/i;
 const GENERAL_REGEX26 = /(?:work|job|employ|working) (.*)/i;
 const GENERAL_REGEX27 = /i like (.*)/i;
+
+// Tagalog Regex
+const TAGALOG_REGEX1 = /kamusta(.*)/i;
+const TAGALOG_REGEX2 = /sino ka(.*)/i;
 
 // Extra Commands
 const EXTRA_REGEX1 = /sing(.*?)song/i;

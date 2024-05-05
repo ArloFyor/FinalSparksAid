@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
-import React, { useState } from 'react' // Import useState hook
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import React, { useState } from 'react'; // Import useState hook
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native'; // Import useRoute hook
@@ -8,12 +8,13 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 
 const passwordSchema = yup.object().shape({
-    password: yup.string()
-      .required('Password is required')
-      .min(8, 'Password must be at least 8 characters long')
-  });
+  password: yup.string()
+   .required('Password is required')
+   .min(8, 'Password must be at least 8 characters long')
+   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
+});
 
-const RegistrationFieldPassword = ({navigation}) => {
+const RegistrationFieldPassword = ({ navigation }) => {
   const route = useRoute(); // Initialize useRoute hook
   const [showPassword, setShowPassword] = useState(false); // State to track password visibility
 
@@ -21,7 +22,7 @@ const RegistrationFieldPassword = ({navigation}) => {
     setShowPassword(!showPassword);
   };
 
-  const onSignup = async(email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
+  const onSignup = async (email, password, userType, fullName, userName, birthDate, age, gender, interests, mobileNumber) => {
     try {
       const authUser = await createUserWithEmailAndPassword(auth, email, password)
       
@@ -68,6 +69,7 @@ const RegistrationFieldPassword = ({navigation}) => {
     }
   }
 
+
   return (
     <Formik
       initialValues={{ password: '' }}
@@ -80,23 +82,25 @@ const RegistrationFieldPassword = ({navigation}) => {
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={styles.container}>
-          <Text style={[styles.errorText, {right: 8}]}>{touched.password && errors.password}</Text>
+          <Text style={[styles.errorText, { right: 8 }]}>
+            {touched.password && errors.password}
+          </Text>
           <View style={styles.input}>
-          <TextInput
+            <TextInput
               style={styles.passwordInput}
               placeholder='Password'
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
               secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
-          />
+            />
             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.showButton}>
-              <Text style={{color: 'blue'}}>{showPassword ? 'Hide' : 'Show'}</Text>
+              <Text style={{ color: 'blue' }}>{showPassword? 'Hide' : 'Show'}</Text>
             </TouchableOpacity>
           </View>
     
           <TouchableOpacity 
-            style={[styles.proceedButton, (errors.password || values.password === '') ? styles.disabledButton : null]} 
+            style={[styles.proceedButton, (errors.password || values.password === '')? styles.disabledButton : null]} 
             disabled={!!errors.password || values.password === ''}
             onPress={handleSubmit}
           >
@@ -109,10 +113,10 @@ const RegistrationFieldPassword = ({navigation}) => {
         </View>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default RegistrationFieldPassword
+export default RegistrationFieldPassword;
 
 const styles = StyleSheet.create({
   container: {
